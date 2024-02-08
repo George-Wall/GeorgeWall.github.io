@@ -32,7 +32,15 @@
 <main>
 <section id="project1-banner">
 <!-- Banner Image or Video -->
-<video autoplay="True" class="banner-video" loop="True" muted="True" src="Videos/Video1.mp4"></video>
+    <div class="video-container">
+        <video class="project-video" loop muted autoplay>
+            <source src="Videos/Project1.mp4" type="video/mp4"/>
+            Your browser does not support the video tag.
+        </video>
+        <div class="video-overlay">
+            <span> <h3>GDU GameJam: Cabin</h3></span>
+        </div>
+    </div>
 </section>
 <section class="content-section" id="project1-description">
 <section class="container" id="desc">
@@ -40,33 +48,318 @@
     <!-- desc Block 1 -->
     <article class="desc-card">
     <h4>About</h4>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p>"GDU GameJam: Cabin" is a first-person interactive puzzle game created for the Game Dev Unlocked Game Jam #7 - Winter Edition.   </p>
+        
+        <p>The game challenges players to escape a winter cabin by collecting objects matching those above the door. Originally developed as a short puzzle game, it incorporates elements of exploration and problem-solving.</p>
     </article>
     <!-- desc Block 2 -->
     <article class="desc-card">
     <h4>Project Info</h4>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p>Role : Game Programmer & Game Designer</p>
+        <p>Team Size: 1</p>
+        <p>Time Taken: 5 Days</p>
+        <p>Engine: Unreal Engine (C++)</p>
     </article>
     </div>
     </section>
 <section class="container" id="projects">
-    <h1>Title</h1>
-    <div class="projects-grid">
-    <!-- Repeat this block for each project -->
-           <video class="project-video" loop muted autoplay>
-              <source src="Videos/Video1.mp4" type="video/mp4"/>
-              Your browser does not support the video tag.
-           </video>
-         </div>
+    
          <div class="project-info">
            <h3>Introduction</h3>
-           <p>Game Programmer</p>
-           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+           <p>Jumping into my first game jam, I set out to code a game entirely in C++, a challenge I eagerly accepted. This approach was key in avoiding the usual shortcuts like blueprints and tutorials, pushing me to truly grasp C++.</p>
+             <p>The core of my project was an interaction system, with plans to integrate complex puzzles. I added an inventory system, allowing players to pick up and inspect items, storing them in an Unreal database. My approach to create a single class for all interactable items, like doors and drawers, was ambitious but taught me the value of simplicity and targeted class use.</p>
+             <p>Working solo on this project was both challenging and rewarding, offering a deep dive into hands-on development. However, I’ve realized that I prefer a team environment for its collaborative spirit and shared learning experiences.</p>
          </div>
          <div class="project-info">
            <h3>Code</h3>
-           <p>Game Programmer</p>
-           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+           <p>In my game, the spotlight was on developing the interaction and inventory systems, enhancing player engagement through well-crafted mechanics. The game script encompasses player interaction, movement, inventory management, and game UI.</p>
+             
+             <h4>Initialization and UI Management:</h4>
+             
+             <p>The foundation is laid in the APlayerChar constructor, setting default values for player movement and sound intervals. The BeginPlay method kicks off the game, initializing widgets for inventory, main menu, and interaction prompts, tailoring the UI and input mode to the game level.</p>
+
+                         <details class="code-section">
+                            <summary>CLICK FOR CODE</summary>
+                            <pre class="code-container">
+                                <code>
+                                    <span class="comment">// BeginPlay method initializes UI elements and sets the game state</span>
+                                    void APlayerChar::BeginPlay()
+                                    {
+                                        <span class="comment">// Setup inventory widget</span>
+                                        InventoryWidget = CreateWidget&lt;UInventoryWidget&gt;(PC, InventoryWidgetClass);
+                                        InventoryWidget-&gt;AddToViewport(0);
+                                        InventoryWidget-&gt;SetVisibility(ESlateVisibility::Collapsed);
+                                        <span class="comment">// Additional UI setup...</span>
+                                    }
+                                </code>
+                            </pre>
+                        </details>
+            
+             <h4>Player Interaction and Movement:</h4>
+             
+             <p>The heart of player engagement, the Tick function, ensures efficient processing by bypassing updates in the main menu. Player input is intricately managed through SetupPlayerInputComponent, mapping actions like movement and interaction to specific inputs. Movement and camera control are finely tuned in functions like Move and Look, providing a fluid player experience. The Interact function is pivotal in managing game world interactions, offering a tactile feel to the gameplay.</p>
+
+             <details class="code-section">
+                <summary>CLICK FOR CODE</summary>
+                <pre class="code-container">
+                    <code>
+                        <span class="comment">// Bind gameplay-relevant actions and axes</span>
+                        void APlayerChar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+                        {
+                            <span class="comment">// Bind movement and interaction actions</span>
+                            PlayerInputComponent-&gt;BindAction("Interact", IE_Pressed, this, &APlayerChar::Interact);
+                            <span class="comment">// Additional bindings...</span>
+                        }
+                    </code>
+                </pre>
+            </details>
+
+            <details class="code-section">
+                <summary>CLICK FOR CODE</summary>
+             <pre class="code-container">
+    <code>
+        <span class="comment">// This method handles the interaction with objects in the game.</span>
+        void APlayerChar::Interact()
+        {
+            <span class="comment">// If the inventory is open or the player is already inspecting an item, do nothing.</span>
+            if (bIsInventoryOpen) return;
+            if (!bIsInspecting)
+            {
+                <span class="comment">// Attempt to cast the hit result to an AItem object.</span>
+                AItem* InteractedItem = Cast&lt;AItem&gt;(InteractHitResult.GetActor());
+                <span class="comment">// Further cast to AInteractableItem if possible.</span>
+                AInteractableItem* InteractableItem = Cast&lt;AInteractableItem&gt;(InteractedItem);
+
+                <span class="comment">// If the cast is successful and the item is interactable...</span>
+                if (InteractableItem)
+                {
+                    <span class="comment">// Check if the interactable item requires another item to be in the player's inventory.</span>
+                    if (!InteractableItem-&gt;RequiredItemName.IsNone())
+                    {
+                        <span class="comment">// Verify if the required item exists in the inventory.</span>
+                        bool bHasRequiredItem = Inventory.ContainsByPredicate([&amp;](const FItemData&amp; ItemData)
+                        {
+                            return ItemData.ItemName == InteractableItem-&gt;RequiredItemName;
+                        });
+
+                        <span class="comment">// If the required item is in the inventory, interact with the object.</span>
+                        if (bHasRequiredItem)
+                        {
+                            InteractableItem-&gt;Interact();
+                        }
+                        else
+                        {
+                            <span class="comment">// If the required item is not in the inventory, show a custom message and play a sound.</span>
+                            ShowCustomText(InteractableItem-&gt;CustomNeedItemText);
+                            UGameplayStatics::PlaySoundAtLocation(this, RequireItemSound, GetActorLocation());
+                        }
+                    }
+                    else
+                    {
+                        <span class="comment">// If no specific item is required, just interact with the object.</span>
+                        InteractableItem-&gt;Interact();
+                    }
+                }
+                else if (InteractedItem)
+                {
+                    <span class="comment">// If an item was hit but it's not interactable, start inspecting it.</span>
+                    StartInspectingItem(InteractedItem);
+                }
+            }
+        }
+        <span class="comment">// This line binds the "Interact" action to the Interact method above.</span>
+        PlayerInputComponent-&gt;BindAction("Interact", IE_Pressed, this, &amp;APlayerChar::Interact);
+        <span class="comment">// Other input bindings would follow here...</span>
+    </code>
+</pre>
+</details>
+     
+             <h4>Inventory and Item Inspection:</h4>
+             
+             <p>I aimed to create a seamless experience for players, allowing them to easily switch between game and UI modes. This was inspired by the item interaction in White Paper Games' Ether One.</p>
+             
+             <h6> Toggle Inventory Functionality:</h6>
+             
+             <p>The <strong>ToggleInventory</strong> function enabled players to open or close their inventory with a simple button press. 
+                 This feature was designed to make the inventory access intuitive, ensuring that players can quickly find what they need without breaking their immersion in the game.</p>
+                 <section class="container" id="images">
+                    <div class="grid">
+                    <!-- image Block 1 -->
+                    <article class="image-card">
+                        <img src="Images/Intro_Pic.jpg" alt="Descriptive Alt Text">
+                    <p><i>Lorem ipsum dolor sit amet, consectetur adipiscing elit</i></p>
+                    </article>
+                    </div>
+                    </section>
+             <div class="code-section">
+                <details class="code-section">
+                    <summary>CLICK FOR CODE</summary>
+                 <pre class="code-container">
+            <code> <span class="comment">// Toggle the inventory display on and off</span>
+            void APlayerChar::ToggleInventory()
+            {
+                bIsInventoryOpen = !bIsInventoryOpen;
+                InventoryWidget->SetVisibility(bIsInventoryOpen ? ESlateVisibility::Visible : ESlateVisibility::Collapsed);
+            }
+            }</code>
+              </pre>
+             </div>
+             </details>
+
+             <h6>Initiating Item Inspection:</h6>
+             
+             <p>When a player interacts with a item the <strong>StartInspectingItem</strong> function takes over, providing detailed information and allowing for a closer examination.</p>
+             <section class="container" id="images">
+                <div class="grid">
+                <!-- image Block 1 -->
+                <article class="image-card">
+                    <img src="Images/Intro_Pic.jpg" alt="Descriptive Alt Text">
+                <p><i>Lorem ipsum dolor sit amet, consectetur adipiscing elit</i></p>
+                </article>
+                </div>
+                </section>
+             <div class="code-section">
+                <details class="code-section">
+                    <summary>CLICK FOR CODE</summary>
+                 <pre class="code-container">
+    <code>
+        
+        <span class="comment">// Function to initiate the item inspection process</span>
+        void APlayerChar::StartInspectingItem(AItem* Item)
+        {
+            <span class="comment">// If there is no item, exit the function early</span>
+            if (!Item) return;
+            
+            <span class="comment">// Save the item's original location and rotation to restore later</span>
+            OriginalItemLocation = Item-&gt;GetActorLocation();
+            OriginalItemRotation = Item-&gt;GetActorRotation();
+            
+            <span class="comment">// Hide the on-screen dot and interaction widgets while inspecting</span>
+            DotWidget-&gt;SetVisibility(ESlateVisibility::Hidden);
+            InteractWidget-&gt;SetVisibility(ESlateVisibility::Hidden);
+
+            <span class="comment">// Set the current item being inspected and flag the inspection state as true</span>
+            CurrentlyInspectedItem = Item;
+            bIsInspecting = true;
+
+            <span class="comment">// If the item cannot be picked up, but it's still interactable</span>
+            AInteractableItem* InteractableItem = Cast&lt;AInteractableItem&gt;(Item);
+            if (InteractableItem &amp;&amp; !InteractableItem-&gt;bCanBePickedUp)
+            {
+                <span class="comment">// Here you could interact with or show feedback for non-pickable items</span>
+            }
+
+            <span class="comment">// Disable physics on the item to keep it stationary during inspection</span>
+            UStaticMeshComponent* StaticMeshComponent = Item-&gt;FindComponentByClass&lt;UStaticMeshComponent&gt;();
+            if (StaticMeshComponent)
+            {
+                StaticMeshComponent-&gt;SetSimulatePhysics(false);
+                StaticMeshComponent-&gt;SetCollisionEnabled(ECollisionEnabled::NoCollision);
+            }
+
+            <span class="comment">// Position the item relative to the camera for inspection</span>
+            <span class="comment">// The location offset for the item when inspecting</span>
+            const FVector InspectionRelativeLocation = FVector(100.f, 0.f, 0.f); 
+            <span class="comment">// The rotation offset for the item when inspecting</span>
+            const FRotator InspectionRelativeRotation = FRotator(0.f, 180.f, 0.f); 
+            Item-&gt;AttachToComponent(Cast&lt;APlayerController&gt;(GetController())-&gt;PlayerCameraManager-&gt;GetTransformComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+            Item-&gt;SetActorRelativeLocation(InspectionRelativeLocation);
+            Item-&gt;SetActorRelativeRotation(InspectionRelativeRotation);
+
+            <span class="comment">// Restrict player movement during the inspection by enabling cinematic mode</span>
+            APlayerController* PlayerController = Cast&lt;APlayerController&gt;(GetController());
+            if (PlayerController)
+            {
+                PlayerController-&gt;SetCinematicMode(true, true, true);
+            }
+        }
+    </code>
+</pre>
+             </div>
+            </details>
+            <h6>Storing Inspected Items:</h6>
+             <p>Once an item is inspected, the <strong>StoreInspectedItem</strong> function allows players to add items to their inventory if desired.</p>
+                             <section class="container" id="images">
+                    <div class="grid">
+<!-- video Block 1 -->
+<article class="video-card" loop muted autoplay>
+    <video controls loop muted autoplay>
+      <source src="Videos/toggleInventory.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <p><i>Lorem ipsum dolor sit amet, consectetur adipiscing elit</i></p>
+  </article>
+                    </div>
+                    </section>
+             <details class="code-section">
+                <summary>CLICK FOR CODE</summary>
+             <pre class="code-container">
+<code>
+    
+<span class="comment">// Store the item that the player is currently inspecting</span>
+void APlayerChar::StoreInspectedItem()
+{
+    <span class="comment">// Ensure UI widgets revert to their default visibility states</span>
+    if (DotWidget) DotWidget-&gt;SetVisibility(ESlateVisibility::Visible);
+    if (InteractWidget) InteractWidget-&gt;SetVisibility(ESlateVisibility::Collapsed);
+
+    <span class="comment">// Exit the function if no item is being inspected</span>
+    if (!CurrentlyInspectedItem) return;
+
+    <span class="comment">// Validate that the ItemDatabase is available</span>
+    if (!ItemDatabase) return; 
+    const FItemData* Data = ItemDatabase-&gt;Items.FindByPredicate([&amp;](const FItemData&amp; ItemData)
+    {
+        <span class="comment">// Check if the item class matches the inspected item</span>
+        return ItemData.Class == CurrentlyInspectedItem-&gt;GetClass();
+    });
+
+    if (Data)
+    {
+        if (Data-&gt;bCanBePickedUp)
+        {
+            <span class="comment">// Add the item to the player's inventory and remove it from the game world</span>
+            Inventory.Emplace(*Data);
+            CurrentlyInspectedItem-&gt;Destroy();
+            if (GetWorld())
+            {
+                <span class="comment">// Play a sound effect when the item is added to the inventory</span>
+                UGameplayStatics::PlaySound2D(GetWorld(), AddToInventorySound);
+            }
+        }
+        else
+        {
+            <span class="comment">// Discard the item if it cannot be picked up</span>
+            DiscardInspectedItem();
+        }
+    }
+    else
+    {
+        <span class="comment">// If the item is not in the database, discard it</span>
+        DiscardInspectedItem();
+    }
+
+    <span class="comment">// Reset the state to indicate the player is no longer inspecting an item</span>
+    bIsInspecting = false;
+    CurrentlyInspectedItem = nullptr;
+
+    <span class="comment">// Revert the player controller settings to resume normal gameplay</span>
+    APlayerController* PlayerController = Cast&lt;APlayerController&gt;(GetController());
+    if (PlayerController)
+    {
+        PlayerController-&gt;SetInputMode(FInputModeGameOnly());
+        PlayerController-&gt;SetCinematicMode(false, true, true);
+        PlayerController-&gt;bShowMouseCursor = false;
+    }
+}
+</code>
+</pre>
+             </details>
+             
+             <h4>Additional Mechanics:</h4>
+             
+             <p> I implemented ShowCustomText for in-game text displays and PlayFootstepSound to make the player's movements sound realistic. The game's responsiveness is boosted by efficient main menu management and player status checks. I also fine-tuned the inventory system. The UInventoryEntry class, in particular, does a great job at handling how items are added to and dropped from the inventory, making the gameplay feel more dynamic.</p>
+             <p>Putting all these pieces together wasn't just about getting things to work; it was about making them work well. I focused on making sure each part, from how the player interacts with the game to how they manage their inventory, was not only functional but also added something special to the game. This project was a real test of my C++ skills, and I'm proud of how it turned out. It's a solid example of my ability to build complex and engaging game systems.</p>
          </div>
          <section class="container" id="images">
             <div class="grid">
@@ -87,6 +380,8 @@
            <p>Game Programmer</p>
            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
          </div>
+    
+    
     <!-- More project cards... -->
     </section>
 </section>
