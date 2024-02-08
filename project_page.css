@@ -1,438 +1,202 @@
 /* Base Styles */
-*,
-*::before,
-*::after {
-   margin: 0;
-   padding: 0;
-   box-sizing: border-box;
-   font-family: 'League Spartan', sans-serif;
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'League Spartan', sans-serif;
 }
 
 html {
-   font-size: 16px;
+  font-size: 100%; /* 16px as base but allows for scaling */
 }
 
 body {
-   background-color: #121212;
-   color: white;
-   line-height: 1.6;
+  background-color: #121212;
+  color: white;
+  line-height: 1.6;
+}
 
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: 1rem;
 }
 
 h1, h2 {
-    color: #E4BAC1; 
-    font-family: 'League Spartan', sans-serif; 
-    font-size: 35px;
-  }
-  h3 {
-    color: #8BC5BF; 
-    font-family: 'League Spartan', sans-serif;
-    font-size: 26px;
-  }
-  h4 {
-    color: #ffffff; 
-    font-family: 'League Spartan', sans-serif;
-    font-size: 25px;
+  color: #E4BAC1;
+  font-size: clamp(2rem, 5vw, 3.5rem); /* Responsive font size */
+}
 
-  }
+h3 {
+  color: #8BC5BF;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+}
 
-  h5 {
-    color: #8BC5BF; 
-    font-family: 'League Spartan', sans-serif;
-    font-size: 40px;
-    line-height: normal;
-    
-  }
-  p {
-    color: #ffffff;
-    font-family: 'League Spartan', sans-serif; 
-    font-size: 18px;
-    margin-bottom: 20px; /* This will create a 20px gap after each paragraph */
-    font-weight: 400;
+h4 {
+  color: #ffffff;
+  font-size: clamp(1.25rem, 3.5vw, 2.3rem);
+}
 
-  }
+h5 {
+  color: #8BC5BF;
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: normal;
+}
+
+h6 {
+  color: #ffffff;
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  font-style: italic;
+}
+
+p {
+  color: #ffffff;
+  font-size: clamp(0.875rem, 2.5vw, 1.2rem); /* Responsive paragraph font size */
+  margin-bottom: 20px;
+}
 
 .container {
-   width: 70%;
-   max-width: 1200px;
-   margin: auto;
-   padding: 0 2em;
+  width: 85%; /* Increased fluidity */
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 1rem; /* Adjusted padding */
 }
 
 /* Header Styles */
 .site-header {
-   background-color: #121212;
-   padding: 2em 0;
+  background-color: #121212;
+  padding: 1rem 0; /* Reduced padding */
 }
 
 .header-container {
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* Ensure wrapping on small screens */
 }
 
 .brand-name {
-   font-size: 3.5rem;
-   color: #E4BAC1;
+  font-size: clamp(2rem, 4vw, 3.5rem); /* Responsive font size */
+  color: #E4BAC1;
 }
 
 .nav-list {
-   display: flex;
-   list-style: none;
+  display: flex;
+  list-style: none;
+  flex-wrap: wrap; /* Allow nav items to wrap */
 }
 
 .nav-link {
-   color: #8BC5BF;
-   text-decoration: none;
-   padding: 0 1em;
-   transition: color 0.3s;
+  color: #8BC5BF;
+  text-decoration: none;
+  padding: 0.5rem; /* Adjusted padding */
+  transition: color 0.3s;
 }
 
 .nav-link:hover {
-   color: #E4BAC1;
+  color: #E4BAC1;
 }
 
 /* Main Content Styles */
+.intro-section, .projects-grid, .skills-grid {
+  padding: 2rem 0; /* Uniform padding */
+}
 
-.intro-section {
-    padding-top: 2rem;
-    padding-bottom: 15rem;
-  }
-  
-  .intro-flex {
-    display: flex;
-    align-items: center;
-    gap: 5rem;
-  }
-  
-  .intro-image img {
-    width: 100%; /* Adjust size as needed */
-    max-width: 200px; /* Adjust size as needed */
-    border-radius: 10%; /* Optional: if you want a rounded image */
-  }
-  
-  .intro-description {
-    flex: 1;
-  }
-  
-  /* Responsive design */
-  @media (max-width: 768px) {
-    .intro-flex {
-      flex-direction: column;
-      text-align: center;
-    }
-  
-    .intro-image img {
-      margin: 0 auto; /* Center the image on small screens */
-    }
-  }
-#projects {
-   padding: 0.5em 0;
-    color: #E4BAC1;
+.intro-flex, .grid, .projects-grid, .skills-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem; /* Uniform gap */
 }
 
 .grid {
-   display: grid;
-   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-   gap: 1em;
-   padding-left: 2rem;
-   padding-right: 2rem;
-   padding-top: 2rem;
-
-}
-.projects-grid {
-    padding-top: 2rem;
-    padding-left: 2rem;
-   padding-right: 2rem;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between; /* This will put space between the cards */
-    gap: 1rem; /* Adjust the gap as needed */
-      color: #8BC5BF;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Creates two columns */
+  gap: 1rem; /* Spacing between grid items */
 }
 
-.project-card {
-    width: 100%; /* Make the card fill the link element */
-    background-color: #252525;
-    padding: 0; /* Remove padding to allow video to connect with project info */
-    border-radius: 8px;
-    position: relative;
-    box-sizing: border-box; /* Include padding and border in the width/height */
+/* Responsive Adjustments for the .grid class specifically */
+@media screen and (max-width: 576px) {
+  .grid {
+    grid-template-columns: 1fr; /* Stack the grid items in one column on small screens */
   }
+}
 
-.project-info {
-    padding: 1em;
-    border-top: none; /* Remove border top if it's set somewhere to connect the video and the text */
-  }
+.intro-image img, .image-card img, .project-video {
+  width: 100%; /* Ensure responsiveness */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 1%; /* Consistent border radius */
+}
 
+/* Video Responsiveness */
+.video-container {
+  width: 70%; /* This will scale with the rest of the content */
+  margin: auto; /* Center the video container */
+  position: relative;
+  overflow: hidden; /* Ensures no parts of the video overflow */
+  /* Instead of a fixed aspect ratio, use viewport units to maintain relative size */
+  height: calc((70vw * 9) / 16); /* For a 16:9 aspect ratio */
+  max-width: 1200px; /* Optional: if you want to limit the maximum size of the video */
+}
 
 .project-video {
-    width: 100%;
-    height: 100%; /* Adjusted to 100% to cover the container */
-    object-fit: cover; /* This will cover the area without black borders */
-    display: block;
-  }
-
-.video-container {
-    width: 100%;
-    position: relative;
-  }
-  .video-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.438); /* Semi-transparent black */
-    color: white;
-    padding-left: 1em;
-    padding-right: 1em;
-    padding-top: 0.8em;
-    padding-bottom: 0.8em;
-    display: flex;
-    justify-content: flex-start; /* Align items to the left */
-  }
-
-  .video-overlay span {
-    font-size: 0.8em; /* Decreased font size */
-    margin: 0 0.8em; /* Decreased margin */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* Full width of the container */
+  height: 100%; /* Full height of the container */
+  object-fit: contain; /* Ensures the video's aspect ratio is preserved */
 }
-/* image Card and Skill Styles */
-.image-card, .skill {
-    background-color: #252525;
-    padding: 3rem;
-    border-radius: 8px;
-    margin-bottom: 1rem;
-    padding: 0; /* Remove padding from the container and card */
-    border: none; /* Remove borders if any */
-  }
-  
-  .image-card img {
-    width: 100%; /* Makes the image fill the container's width */
-    object-fit: cover; /* Resize the image to maintain its aspect ratio while filling the container */
-    margin: 0; /* Remove margins from the image */
-    display: block; /* Ensures that the image is a block-level element, which can accept margin and padding rules */
-    height: auto; /* Ensures the height is set automatically based on the width while maintaining aspect ratio */
-  }
-  
-  /* Add bottom padding or margin to the image-card to create space for text below the image */
-  .image-card {
-    padding-bottom: 1em; /* Space inside the bottom of the card for text or caption */
-    margin-bottom: 1em; /* Space outside the bottom of the card */
-  }
 
-
-/* image Card and Skill Styles */
-.desc-card, .skill {
-  background-color: #252525;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  padding-top: 3rem;
-  padding-left: 2rem;
-  padding-right: 2rem; /* Remove padding from the container and card */
-  border: none; /* Remove borders if any */
+.video-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0; /* Ensure overlay stretches across the entire container width */
+  background-color: rgba(0, 0, 0, 0.438); /* Semi-transparent overlay */
+  color: white;
+  padding: 0.5em 1em; /* Consistent padding around text */
+  display: flex;
+  justify-content: flex-start; /* Align text to the left */
+  align-items: center; /* Vertically center the text in the overlay */
 }
-.skills-grid {
-    padding-top: 2rem;
-    padding-left: 8rem;
-   padding-right: 8rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 1rem;
+
+.video-overlay span {
+  font-size: 0.8em;
+  font-weight: 100;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Adjustments for Smaller Screens */
+@media screen and (max-width: 768px) {
+  .intro-flex {
+    flex-direction: column;
     text-align: center;
-}
+  }
 
-.skill {
-    border: 2px solid #add8e6;
-    color: #add8e6;
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-    font-weight: bold;
-    display: inline-block;
-    min-width: fit-content;
+  .nav-list {
+    justify-content: center; /* Center nav items on small screens */
+  }
 }
 
 /* Footer Styles */
 .site-footer {
-   background-color: #333;
-   color: #8BC5BF;
-   padding: 1em 0;
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
+  background-color: #333;
+  color: #8BC5BF;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* Allow footer content to wrap */
 }
 
 .social-link {
-   color: #add8e6;
-   text-decoration: none;
-   margin-right: 15px;
+  color: #add8e6;
+  text-decoration: none;
+  margin: 0.5rem;
 }
 
 .social-link:hover {
-   color: #E4BAC1;
+  color: #E4BAC1;
 }
 
-/* Responsive Styles */
-@media (min-width: 768px) {
-   .nav-list {
-      display: flex;
-   }
-
-   .image-card, .skill {
-      margin-bottom: 0; /* Removes the space between cards on larger screens */
-   }
-}
-
-/* Additional Styles */
-.section-title {
-    font-weight: bold;
-    font-size: 1.5em;
-    color: #8BC5BF;
-    margin-bottom: 20px;
-}
-/* About Section Styles */
-
-.about-title {
-    color: #000000; /* Keep it white as in your settings */
-    /* Increase font-size if necessary, e.g., font-size: 2rem; */
-    /* text-align: /* Align to the left, or center if you prefer */
-}
-.about-container {
-    width: 90%;
-    max-width: 1200px;
-    margin: auto;
-    padding: 2em; /* Apply padding uniformly on all sides */
-    background-color: #E4BAC1;
-    margin-bottom: 2em;
-}
-    
-
-.about-header {
-    padding: 0 360px; /* Adjust the 20px as necessary to align with the text */
-    margin-bottom: 1em; /* Space between the header and the paragraph text */
-}
-
-.section-title {
-    color: #E4BAC1; /* Keep it white as in your settings */
-    /* Increase font-size if necessary, e.g., font-size: 2rem; */
-    text-align: left; /* Align to the left, or center if you prefer */
-}
-
-.about-text {
-    color: #252525; /* Slightly lighter than your current setting for better readability */
-    font-size: 1rem; /* Adjust if needed */
-    margin-bottom: 1em; /* Space between paragraphs */
-    text-align: justify; /* If you want justified text */
-}
-
-/* Social Media Link Styles (assuming you already have them in your HTML) */
-.social-media-links {
-    display: flex;
-    justify-content: start; /* Align to the start of the section */
-    padding-top: 1em; /* Space above the social media links */
-}
-
-.social-link {
-    /* Style your social media links here, e.g., colors, margins, etc. */
-    margin-right: 15px; /* Adjust as necessary */
-    color: #8BC5BF; /* Example color */
-}
-
-/* If social media icons are used */
-.social-icon {
-    width: 20px; /* Example size, adjust as needed */
-    height: 20px; /* Example size, adjust as needed */
-    fill: currentColor; /* If using SVGs */
-}
-
-/* Adjust the container if necessary */
-.container {
-     padding: 2em 0; /* Consistent vertical padding for all sections using .container */
-    /* You may adjust width and max-width as well */
-}
-
-/* Ensure that the overall site background is consistent with the design */
-body {
-    background-color: #121212; /* This is already set, just make sure it works with your design */
-}
-
-/* Ensure that .about-text has padding to prevent text from hitting the edges */
-.about-text {
-    padding: 0.5 3em; /* Add horizontal padding */
-    margin-bottom: 0.5em; /* Space between paragraphs */
-    color: #000000;
-    font-size: 1.5rem;
-    line-height: 1.5;
-    text-align :left;
-    padding-left: 5rem;
-   padding-right: 5rem;
-}
-
-.skill {
-    display: inline-block;
-    padding: 10px 10px;
-    border-radius: 10px;
-    background-color: #121212;
-    border: 1px solid #8BC5BF;
-    color: #8BC5BF;
-    margin: 1px;
-    font-size: 0.8em;
-    
-}
-header {
-  height: 125px; /* Making the header thinner */
-  width: 100%;
-  position: sticky;
-  top: 0;
-  background-color: #121212; /* Example color, this should be changed to match the desired header color */
-  z-index: 1000; /* Ensures the header stays on top of other content */
-}
-
-/* Adjust padding/margin for header contents if needed to align with the new header height */
-.header-container {
-    padding-top: 0; /* Example adjustment, should be tailored to the actual content */
-  }
-
-.about-container {
-  width: 100%; /* Full width */
-  /* Ensure that any previously set max-width or width on the about-container is removed */
-  max-width: none; 
-}
-
-/* Add or update the about-content class based on the provided HTML structure */
-.about-body {
-  width: 90%; /* or a fixed width if desired */
-  max-width: 1200px; /* or the same max-width as the rest of the site */
-  margin: auto; /* This centers the content */
-}
-@media only screen and (max-width: 576px) {
-    .container {
-        width: 100%;
-    }
-    .header-container, .intro-flex {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    .nav-list {
-        flex-direction: column;
-    }
-    .nav-link {
-        padding: 0.5em;
-        text-align: center;
-    }
-}
-
-html {
-  scroll-behavior: smooth;
-}
-.banner-video {
-    display: block; /* To ensure it's a block-level element and respects margin and padding */
-    max-width: 100%; /* To ensure the video is responsive and does not overflow its container */
-    height: auto; /* To maintain the aspect ratio of the video */
-    margin: auto; /* This will center the video horizontally */
-    padding-left: 26em;
-    padding-right: 26em;
-    padding-top: 5em; /* This is an example padding, adjust as necessary to match other sections */
-  }
 
 #github-icon,
 #linkedin-icon {
@@ -462,20 +226,121 @@ width: 35px; /* Or the size you want */
 }
 
 .back-button {
-  position: absolute; /* Position it relative to its nearest positioned ancestor or the body */
-  top: 3.5rem; /* Adjust the value to place it above the video */
-  left: 10rem; /* Place it on the left side, adjust as needed */
-  padding: 1rem 1rem; /* Add some padding for better appearance */
-  background-color: #E4BAC1; /* Your theme color */
-  color: #121212; /* Text color */
-  border: none; /* No border */
-  border-radius: 5px; /* Rounded corners */
-  font-size: 20px; /* Adjust the font size as needed */
-  text-decoration: none; /* Remove underline from links */
-  z-index: 10; /* Make sure it's above the video */
-  cursor: pointer; /* Change cursor to indicate it's clickable */
+    position: absolute;
+    top: 50%; /* Align vertically */
+    transform: translateY(-50%); /* Center it vertically */
+    left: 1rem; /* Adjust left position as needed */
+    padding: 0.5rem 1rem; /* Adjust padding for better appearance */
+    background-color: #E4BAC1; /* Your theme color */
+    color: #121212; /* Text color */
+    border: none;
+    border-radius: 5px;
+    font-size: 16px; /* Adjust font size as needed */
+    text-decoration: none;
+    z-index: 1001; /* Above the header */
+    cursor: pointer;
 }
 
 .back-button:hover {
-    filter: brightness(1.1) /* Slightly darker on hover for visual feedback */
+    filter: brightness(1.1);
+}
+/* Additional Styles */
+.section-title, .about-title, .code-header {
+  font-weight: bold;
+  font-size: clamp(1.25rem, 3vw, 2rem); /* Responsive font sizes */
+  color: #8BC5BF; /* Consistent color */
+  margin-bottom: 1rem; /* Uniform margin-bottom */
+}
+
+/* Responsive Image and Video Containers */
+.image-card, .video-container, .desc-card {
+  padding: 1rem; /* Adjusted padding for consistency */
+  background-color: #252525;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 1rem;
+}
+
+.skill {
+  border: 2px solid #add8e6;
+  color: #add8e6;
+  padding: 0.5rem 1rem;
+  font-size: clamp(0.75rem, 2vw, 0.9rem); /* Responsive font size */
+  display: inline-block;
+}
+
+/* Responsive Adjustments for All Sections */
+@media screen and (max-width: 576px) {
+  .container, .header-container, .intro-flex, .nav-list, .projects-grid, .skills-grid {
+    padding: 0.5rem; /* Reduced padding for tighter spaces */
+    flex-direction: column;
+  }
+
+  .nav-link {
+    padding: 0.5rem; /* Adjusted for smaller screens */
+    text-align: center;
+  }
+}
+
+
+.code-container {
+  background-color: #252525; /* Light grey background */
+  border-left: 5px solid #8BC5BF; /* Customizable colored border */
+  padding: 10px; /* Spacing around the text */
+  margin: 10px 0; /* Spacing around the container */
+  overflow: auto; /* Handle overflowing content */
+  font-family: 'Courier New', Courier, monospace; /* Font for code */
+  font-size: 15px;
+}
+
+
+.code-header {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.comment {
+  color: #228B22; /* Green color for comments */
+}
+
+/* Style the summary to look more like a clickable title */
+.code-section summary {
+cursor: pointer;
+font-weight: bold;
+margin-bottom: 10px; /* Add space below the summary */
+color: #E4BAC1; /* Example color */
+font-display: line;
+}
+
+/* Styling the details tag when it's open */
+.code-section[open] summary {
+color: #8BC5BF; /* Change color when expanded */
+}
+
+/* Optional: Add a marker (arrow) to indicate expand/collapse */
+.code-section summary::marker {
+color: #8BC5BF; /* Example color */
+}
+
+/* Style the code container for better readability */
+.code-container {
+background-color: #252525; /* Light grey background */
+border-left: 5px solid #8BC5BF; /* Customizable colored border */
+padding: 10px; /* Spacing around the text */
+overflow: auto; /* Handle overflowing content */
+font-family: 'Courier New', Courier, monospace; /* Font for code */
+} 
+
+header {
+  height: 125px; /* Making the header thinner */
+  width: 100%;
+  position: sticky;
+  top: 0;
+  background-color: #121212; /* Example color, this should be changed to match the desired header color */
+  z-index: 1000; /* Ensures the header stays on top of other content */
 }
