@@ -1,489 +1,303 @@
 /* Base Styles */
-*,
-*::before,
-*::after {
-   margin: 0;
-   padding: 0;
-   box-sizing: border-box;
-   font-family: 'League Spartan', sans-serif;
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'League Spartan', sans-serif;
 }
 
 html {
-   font-size: 16px;
+  font-size: 100%; /* 16px as base for scaling */
 }
 
 body {
-   background-color: #121212;
-   color: white;
-   line-height: 1.6;
+  background-color: #121212;
+  color: white;
+  line-height: 1.6;
+}
 
+h1, h2, h3, h4, h5, h6, p {
+  margin-bottom: 1rem;
 }
 
 h1, h2 {
-    color: #E4BAC1; 
-    font-family: 'League Spartan', sans-serif; 
-    font-size: 35px;
-  }
-  h3 {
-    color: #8BC5BF; 
-    font-family: 'League Spartan', sans-serif;
-    font-size: 26px;
-  }
-  h4 {
-    color: #ffffff; 
-    font-family: 'League Spartan', sans-serif;
-    font-size: 25px;
+  color: #E4BAC1;
+}
 
-  }
+h3, h4, h5, h6 {
+  color: #8BC5BF;
+}
 
-  h5 {
-    color: #8BC5BF; 
-    font-family: 'League Spartan', sans-serif;
-    font-size: 47px;
-    line-height: normal;
-    
-  }
-  p {
-    color: #ffffff;
-    font-family: 'League Spartan', sans-serif; 
-    font-size: 20px;
-    margin-bottom: 20px; /* This will create a 20px gap after each paragraph */
-    font-weight: 400;
+p {
+  color: #ffffff;
+  font-size: 1rem;
+}
 
-  }
-
-  .light {
-    font-weight: 100; /* Light weight */
-  }
-  
-  .regular {
-    font-weight: 400; /* Regular weight */
-  }
-
-  .bold{
-    font-weight: 900; /* Regular weight */
-  }
 .container {
-   width: 70%;
-   max-width: 1200px;
-   margin: auto;
-   padding: 0 2em;
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+  padding: 1rem;
 }
 
 /* Header Styles */
 .site-header {
-   background-color: #121212;
-   padding: 2em 0;
+  background-color: #121212;
+  padding: 1rem 0;
 }
 
 .header-container {
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .brand-name {
-   font-size: 3.5rem;
-   color: #E4BAC1;
+  color: #E4BAC1;
+  font-size: 2rem;
 }
 
-.nav-list {
-   display: flex;
-   list-style: none;
+.social-link img {
+  width: 40px;
+  height: 40px;
+  transition: transform 0.3s ease;
 }
 
-.nav-link {
-   color: #8BC5BF;
-   text-decoration: none;
-   padding: 0 1em;
-   transition: color 0.3s;
+.social-link:hover img {
+  transform: scale(1.1);
 }
 
-.nav-link:hover {
-   color: #E4BAC1;
-}
-
-/* Main Content Styles */
-
+/* Intro Section Styles */
 .intro-section {
-    padding-top: 1rem;
-    padding-bottom: 14rem;
-    padding-left: 10rem;
-    padding-right: 10rem;
-  }
-  
-  .intro-flex {
-    display: flex;
-    align-items: center;
-    gap: 3rem;
-  }
-  
-  .intro-image img {
-    width: 250px; /* Set a fixed size */
-    height: 250px; /* Height must be the same as width for a perfect circle */
-    border-radius: 50%; /* This will make the image round */
-    border: 3px solid #8BC5BF; /* Thin border with the specified color */
-    object-fit: cover; /* This will cover the area without stretching the image */
-    display: block; /* This can help if the image is an inline element by default */
-    margin: auto; /* This can help center the image if the container is wider */
-}
-  
-  .intro-description {
-    flex: 1;
-  }
-  
-  /* Responsive design */
-  @media (max-width: 768px) {
-    .intro-flex {
-      flex-direction: column;
-      text-align: center;
-    }
-  
-    .intro-image img {
-      margin: 0 auto; /* Center the image on small screens */
-    }
-  }
-#projects {
-   padding: 0.5em 0;
-    color: #E4BAC1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 20px;
+  padding: 2rem 0;
 }
 
-.grid {
-   display: grid;
-   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-   gap: 1em;
-   padding-left: 2rem;
-   padding-right: 2rem;
-   padding-top: 0.5rem;
-
+.intro-image img {
+  border-radius: 50%;
+  width: 250px;
+  height: 250px;
+  border: 3px solid #8BC5BF;
 }
+
+.intro-description {
+  font-size: 1rem;
+  max-width: 600px;
+}
+
+/* Projects Grid */
 .projects-grid {
-    padding-top: 0.5rem;
-    padding-left: 2rem;
-   padding-right: 2rem;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between; /* This will put space between the cards */
-    gap: 1rem; /* Adjust the gap as needed */
-      color: #8BC5BF;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
 }
 
 .project-card {
-  width: 100%; /* Make the card fill the link element */
   background-color: #252525;
-  padding: 0; /* Remove padding to allow video to connect with project info */
   border-radius: 8px;
-  position: relative;
-  box-sizing: border-box; /* Include padding and border in the width/height */
-  padding-bottom: 0.5rem;
-  
-  
+  overflow: hidden;
 }
 
-  .project-card-link {
-    flex: 0 0 calc(50% - 0.5rem); /* Apply the sizing here */
-    margin-bottom: 0.5rem; /* Maintain the margin from .project-card */
-    text-decoration: none;
-    color: inherit; /* Prevent the link from changing text color */
-    display: flex; /* Make the link a flex container */
-    justify-content: center; /* Center the card horizontally */
-    align-items: center; /* Center the card vertically */
-    background-color: transparent; /* Ensure the link has no background */
-  }
-  .project-card-link:focus {
-    outline: none;
-  }
-.project-link:hover {
-   background-color: #E4BAC1;
-   color: #121212;
+
+/* Education & Skills Sections */
+.grid, .skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
 }
 
-.project-info {
-  padding-left: 1.5em;
-  padding-right: 1.5em;
-  padding-top: 1em;
-  border-top: none; /* Remove border top if it's set somewhere to connect the video and the text */
+.education-card, .skill {
+  background-color: #252525;
+  color: #8BC5BF;
+  padding: 1rem;
+  border-radius: 8px;
 }
 
-  .project-card:hover .project-info h3 {
-    color: #ffffff; /* This will change the color of the project title */
-  }
-  .project-card:hover .project-video {
-    -webkit-filter: grayscale(0%); /* For Safari 6.0 to 9.0 */
-    filter: grayscale(0%);
+.skill {
+  border: 2px solid #8BC5BF;
+  display: inline-flex;
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+/* About Section */
+.about-container {
+  background-color: #E4BAC1;
+  color: #121212;
+  padding: 2rem;
+  margin-top: 2rem;
+  border-radius: 8px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .header-container, .intro-section, .projects-grid, .grid, .skills-grid {
+    flex-direction: column;
   }
 
- /* Desaturate video by default */
-.project-video {
-    -webkit-filter: grayscale(70%); /* For Safari 6.0 to 9.0 */
-    filter: grayscale(70%);
-    width: 100%;
-    height: 100%; /* Adjusted to 100% to cover the container */
-    object-fit: cover; /* This will cover the area without black borders */
-    display: block;
-  }
-  /* Restore color on hover */
-.project-video:hover {
-    -webkit-filter: grayscale(0%); /* For Safari 6.0 to 9.0 */
-    filter: grayscale(0%); /* Full color */
+  .intro-image img {
+    margin: 0 auto;
   }
 
-.video-container {
-    width: 100%;
-    position: relative;
+  .social-link img {
+    width: 30px;
+    height: 30px;
   }
+
   .video-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.438); /* Semi-transparent black */
-    color: white;
-    padding-left: 1em;
-    padding-right: 1em;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
-    display: flex;
-    justify-content: flex-start; /* Align items to the left */
+    font-size: 0.65rem; /* Smaller font size for overlay text */
+    padding: 8px; /* Adjust padding for overlay */
+    gap: 5px; /* Reduce gap between elements in overlay */
+  }
+
+  #group-icon, #time-icon, #syntax-icon {
+    width: 15px; /* Smaller icons within video overlay */
+    height: 15px;
+  }
+}
+
+/* Additional adjustments for very small screens */
+@media (max-width: 480px) {
+  .container, .video-container {
+    padding: 0.5rem; /* Reduce padding for tighter spaces */
+  }
+
+  .project-info {
+    padding: 0.5rem; /* Adjust padding within project cards for more space */
   }
 
   .video-overlay span {
-    font-size: 0.8em; /* Decreased font size */
-    font-weight: 100;
-    font-family: 'Roboto', sans-serif;
-    margin: 0 0.8em; /* Decreased margin */
-}
-/* Education Card and Skill Styles */
-.education-card, .skill {
-    background-color: #252525;
-    padding: 2rem;
-    border-radius: 8px;
-    margin-bottom: 1rem;
+    display: none; /* Optionally hide text next to icons for very narrow screens */
+  }
 }
 
-.skills-grid {
-    padding-top: 1rem;
-    padding-left: 8rem;
-   padding-right: 8rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 1rem;
-    text-align: center;
-}
-
-.skill {
-    border: 2px solid #add8e6;
-    color: #add8e6;
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-    font-weight: bold;
-    display: inline-block;
-    min-width: fit-content;
-}
-
-/* Footer Styles */
-.site-footer {
-   background-color: #333;
-   color: #8BC5BF;
-   padding: 1em 0;
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-}
-
-.social-link {
-   color: #add8e6;
-   text-decoration: none;
-   margin-right: 15px;
-}
-
-.social-link:hover {
-   color: #E4BAC1;
-}
-
-/* Responsive Styles */
-@media (min-width: 768px) {
-   .nav-list {
-      display: flex;
-   }
-
-   .education-card, .skill {
-      margin-bottom: 0; /* Removes the space between cards on larger screens */
-   }
-}
-
-/* Additional Styles */
-.section-title {
-    font-weight: bold;
-    font-size: 1.5em;
-    color: #8BC5BF;
-    margin-bottom: 20px;
-}
-/* About Section Styles */
-
-.about-title {
-    color: #000000; /* Keep it white as in your settings */
-    /* Increase font-size if necessary, e.g., font-size: 2rem; */
-    /* text-align: /* Align to the left, or center if you prefer */
-}
-.about-container {
-    width: 90%;
-    max-width: 1200px;
-    margin: auto;
-    padding: 2em; /* Apply padding uniformly on all sides */
-    background-color: #E4BAC1;
-    margin-bottom: 2em;
-}
-    
-
-.about-header {
-    padding: 0 360px; /* Adjust the 20px as necessary to align with the text */
-    margin-bottom: 1em; /* Space between the header and the paragraph text */
-}
-
-.section-title {
-    color: #E4BAC1; /* Keep it white as in your settings */
-    /* Increase font-size if necessary, e.g., font-size: 2rem; */
-    text-align: left; /* Align to the left, or center if you prefer */
-}
-
-.about-text {
-    color: #252525; /* Slightly lighter than your current setting for better readability */
-    font-size: 1rem; /* Adjust if needed */
-    margin-bottom: 1em; /* Space between paragraphs */
-    text-align: justify; /* If you want justified text */
-}
-
-/* Social Media Link Styles (assuming you already have them in your HTML) */
-.social-media-links {
-    display: flex;
-    justify-content: start; /* Align to the start of the section */
-    padding-top: 1em; /* Space above the social media links */
-}
-
-.social-link {
-    /* Style your social media links here, e.g., colors, margins, etc. */
-    margin-right: 15px; /* Adjust as necessary */
-    color: #8BC5BF; /* Example color */
-}
-
-/* If social media icons are used */
-.social-icon {
-    width: 20px; /* Example size, adjust as needed */
-    height: 20px; /* Example size, adjust as needed */
-    fill: currentColor; /* If using SVGs */
-}
-
-/* Adjust the container if necessary */
-.container {
-     padding: 2em 0; /* Consistent vertical padding for all sections using .container */
-    /* You may adjust width and max-width as well */
-}
-
-/* Ensure that the overall site background is consistent with the design */
-body {
-    background-color: #121212; /* This is already set, just make sure it works with your design */
-}
-
-/* Ensure that .about-text has padding to prevent text from hitting the edges */
-.about-text {
-    padding: 0.5 3em; /* Add horizontal padding */
-    margin-bottom: 0.5em; /* Space between paragraphs */
-    color: #000000;
-    font-size: 1.5rem;
-    line-height: 1.5;
-    text-align :left;
-    padding-left: 5rem;
-   padding-right: 5rem;
-}
-
-.skill {
-    display: inline-block;
-    padding: 10px 10px;
-    border-radius: 10px;
-    background-color: #121212;
-    border: 1px solid #8BC5BF;
-    color: #8BC5BF;
-    margin: 1px;
-    font-size: 0.8em;
-    
-}
-header {
-  height: 125px; /* Making the header thinner */
-  width: 100%;
-  position: sticky;
-  top: 0;
-  background-color: #121212; /* Example color, this should be changed to match the desired header color */
-  z-index: 1000; /* Ensures the header stays on top of other content */
-}
-
-/* Adjust padding/margin for header contents if needed to align with the new header height */
-.header-container {
-  display: flex; /* Added for alignment purposes */
-  align-items: center; /* Vertically center the contents */
-  justify-content: space-between; /* Space out the nav and the logo */
-  padding-top: 0; /* Reduce top padding to move contents up */
-  padding-bottom: 0; /* You can adjust bottom padding as needed */
-  /* Other padding and margin adjustments may be required based on your specific layout */
-}
-
-.about-container {
-  width: 100%; /* Full width */
-  /* Ensure that any previously set max-width or width on the about-container is removed */
-  max-width: none; 
-}
-
-/* Add or update the about-content class based on the provided HTML structure */
-.about-body {
-  width: 90%; /* or a fixed width if desired */
-  max-width: 1200px; /* or the same max-width as the rest of the site */
-  margin: auto; /* This centers the content */
-}
-@media only screen and (max-width: 576px) {
-    .container {
-        width: 100%;
-    }
-    .header-container, .intro-flex {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    .nav-list {
-        flex-direction: column;
-    }
-    .nav-link {
-        padding: 0.5em;
-        text-align: center;
-    }
-}
-
+/* Smooth scrolling for anchor links */
 html {
   scroll-behavior: smooth;
 }
 
+/* Video Overlay Icons */
+#group-icon,
+#time-icon,
+#syntax-icon {
+  width: 20px; /* Set the width for the icons */
+  height: 20px; /* Set the height for the icons */
+  margin-right: 5px; /* Add some space to the right of each icon */
+}
 
+.video-overlay {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay for readability */
+  color: white;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Ensures spacing between elements inside the overlay */
+}
+
+.video-overlay span {
+  font-size: 0.75rem; /* Adjust font size for text next to icons */
+  color: white; /* Ensure text color is white for contrast */
+}
+
+/* Adjustments for overlay container to maintain aspect ratio */
+.video-container {
+  position: relative;
+  overflow: hidden; /* Ensures nothing spills outside the container */
+  width: 100%; /* Overlay covers the entire width of the video */
+  /* Padding-top for 16:9 aspect ratio, remove if not needed */
+  padding-top: 56.25%; /* 16:9 Aspect Ratio - Adjust as per your design needs */
+}
+
+.project-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures video covers the available space */
+}
+
+/* Desaturate video by default */
+.project-video {
+  -webkit-filter: grayscale(70%); /* For Safari 6.0 to 9.0 */
+  filter: grayscale(70%);
+  width: 100%;
+  height: 100%; /* Adjusted to 100% to cover the container */
+  object-fit: cover; /* This will cover the area without black borders */
+  display: block;
+}
+
+/* Restore color on hover */
+.project-video:hover {
+  -webkit-filter: grayscale(0%); /* For Safari 6.0 to 9.0 */
+  filter: grayscale(0%); /* Full color */
+}/* Desaturate video by default */
+.project-video {
+  -webkit-filter: grayscale(70%); /* For Safari 6.0 to 9.0 */
+  filter: grayscale(70%);
+  width: 100%;
+  height: 100%; /* Adjusted to 100% to cover the container */
+  object-fit: cover; /* This will cover the area without black borders */
+  display: block;
+}
+
+/* Restore color on hover */
+.project-video:hover {
+  -webkit-filter: grayscale(0%); /* For Safari 6.0 to 9.0 */
+  filter: grayscale(0%); /* Full color */
+}
+
+/* Navigation Link Hover Effect */
+.nav-link:hover {
+  color: #E4BAC1; /* Highlight color on hover */
+}
+
+/* Project Link Hover Effect - Assuming this is for a specific class not detailed earlier */
+.project-link:hover {
+  background-color: #E4BAC1; /* Background color change on hover */
+  color: #121212; /* Text color change on hover */
+}
+
+/* Project Card Hover Effects */
+.project-card:hover .project-info h3 {
+   color: #ffffff; /* Changes the color of the project title on hover */
+}
+
+.project-card:hover .project-video {
+   -webkit-filter: grayscale(0%); /* Restores video color on hover for Safari */
+   filter: grayscale(0%); /* Restores video color on hover for other browsers */
+}
+
+/* Social Link Hover Effect */
+.social-link:hover {
+  color: #E4BAC1; /* Changes link color on hover - ensure this applies correctly to your HTML structure */
+}
+
+/* Social Icons and CV Icon Styling */
 #github-icon,
-#linkedin-icon {
-  width: 40px; /* Or the size you want */
-  height: auto;
-  transition: filter 0.3s; /* Smooth transition for hover effect */
-}
-#cv-icon{
-width: 35px; /* Or the size you want */
-  height: auto;
-  transition: filter 0.3s; /* Smooth transition for hover effect */
+#linkedin-icon,
+#cv-icon {
+ width: auto; /* Adjusts width automatically based on the height to maintain aspect ratio */
+ height: 40px; /* Sets a standard height for social icons and CV icon */
+ transition: filter 0.3s; /* Smooth transition for hover effect */
 }
 
+#cv-icon {
+ height: 35px; /* Slightly smaller height for CV icon if needed */
+}
+
+/* Social Icons Hover Effects */
 #github-icon:hover,
 #cv-icon:hover,
 #linkedin-icon:hover {
-  filter: brightness(1.6); /* Example hover effect, change the color slightly */
-}
-#group-icon,
-#time-icon{
-    width: 20px; /* Or the size you want */
-    height: 20px;
-}
-#syntax-icon {
-  width: 20px; /* Or the size you want */
-  height: 20px;
+ filter: brightness(1.6); /* Brightens icons on hover */
 }
