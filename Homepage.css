@@ -172,9 +172,6 @@ p {
     padding: 0.5rem; /* Adjust padding within project cards for more space */
   }
 
-  .video-overlay span {
-    display: none; /* Optionally hide text next to icons for very narrow screens */
-  }
 }
 
 /* Smooth scrolling for anchor links */
