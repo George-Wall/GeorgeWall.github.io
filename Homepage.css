@@ -8,6 +8,7 @@
 
 html {
   font-size: 100%; /* 16px as base for scaling */
+  scroll-behavior: smooth;
 }
 
 body {
@@ -58,6 +59,11 @@ p {
   font-size: 2rem;
 }
 
+.social-link {
+  display: inline-block;
+  margin-left: 1rem;
+}
+
 .social-link img {
   width: 40px;
   height: 40px;
@@ -98,12 +104,20 @@ p {
   gap: 1rem;
 }
 
+.project-card-link {
+  display: block;
+  text-decoration: none;
+}
+
 .project-card {
   background-color: #252525;
   border-radius: 8px;
   overflow: hidden;
 }
 
+.project-info {
+  padding: 1rem;
+}
 
 /* Education & Skills Sections */
 .grid, .skills-grid {
@@ -135,9 +149,89 @@ p {
   border-radius: 8px;
 }
 
+/* Video Overlay Icons */
+#group-icon,
+#time-icon,
+#syntax-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+.video-overlay {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.video-overlay span {
+  font-size: 0.75rem;
+  color: white;
+}
+
+.video-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio */
+}
+
+.project-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-filter: grayscale(70%);
+  filter: grayscale(70%);
+  display: block;
+}
+
+.project-video:hover {
+  -webkit-filter: grayscale(0%);
+  filter: grayscale(0%);
+}
+
+/* Project Card Hover Effects */
+.project-card:hover .project-info h3 {
+  color: #ffffff;
+}
+
+.project-card:hover .project-video {
+  -webkit-filter: grayscale(0%);
+  filter: grayscale(0%);
+}
+
+/* Social Icons and CV Icon Styling */
+#github-icon,
+#linkedin-icon,
+#cv-icon {
+  width: auto;
+  height: 40px;
+  transition: filter 0.3s;
+}
+
+/* Social Icons Hover Effects */
+#github-icon:hover,
+#linkedin-icon:hover,
+#cv-icon:hover {
+  filter: brightness(1.6);
+}
+
 /* Responsive Adjustments */
 @media (max-width: 768px) {
-  .header-container, .intro-section, .projects-grid, .grid, .skills-grid {
+  .header-container,
+  .intro-section,
+  .projects-grid,
+  .grid,
+  .skills-grid {
     flex-direction: column;
   }
 
@@ -151,150 +245,34 @@ p {
   }
 
   .video-overlay {
-    font-size: 0.65rem; /* Smaller font size for overlay text */
-    padding: 8px; /* Adjust padding for overlay */
-    gap: 5px; /* Reduce gap between elements in overlay */
+    font-size: 0.65rem;
+    padding: 8px;
+    gap: 5px;
   }
 
-  #group-icon, #time-icon, #syntax-icon {
-    width: 15px; /* Smaller icons within video overlay */
+  #group-icon,
+  #time-icon,
+  #syntax-icon {
+    width: 15px;
     height: 15px;
   }
 }
 
-/* Additional adjustments for very small screens */
 @media (max-width: 480px) {
-  .container, .video-container {
-    padding: 0.5rem; /* Reduce padding for tighter spaces */
+  .container,
+  .video-container {
+    padding: 0.5rem;
   }
 
   .project-info {
-    padding: 0.5rem; /* Adjust padding within project cards for more space */
+    padding: 0.5rem;
   }
 
-}
+  h1, h2, h3, h4, h5, h6, p {
+    margin-bottom: 0.5rem;
+  }
 
-/* Smooth scrolling for anchor links */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Video Overlay Icons */
-#group-icon,
-#time-icon,
-#syntax-icon {
-  width: 20px; /* Set the width for the icons */
-  height: 20px; /* Set the height for the icons */
-  margin-right: 5px; /* Add some space to the right of each icon */
-}
-
-.video-overlay {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay for readability */
-  color: white;
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  gap: 10px; /* Ensures spacing between elements inside the overlay */
-}
-
-.video-overlay span {
-  font-size: 0.75rem; /* Adjust font size for text next to icons */
-  color: white; /* Ensure text color is white for contrast */
-}
-
-/* Adjustments for overlay container to maintain aspect ratio */
-.video-container {
-  position: relative;
-  overflow: hidden; /* Ensures nothing spills outside the container */
-  width: 100%; /* Overlay covers the entire width of the video */
-  /* Padding-top for 16:9 aspect ratio, remove if not needed */
-  padding-top: 56.25%; /* 16:9 Aspect Ratio - Adjust as per your design needs */
-}
-
-.project-video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Ensures video covers the available space */
-}
-
-/* Desaturate video by default */
-.project-video {
-  -webkit-filter: grayscale(70%); /* For Safari 6.0 to 9.0 */
-  filter: grayscale(70%);
-  width: 100%;
-  height: 100%; /* Adjusted to 100% to cover the container */
-  object-fit: cover; /* This will cover the area without black borders */
-  display: block;
-}
-
-/* Restore color on hover */
-.project-video:hover {
-  -webkit-filter: grayscale(0%); /* For Safari 6.0 to 9.0 */
-  filter: grayscale(0%); /* Full color */
-}/* Desaturate video by default */
-.project-video {
-  -webkit-filter: grayscale(70%); /* For Safari 6.0 to 9.0 */
-  filter: grayscale(70%);
-  width: 100%;
-  height: 100%; /* Adjusted to 100% to cover the container */
-  object-fit: cover; /* This will cover the area without black borders */
-  display: block;
-}
-
-/* Restore color on hover */
-.project-video:hover {
-  -webkit-filter: grayscale(0%); /* For Safari 6.0 to 9.0 */
-  filter: grayscale(0%); /* Full color */
-}
-
-/* Navigation Link Hover Effect */
-.nav-link:hover {
-  color: #E4BAC1; /* Highlight color on hover */
-}
-
-/* Project Link Hover Effect - Assuming this is for a specific class not detailed earlier */
-.project-link:hover {
-  background-color: #E4BAC1; /* Background color change on hover */
-  color: #121212; /* Text color change on hover */
-}
-
-/* Project Card Hover Effects */
-.project-card:hover .project-info h3 {
-   color: #ffffff; /* Changes the color of the project title on hover */
-}
-
-.project-card:hover .project-video {
-   -webkit-filter: grayscale(0%); /* Restores video color on hover for Safari */
-   filter: grayscale(0%); /* Restores video color on hover for other browsers */
-}
-
-/* Social Link Hover Effect */
-.social-link:hover {
-  color: #E4BAC1; /* Changes link color on hover - ensure this applies correctly to your HTML structure */
-}
-
-/* Social Icons and CV Icon Styling */
-#github-icon,
-#linkedin-icon,
-#cv-icon {
- width: auto; /* Adjusts width automatically based on the height to maintain aspect ratio */
- height: 40px; /* Sets a standard height for social icons and CV icon */
- transition: filter 0.3s; /* Smooth transition for hover effect */
-}
-
-#cv-icon {
- height: 35px; /* Slightly smaller height for CV icon if needed */
-}
-
-/* Social Icons Hover Effects */
-#github-icon:hover,
-#cv-icon:hover,
-#linkedin-icon:hover {
- filter: brightness(1.6); /* Brightens icons on hover */
+  p {
+    font-size: 0.9rem;
+  }
 }
