@@ -51,7 +51,7 @@ h4 {
 
 p {
   font-size: clamp(1rem, 2.5vw, 1.2rem);
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 /* Header Styles */
@@ -109,6 +109,7 @@ p {
 /* Project Banner */
 #project-banner {
   padding: 2rem 0;
+  position: relative;
 }
 
 .video-container {
@@ -148,6 +149,7 @@ p {
 .project-info ul {
   list-style: disc;
   margin-left: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 /* Project Details */
@@ -156,12 +158,14 @@ p {
 }
 
 .code-section {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .code-section summary {
   cursor: pointer;
   color: #8BC5BF;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
 }
 
 .code-container {
@@ -170,6 +174,8 @@ p {
   overflow-x: auto;
   font-family: 'Courier New', monospace;
   font-size: 0.9rem;
+  border-radius: 5px;
+  margin-top: 0.5rem;
 }
 
 .comment {
@@ -184,6 +190,7 @@ p {
 .project-learnings ol {
   list-style: decimal;
   margin-left: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 /* Footer */
@@ -199,6 +206,7 @@ p {
 
 .site-footer .social-links {
   justify-content: center;
+  margin-top: 1rem;
 }
 
 /* Media Queries */
