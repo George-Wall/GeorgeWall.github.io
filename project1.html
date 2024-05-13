@@ -240,75 +240,77 @@
         </pre>
       </details>
 
-      <h4>Storing Inspected Items:</h4>
-      <p>Once an item is inspected, the <strong>StoreInspectedItem</strong> function allows players to add items to their inventory if desired.</p>
-      <div class="video-container">
-        <video controls loop muted autoplay>
-          <source src="Videos/toggleInventory.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-      </div>
-      <details class="code-section">
-        <summary>CLICK FOR CODE</summary>
-        <pre class="code-container">
-          <code>
-            <span class="comment">// Store the item that the player is currently inspecting</span>
-            void APlayerChar::StoreInspectedItem()
-            {
-              <span class="comment">// Ensure UI widgets revert to their default visibility states</span>
-              if (DotWidget) DotWidget-&gt;SetVisibility(ESlateVisibility::Visible);
-              if (InteractWidget) InteractWidget-&gt;SetVisibility(ESlateVisibility::Collapsed);
+<h4>Storing Inspected Items:</h4>
+<p>Once an item is inspected, the <strong>StoreInspectedItem</strong> function allows players to add items to their inventory if desired.</p>
+<div class="video-container">
+  <video controls loop muted autoplay>
+    <source src="Videos/toggleInventory.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+</div>
+<details class="code-section">
+  <summary>CLICK FOR CODE</summary>
+  <pre class="code-container">
+    <code>
+      <span class="comment">// Store the item that the player is currently inspecting</span>
+      void APlayerChar::StoreInspectedItem()
+      {
+        <span class="comment">// Ensure UI widgets revert to their default visibility states</span>
+        if (DotWidget) DotWidget-&gt;SetVisibility(ESlateVisibility::Visible);
+        if (InteractWidget) InteractWidget-&gt;SetVisibility(ESlateVisibility::Collapsed);
 
-              <span class="comment">// Exit the function if no item is being inspected</span>
-              if (!CurrentlyInspectedItem) return;
+        <span class="comment">// Exit the function if no item is being inspected</span>
+        if (!CurrentlyInspectedItem) return;
 
-              <span class="comment">// Validate that the ItemDatabase is available</span>
-              if (!ItemDatabase) return;
-              const FItemData* Data = ItemDatabase-&gt;Items.FindByPredicate([&amp;](const FItemData&amp; ItemData)
-              {
-                <span class="comment">// Check if the item class matches the inspected item</span>
-                return ItemData.Class == CurrentlyInspectedItem-&gt;GetClass();
-              });
+        <span class="comment">// Validate that the ItemDatabase is available</span>
+        if (!ItemDatabase) return;
+        const FItemData* Data = ItemDatabase-&gt;Items.FindByPredicate([&amp;](const FItemData&amp; ItemData)
+        {
+          <span class="comment">// Check if the item class matches the inspected item</span>
+          return ItemData.Class == CurrentlyInspectedItem-&gt;GetClass();
+        });
 
-              if(Data)
-{
-if (Data->bCanBePickedUp)
-{
-<span class="comment">// Add the item to the player's inventory and remove it from the game world</span>
-Inventory.Emplace(*Data);
-CurrentlyInspectedItem->Destroy();
-if (GetWorld())
-{
-<span class="comment">// Play a sound effect when the item is added to the inventory</span>
-UGameplayStatics::PlaySound2D(GetWorld(), AddToInventorySound);
-}
-}
-else
-{
-<span class="comment">// Discard the item if it cannot be picked up</span>
-DiscardInspectedItem();
-}
-}
-else
-{
-<span class="comment">// If the item is not in the database, discard it</span>
-DiscardInspectedItem();
-}          <span class="comment">// Reset the state to indicate the player is no longer inspecting an item</span>
-          bIsInspecting = false;
-          CurrentlyInspectedItem = nullptr;
-
-          <span class="comment">// Revert the player controller settings to resume normal gameplay</span>
-          APlayerController* PlayerController = Cast&lt;APlayerController&gt;(GetController());
-          if (PlayerController)
+        if (Data)
+        {
+          if (Data-&gt;bCanBePickedUp)
           {
-            PlayerController-&gt;SetInputMode(FInputModeGameOnly());
-            PlayerController-&gt;SetCinematicMode(false, true, true);
-            PlayerController-&gt;bShowMouseCursor = false;
+            <span class="comment">// Add the item to the player's inventory and remove it from the game world</span>
+            Inventory.Emplace(*Data);
+            CurrentlyInspectedItem-&gt;Destroy();
+            if (GetWorld())
+            {
+              <span class="comment">// Play a sound effect when the item is added to the inventory</span>
+              UGameplayStatics::PlaySound2D(GetWorld(), AddToInventorySound);
+            }
+          }
+          else
+          {
+            <span class="comment">// Discard the item if it cannot be picked up</span>
+            DiscardInspectedItem();
           }
         }
-      </code>
-    </pre>
-  </details>
+        else
+        {
+          <span class="comment">// If the item is not in the database, discard it</span>
+          DiscardInspectedItem();
+        }
+
+        <span class="comment">// Reset the state to indicate the player is no longer inspecting an item</span>
+        bIsInspecting = false;
+        CurrentlyInspectedItem = nullptr;
+
+        <span class="comment">// Revert the player controller settings to resume normal gameplay</span>
+        APlayerController* PlayerController = Cast&lt;APlayerController&gt;(GetController());
+        if (PlayerController)
+        {
+          PlayerController-&gt;SetInputMode(FInputModeGameOnly());
+          PlayerController-&gt;SetCinematicMode(false, true, true);
+          PlayerController-&gt;bShowMouseCursor = false;
+        }
+      }
+    </code>
+  </pre>
+</details>
 
   <h3>Additional Mechanics:</h3>
   <p>I implemented ShowCustomText for in-game text displays and PlayFootstepSound to make the player's movements sound realistic. The game's responsiveness is boosted by efficient main menu management and player status checks. I also fine-tuned the inventory system. The UInventoryEntry class, in particular, does a great job at handling how items are added to and dropped from the inventory, making the gameplay feel more dynamic.</p>
