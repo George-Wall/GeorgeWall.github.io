@@ -139,6 +139,7 @@
     color: var(--text-color);
     opacity: 0.8;
   }
+  
   .btn {
     display: inline-block;
     padding: 10px 20px;
@@ -423,6 +424,12 @@
     const projectCards = document.querySelectorAll('.project-card');
     const closeBtn = document.querySelector('.close');
 
+    // New: Project links mapping
+    const projectLinks = {
+      'cabin-escape': 'project1.html',
+      // Add other project links here if needed
+    };
+
     projectCards.forEach(card => {
       card.addEventListener('click', () => {
         const project = card.getAttribute('data-project');
@@ -430,7 +437,7 @@
         modalContent.innerHTML = `
           <p>${card.querySelector('.project-details').innerHTML}</p>
           <p>${card.querySelector('p:last-of-type').textContent}</p>
-          <a href="${project}.html" class="btn">View Full Project</a>
+          <a href="${projectLinks[project] || `${project}.html`}" class="btn">View Full Project</a>
         `;
         modal.style.display = 'block';
       });
