@@ -450,14 +450,17 @@ bool USafePuzzle::CheckCombination(const FString& InputCombination)
     </footer>
 
     <script>
+        // Code snippet toggle functionality
         document.querySelectorAll('.code-header').forEach(header => {
             header.addEventListener('click', () => {
                 const content = header.nextElementSibling;
                 content.classList.toggle('active');
                 const toggleBtn = header.querySelector('.toggle-btn');
                 toggleBtn.textContent = content.classList.contains('active') ? '-' : '+';
+            });
+        });
 
-                      // Theme toggle functionality
+        // Theme toggle functionality
         const themeToggle = document.getElementById('theme-toggle');
         const root = document.documentElement;
         let isDark = true;
@@ -473,8 +476,6 @@ bool USafePuzzle::CheckCombination(const FString& InputCombination)
                 root.style.setProperty('--secondary-bg', '#ffffff');
                 root.style.setProperty('--text-color', '#333333');
             }
-        });
-            });
         });
     </script>
 </body>
