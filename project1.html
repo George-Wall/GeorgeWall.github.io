@@ -405,13 +405,19 @@ bool USafePuzzle::CheckCombination(const FString& InputCombination)
     </section>
   </main>
 
-  <footer>
-    <p>&copy; 2024 George Wall. All rights reserved.</p>
-  </footer>
+    <footer>
+        <p>&copy; 2024 George Wall. All rights reserved.</p>
+    </footer>
 
-  <script>
-    document.querySelectorAll('.code-header').forEach(header => {
-      header.addEventListener('click', () => {
-        const content = header.nextElementSibling;
-        content.classList.toggle('active');
-        header.querySelector('.toggle-btn').
+    <script>
+        document.querySelectorAll('.code-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                content.classList.toggle('active');
+                const toggleBtn = header.querySelector('.toggle-btn');
+                toggleBtn.textContent = content.classList.contains('active') ? '-' : '+';
+            });
+        });
+    </script>
+</body>
+</html>
