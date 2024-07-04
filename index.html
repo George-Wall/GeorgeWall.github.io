@@ -60,6 +60,13 @@
     color: var(--text-color);
     margin-top: 10px;
     opacity: 0.8;
+
+      nav {
+    background-color: var(--secondary-bg);
+    position: static;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
   }
   nav ul {
     list-style-type: none;
@@ -67,18 +74,24 @@
     margin: 0;
     display: flex;
     justify-content: center;
+    align-items: center;
   }
   nav ul li {
-    margin: 0 15px;
+    margin: 0;
   }
   nav ul li a {
     color: var(--text-color);
     text-decoration: none;
-    transition: color 0.3s ease;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
-  nav ul li a:hover {
-    color: var(--accent-color);
+  nav ul li a:hover, nav ul li a.active {
+    background-color: var(--accent-color);
+    color: var(--background-color);
   }
+
   .icon {
     width: 24px;
     height: 24px;
