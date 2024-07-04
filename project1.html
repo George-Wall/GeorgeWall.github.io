@@ -99,6 +99,44 @@
     background-color: var(--accent-hover);
     transform: translateY(-2px);
   }
+
+          #theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--accent-color);
+            color: var(--background-color);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            line-height: 1;
+            z-index: 1000;
+        }
+
+        #theme-toggle:hover {
+            background-color: var(--accent-hover);
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            #theme-toggle {
+                bottom: 10px;
+                right: 10px;
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+        }
+  
   .features {
     margin-top: 50px;
   }
@@ -209,6 +247,8 @@
       <li><a href="#lessons">Lessons Learned</a></li>
     </ul>
   </nav>
+
+      <button id="theme-toggle" aria-label="Toggle dark/light mode">🌓</button>
 
   <main class="container">
     <section id="overview" class="project-details">
@@ -416,6 +456,24 @@ bool USafePuzzle::CheckCombination(const FString& InputCombination)
                 content.classList.toggle('active');
                 const toggleBtn = header.querySelector('.toggle-btn');
                 toggleBtn.textContent = content.classList.contains('active') ? '-' : '+';
+
+                      // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const root = document.documentElement;
+        let isDark = true;
+
+        themeToggle.addEventListener('click', () => {
+            isDark = !isDark;
+            if (isDark) {
+                root.style.setProperty('--background-color', '#1a1a1a');
+                root.style.setProperty('--secondary-bg', '#2a2a2a');
+                root.style.setProperty('--text-color', '#e0e0e0');
+            } else {
+                root.style.setProperty('--background-color', '#f0f0f0');
+                root.style.setProperty('--secondary-bg', '#ffffff');
+                root.style.setProperty('--text-color', '#333333');
+            }
+        });
             });
         });
     </script>
