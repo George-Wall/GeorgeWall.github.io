@@ -1,12 +1,17 @@
-<html><head><base href="https://websim.ai/georgewall%20professional%20and%20black/grey%20background%20with%20a%20pastel%20pink%20accent%20colour%20like%20fonts%20and%20buttons%20,%20using%20javascript%20,%20css%20and%20html%20features%20that%20are%20interactive%20with%20a%20section%20for%20profile%20picture%20,%20include%20an%20about%20me%20section%20using%20the%20font%20colour%20as%20the%20background%20and%20the%20pink%20as%20the%20background%20colour%20at%20the%20bottom%20of%20the%20screen%20,%20icons%20on%20the%20navigation%20bar%20for%20downloading%20CV%20and%20Opening%20links%20to%20Linkedin%20and%20Github"><title>George Wall - Game Programmer Portfolio</title>
-<style>
-  :root {
-    --background-color: #1a1a1a;
-    --secondary-bg: #2a2a2a;
-    --text-color: #e0e0e0;
-    --accent-color: #ffb3ba;
-    --accent-hover: #ff8c97;
-  }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>George Wall - Game Programmer Portfolio</title>
+    <style>
+        :root {
+            --background-color: #1a1a1a;
+            --secondary-bg: #2a2a2a;
+            --text-color: #e0e0e0;
+            --accent-color: #ffb3ba;
+            --accent-hover: #ff8c97;
+        }
   body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
@@ -417,36 +422,38 @@
       });
     });
 
-    // Project modal
-    const modal = document.getElementById('projectModal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalContent = document.getElementById('modalContent');
-    const projectCards = document.querySelectorAll('.project-card');
-    const closeBtn = document.querySelector('.close');
+// Project modal
+        const modal = document.getElementById('projectModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalContent = document.getElementById('modalContent');
+        const projectCards = document.querySelectorAll('.project-card');
+        const closeBtn = document.querySelector('.close');
 
-    // New: Project links mapping
-    const projectLinks = {
-      'cabin-escape': 'project1.html',
-      // Add other project links here if needed
-    };
+        // Project links mapping
+        const projectLinks = {
+            'cosmic-cleanup': 'project1.html',
+            'quantum-shift': 'project2.html',
+            'eco-warriors': 'project3.html',
+            'cabin-escape': 'project4.html'
+        };
 
-    projectCards.forEach(card => {
-      card.addEventListener('click', () => {
-        const project = card.getAttribute('data-project');
-        modalTitle.textContent = card.querySelector('.project-title').textContent;
-        modalContent.innerHTML = `
-          <p>${card.querySelector('.project-details').innerHTML}</p>
-          <p>${card.querySelector('p:last-of-type').textContent}</p>
-          <a href="${projectLinks[project] || `${project}.html`}" class="btn">View Full Project</a>
-        `;
-        modal.style.display = 'block';
-      });
-    });
+        projectCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const project = card.getAttribute('data-project');
+                modalTitle.textContent = card.querySelector('.project-title').textContent;
+                modalContent.innerHTML = `
+                    <p>${card.querySelector('.project-details').innerHTML}</p>
+                    <p>${card.querySelector('p:last-of-type').textContent}</p>
+                    <a href="${projectLinks[project]}" class="btn">View Full Project</a>
+                `;
+                modal.style.display = 'block';
+            });
+        });
 
-    closeBtn.onclick = () => modal.style.display = 'none';
-    window.onclick = event => {
-      if (event.target == modal) modal.style.display = 'none';
-    };
+        closeBtn.onclick = () => modal.style.display = 'none';
+        window.onclick = event => {
+            if (event.target == modal) modal.style.display = 'none';
+        };
 
     // Theme toggle
     const themeToggle = document.getElementById('theme-toggle');
