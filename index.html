@@ -1,120 +1,473 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>George Wall's Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100;200;300;400;700;900&display=swap" rel="stylesheet">
-  <link href="Homepage.css" rel="stylesheet"/>
+<html><head><base href="https://websim.ai/georgewall%20professional%20and%20black/grey%20background%20with%20a%20pastel%20pink%20accent%20colour%20like%20fonts%20and%20buttons%20,%20using%20javascript%20,%20css%20and%20html%20features%20that%20are%20interactive%20with%20a%20section%20for%20profile%20picture%20,%20include%20an%20about%20me%20section%20using%20the%20font%20colour%20as%20the%20background%20and%20the%20pink%20as%20the%20background%20colour%20at%20the%20bottom%20of%20the%20screen%20,%20icons%20on%20the%20navigation%20bar%20for%20downloading%20CV%20and%20Opening%20links%20to%20Linkedin%20and%20Github"><title>George Wall - Game Programmer Portfolio</title>
+<style>
+  :root {
+    --background-color: #1a1a1a;
+    --secondary-bg: #2a2a2a;
+    --text-color: #e0e0e0;
+    --accent-color: #ffb3ba;
+    --accent-hover: #ff8c97;
+  }
+  body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    transition: background-color 0.3s ease;
+  }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  header {
+    background: linear-gradient(to right, #1a1a1a, #2a2a2a);
+    padding: 40px 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+  .profile-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--accent-color);
+    transition: transform 0.3s ease;
+  }
+  .profile-picture:hover {
+    transform: scale(1.05);
+  }
+  h1, h2, h3 {
+    color: var(--accent-color);
+  }
+  h1 {
+    font-size: 2.5em;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  }
+  .subtitle {
+    font-size: 1.2em;
+    color: var(--text-color);
+    margin-top: 10px;
+    opacity: 0.8;
+  }
+  nav {
+    background-color: var(--secondary-bg);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+  nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  nav ul li {
+    margin: 0;
+  }
+  nav ul li a {
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  nav ul li a:hover, nav ul li a.active {
+    background-color: var(--accent-color);
+    color: var(--background-color);
+  }
+  .icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+  }
+  .projects {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+  }
+  .project-card {
+    background-color: var(--secondary-bg);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    cursor: pointer;
+  }
+  .project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  }
+  .project-thumbnail {
+    position: relative;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+    overflow: hidden;
+  }
+  .project-thumbnail img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  .project-card:hover .project-thumbnail img {
+    transform: scale(1.05);
+  }
+  .project-info {
+    padding: 20px;
+  }
+  .project-title {
+    font-size: 1.4em;
+    margin: 0 0 10px 0;
+    color: var(--accent-color);
+  }
+  .project-details {
+    font-size: 0.9em;
+    color: var(--text-color);
+    opacity: 0.8;
+  }
+  .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--accent-color);
+    color: var(--background-color);
+    text-decoration: none;
+    border-radius: 4px;
+    margin-top: 15px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .btn:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-2px);
+  }
+  .about-me {
+    background-color: var(--text-color);
+    color: var(--background-color);
+    padding: 50px 0;
+    margin-top: 50px;
+  }
+  .about-me h2 {
+    color: var(--background-color);
+  }
+  .about-me-content {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+  }
+  .about-me-text {
+    flex: 1;
+  }
+  .skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .skill-tag {
+    background-color: var(--accent-color);
+    color: var(--background-color);
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.9em;
+  }
+  footer {
+    background-color: var(--accent-color);
+    color: var(--background-color);
+    text-align: center;
+    padding: 20px 0;
+    font-size: 0.9em;
+  }
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.8);
+  }
+  .modal-content {
+    background-color: var(--secondary-bg);
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 600px;
+    position: relative;
+  }
+  .close {
+    color: var(--accent-color);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .close:hover {
+    color: var(--accent-hover);
+  }
+  #theme-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--accent-color);
+    color: var(--background-color);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+  #theme-toggle:hover {
+    background-color: var(--accent-hover);
+    transform: scale(1.1);
+  }
+  @media (max-width: 768px) {
+    .projects {
+      grid-template-columns: 1fr;
+    }
+    nav ul {
+      flex-direction: column;
+    }
+    nav ul li a {
+      text-align: center;
+    }
+    .about-me-content {
+      flex-direction: column;
+    }
+    .profile-section {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+</style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="container header-container">
-      <h1 class="brand-name">George Wall</h1>
-      <nav class="site-nav">
-        <div class="social-links">
-          <a class="social-link" href="https://www.linkedin.com/in/georgewall-/" target="_blank">
-            <img alt="LinkedIn" id="linkedin-icon" src="Images/Linkedin.png"/>
-          </a>
-          <a class="social-link" href="https://github.com/George-Wall" target="_blank">
-            <img alt="GitHub" id="github-icon" src="Images/Github.png"/>
-          </a>
-          <a class="social-link" href="Documents/GeorgeWall_CV.pdf" target="_blank">
-            <img alt="CV" id="cv-icon" src="Images/CV.png"/>
-          </a>
-        </div>
-      </nav>
+  <header>
+    <div class="container profile-section">
+      <img src="george-wall-profile.jpg" alt="George Wall profile picture" class="profile-picture" width="150" height="150">
+      <div>
+        <h1>George Wall</h1>
+        <p class="subtitle">Game Programmer | C++ &amp; Unreal Engine Specialist</p>
+      </div>
     </div>
   </header>
 
-  <main>
-    <section class="intro-section">
-      <div class="container">
-        <div class="intro-flex">
-          <div class="intro-image">
-            <img alt="George Wall" src="Images/Intro_Pic.jpg"/>
+  <nav>
+    <ul>
+      <li><a href="#projects" class="nav-link">Projects</a></li>
+      <li><a href="#about" class="nav-link">About</a></li>
+      <li><a href="#contact" class="nav-link">Contact</a></li>
+      <li><a href="george-wall-cv.pdf" download class="nav-link">
+        <img src="download-icon.svg" alt="Download CV" class="icon" width="24" height="24">
+        CV
+      </a></li>
+      <li><a href="https://linkedin.com/in/georgewall" target="_blank" rel="noopener noreferrer" class="nav-link">
+        <img src="linkedin-icon.svg" alt="LinkedIn" class="icon" width="24" height="24">
+        LinkedIn
+      </a></li>
+      <li><a href="https://github.com/georgewall" target="_blank" rel="noopener noreferrer" class="nav-link">
+        <img src="github-icon.svg" alt="GitHub" class="icon" width="24" height="24">
+        GitHub
+      </a></li>
+    </ul>
+  </nav>
+
+  <main class="container">
+    <section id="projects">
+      <h2>Featured Projects</h2>
+      <div class="projects">
+        <div class="project-card" data-project="cosmic-cleanup">
+          <div class="project-thumbnail">
+            <img src="cosmic-cleanup-thumbnail.jpg" alt="Cosmic Cleanup game screenshot" width="300" height="169">
           </div>
-          <div class="intro-description">
-            <h5 style="font-weight: 200;">A Passionate Game Developer who Combines a Computer Science Background and Meticulous Attention to Detail to Craft Immersive Stories through the Art of Programming.</h5>
+          <div class="project-info">
+            <h3 class="project-title">Cosmic Cleanup</h3>
+            <p class="project-details">
+              <strong>Role:</strong> Solo Developer<br>
+              <strong>Engine:</strong> Unreal Engine 5<br>
+              <strong>Language:</strong> C++
+            </p>
+            <p>A fast-paced arcade-style game where players control a spaceship to clean up space debris.</p>
           </div>
         </div>
-      </div>
-    </section>
 
-    <section class="container" id="projects">
-      <h1>Featured Projects</h1>
-      <div class="projects-grid">
-        <a href="project1.html" class="project-card-link">
-          <article class="project-card" data-project-id="0">
-            <div class="video-container">
-              <video class="project-video" loop muted autoplay playsinline>
-                <source src="Videos/Project1.mp4" type="video/mp4"/>
-                Your browser does not support the video tag.
-              </video>
-              <div class="video-overlay">
-                <img alt="Group" id="group-icon" src="Images/group.png"/>
-                <span>1</span>
-                <img alt="Time" id="time-icon" src="Images/Clock.png"/>
-                <span>5 Days</span>
-                <img alt="Syntax" id="syntax-icon" src="Images/Syntax.png"/>
-                <span>C++</span>
-              </div>
-            </div>
-            <div class="project-info">
-              <h3>GDU Game Jam: Cabin (2024)</h3>
-              <p>Game Programmer & Game Designer</p>
-              <p>This project was a small puzzle game made on my first Game Jam. I developed my own Interaction and Inventory System while challenging myself to use C++ for everything.</p>
-            </div>
-          </article>
-        </a>
-      </div>
-    </section>
+        <div class="project-card" data-project="quantum-shift">
+          <div class="project-thumbnail">
+            <img src="quantum-shift-thumbnail.jpg" alt="Quantum Shift game screenshot" width="300" height="169">
+          </div>
+          <div class="project-info">
+            <h3 class="project-title">Quantum Shift</h3>
+            <p class="project-details">
+              <strong>Role:</strong> Gameplay Programmer<br>
+              <strong>Engine:</strong> Unreal Engine 5<br>
+              <strong>Language:</strong> C++
+            </p>
+            <p>A physics-based puzzle game where players manipulate quantum mechanics to solve challenges.</p>
+          </div>
+        </div>
 
-    <section class="container" id="education">
-      <h2>Education</h2>
-      <div class="grid">
-        <article class="education-card">
-          <h4>Edge Hill University (2020-2023)</h4>
-          <p>BSc (Hons) Computer Science, Game Programming</p>
-        </article>
-        <article class="education-card">
-          <h4>Teesside University (2019-2020)</h4>
-          <p>Certificate of Higher Education in Game Design with Unreal Engine</p>
-        </article>
-      </div>
-    </section>
+        <div class="project-card" data-project="eco-warriors">
+          <div class="project-thumbnail">
+            <img src="eco-warriors-thumbnail.jpg" alt="Eco Warriors game screenshot" width="300" height="169">
+          </div>
+          <div class="project-info">
+            <h3 class="project-title">Eco Warriors</h3>
+            <p class="project-details">
+              <strong>Role:</strong> Gameplay Programmer<br>
+              <strong>Engine:</strong> Custom Engine<br>
+              <strong>Language:</strong> C++
+            </p>
+            <p>An educational game about environmental conservation with a custom-built ecosystem simulation.</p>
+          </div>
+        </div>
 
-    <section class="container" id="technical-experience">
-      <h1>Technical Experience</h1>
-      <div class="skills-grid">
-        <span class="skill">C++</span>
-        <span class="skill">Unreal Engine</span>
-        <span class="skill">C#</span>
-        <span class="skill">Unity</span>
-        <span class="skill">Java</span>
-        <span class="skill">JavaScript</span>
-        <span class="skill">Git</span>
-      </div>
-    </section>
-
-    <section class="about-container" id="about">
-      <div class="about-header">
-        <h1 class="about-title">Hi, I'm George</h1>
-      </div>
-      <div class="about-body">
-        <p class="about-text">
-          I am a 22-year-old game programmer who has just graduated with a <strong>Computer Science Degree</strong> in <strong>Games Programming</strong>. Before that, I was studying game design at Teesside University and creating interactive passion projects.
-        </p>
-        <p class="about-text">
-          I describe myself as a <strong>Problem Solver</strong> who seeks opportunities to learn new things while <strong>Constantly Improving</strong> my skills. I enjoy creating games that feel great to play, with clean code that is easy to read. I thrive on difficult challenges, maybe a little too much sometimes, as I have a hard time letting go if I cannot come up with a solution during a coding session.
-        </p>
-        <p class="about-text">
-          Want to know more? You can find my contact information in my CV at the top. You can also reach me on any of my social media.
-        </p>
+        <div class="project-card" data-project="cabin-escape">
+          <div class="project-thumbnail">
+            <img src="cabin-escape-thumbnail.jpg" alt="Cabin Escape game screenshot" width="300" height="169">
+          </div>
+          <div class="project-info">
+            <h3 class="project-title">GDU Game Jam: Cabin (2024)</h3>
+            <p class="project-details">
+              <strong>Role:</strong> Game Programmer &amp; Designer<br>
+              <strong>Engine:</strong> Unreal Engine 5<br>
+              <strong>Language:</strong> C++
+            </p>
+            <p>A puzzle game made during a Game Jam, featuring custom Interaction and Inventory Systems.</p>
+          </div>
+        </div>
       </div>
     </section>
   </main>
 
-  <script src="Portfolio.js"></script>
+  <section id="about" class="about-me">
+    <div class="container">
+      <h2>About Me</h2>
+      <div class="about-me-content">
+        <div class="about-me-text">
+          <p>Hello! I'm George Wall, a passionate game programmer with a focus on C++ and Unreal Engine development. With several years of experience in the gaming industry, I've had the opportunity to work on a variety of projects, from indie games to larger studio productions.</p>
+          <p>My expertise lies in crafting robust gameplay systems, optimizing performance, and bringing creative ideas to life through code. I'm constantly pushing the boundaries of what's possible in game development, always eager to learn new technologies and techniques.</p>
+          <div class="skills">
+            <span class="skill-tag">C++</span>
+            <span class="skill-tag">Unreal Engine</span>
+            <span class="skill-tag">Game Design</span>
+            <span class="skill-tag">AI Programming</span>
+            <span class="skill-tag">Physics Simulation</span>
+            <span class="skill-tag">Multiplayer Networking</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="projectModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2 id="modalTitle"></h2>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <button id="theme-toggle">🌓</button>
+
+  <footer>
+    <p>&copy; 2024 George Wall. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Navigation highlighting
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('section');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        if (pageYOffset >= sectionTop - sectionHeight / 3) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href').slice(1) === current) {
+          link.classList.add('active');
+        }
+      });
+    });
+
+    // Project modal
+    const modal = document.getElementById('projectModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalContent = document.getElementById('modalContent');
+    const projectCards = document.querySelectorAll('.project-card');
+    const closeBtn = document.querySelector('.close');
+
+    projectCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const project = card.getAttribute('data-project');
+        modalTitle.textContent = card.querySelector('.project-title').textContent;
+        modalContent.innerHTML = `
+          <p>${card.querySelector('.project-details').innerHTML}</p>
+          <p>${card.querySelector('p:last-of-type').textContent}</p>
+          <a href="${project}.html" class="btn">View Full Project</a>
+        `;
+        modal.style.display = 'block';
+      });
+    });
+
+    closeBtn.onclick = () => modal.style.display = 'none';
+    window.onclick = event => {
+      if (event.target == modal) modal.style.display = 'none';
+    };
+
+    // Theme toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    const root = document.documentElement;
+    let isDark = true;
+
+    themeToggle.addEventListener('click', () => {
+      isDark = !isDark;
+      if (isDark) {
+        root.style.setProperty('--background-color', '#1a1a1a');
+        root.style.setProperty('--secondary-bg', '#2a2a2a');
+        root.style.setProperty('--text-color', '#e0e0e0');
+      } else {
+        root.style.setProperty('--background-color', '#f0f0f0');
+        root.style.setProperty('--secondary-bg', '#ffffff');
+        root.style.setProperty('--text-color', '#333333');
+      }
+    });
+
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
 </body>
 </html>
