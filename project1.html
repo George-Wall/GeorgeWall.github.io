@@ -257,15 +257,17 @@
       </div>
       <div class="project-info">
         <h2>Project Overview</h2>
-        <p>Cabin Escape is a puzzle-adventure game developed during the Game Developers United (GDU) Game Jam 2024. The theme for the jam was "Cabin," and I took on the challenge of creating an immersive escape room experience set in a mysterious, abandoned cabin in the woods.</p>
-        <p>As the sole programmer and designer, I leveraged my expertise in Unreal Engine 5 and C++ to create a captivating game in just 48 hours. The game features custom Interaction and Inventory Systems, atmospheric lighting, and challenging puzzles that test players' problem-solving skills.</p>
+        <p>"GDU GameJam: Cabin" is a first-person interactive puzzle game created for the Game Dev Unlocked Game Jam #7 - Winter Edition.
+
+The game challenges players to escape a winter cabin by collecting objects matching those above the door. Originally developed as a short puzzle game, it incorporates elements of exploration and problem-solving.</p>
+        <p>As the sole programmer and designer, I leveraged my expertise in Unreal Engine 5 and C++ to create a captivating game in just a few days. The game features custom Interaction and Inventory Systems with a basic Puzzle system </p>
         <div class="project-meta">
           <h3>Project Details</h3>
           <ul>
-            <li><strong>Engine:</strong> Unreal Engine 5</li>
+            <li><strong>Engine:</strong> Unreal Engine (C++)</li>
             <li><strong>Team Size:</strong> 1 (Solo Project)</li>
-            <li><strong>Role:</strong> Solo Developer (Programming, Design, Art)</li>
-            <li><strong>Development Time:</strong> 48 hours</li>
+            <li><strong>Role:</strong> Solo Developer (Programming, Designer)</li>
+            <li><strong>Development Time:</strong> 5 Days</li>
           </ul>
         </div>
         <a href="https://github.com/georgewall/cabin-escape" class="btn" target="_blank" rel="noopener noreferrer">View on GitHub</a>
@@ -277,9 +279,7 @@
       <ul class="feature-list">
         <li>Custom Interaction System: Allows players to examine and interact with various objects in the cabin.</li>
         <li>Inventory Management: Players can collect, combine, and use items to solve puzzles.</li>
-        <li>Dynamic Lighting: Utilizes Unreal Engine 5's Lumen technology for realistic, real-time global illumination.</li>
         <li>Atmospheric Audio: Immersive sound design enhances the eerie cabin atmosphere.</li>
-        <li>Multiple Endings: Player choices and puzzle-solving speed affect the game's outcome.</li>
         <li>Optimized Performance: Smooth gameplay even on mid-range hardware.</li>
       </ul>
     </section>
@@ -294,132 +294,189 @@
         </div>
         <div class="code-content">
           <pre><code>
-// InteractionComponent.h
-UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class CABINESCAPE_API UInteractionComponent : public UActorComponent
-{
-    GENERATED_BODY()
+          // This method handles the interaction with objects in the game.
+            void APlayerChar::Interact()
+            {
+              // If the inventory is open or the player is already inspecting an item, do nothing.
+              if (bIsInventoryOpen) return;
+              if (!bIsInspecting)
+              {
+                // Attempt to cast the hit result to an AItem object.
+                AItem* InteractedItem = Cast<AItem>(InteractHitResult.GetActor());
+                // Further cast to AInteractableItem if possible.
+                AInteractableItem* InteractableItem = Cast<AInteractableItem>(InteractedItem);
 
-public:
-    UFUNCTION(BlueprintCallable, Category = "Interaction")
-    void Interact(AActor* Interactor);
+                // If the cast is successful and the item is interactable...
+                if (InteractableItem)
+                {
+                  // Check if the interactable item requires another item to be in the player's inventory.
+                  if (!InteractableItem->RequiredItemName.IsNone())
+                  {
+                    // Verify if the required item exists in the inventory.
+                    bool bHasRequiredItem = Inventory.ContainsByPredicate([&](const FItemData& ItemData)
+                    {
+                      return ItemData.ItemName == InteractableItem->RequiredItemName;
+                    });
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction")
-    FString InteractionPrompt;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction")
-    bool bCanInteract = true;
-
-    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnInteractionDelegate, AActor*, Interactor);
-    UPROPERTY(BlueprintAssignable, Category = "Interaction")
-    FOnInteractionDelegate OnInteraction;
-};
-
-// InteractionComponent.cpp
-void UInteractionComponent::Interact(AActor* Interactor)
-{
-    if (bCanInteract)
-    {
-        OnInteraction.Broadcast(Interactor);
-    }
-}
+                    // If the required item is in the inventory, interact with the object.
+                    if (bHasRequiredItem)
+                    {
+                      InteractableItem->Interact();
+                    }
+                    else
+                    {
+                      // If the required item is not in the inventory, show a custom message and play a sound.
+                      ShowCustomText(InteractableItem->CustomNeedItemText);
+                      UGameplayStatics::PlaySoundAtLocation(this, RequireItemSound, GetActorLocation());
+                    }
+                  }
+                  else
+                  {
+                    // If no specific item is required, just interact with the object.
+                    InteractableItem->Interact();
+                  }
+                }
+                else if (InteractedItem)
+                {
+                  // If an item was hit but it's not interactable, start inspecting it.
+                  StartInspectingItem(InteractedItem);
+                }
+              }
+            }
+            // This line binds the "Interact" action to the Interact method above.
+            PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &APlayerChar::Interact);
+            // Other input bindings would follow here...
           </code></pre>
         </div>
       </div>
 
       <div class="code-block">
         <div class="code-header">
-          <h3>Inventory System</h3>
+          <h3>Storing Inventory Item System</h3>
           <span class="toggle-btn">+</span>
         </div>
         <div class="code-content">
           <pre><code>
-// InventoryComponent.h
-UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class CABINESCAPE_API UInventoryComponent : public UActorComponent
-{
-    GENERATED_BODY()
-
-public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
-    TArray<class UInventoryItem*> Items;
-
-    UFUNCTION(BlueprintCallable, Category = "Inventory")
-    bool AddItem(UInventoryItem* Item);
-
-    UFUNCTION(BlueprintCallable, Category = "Inventory")
-    bool RemoveItem(UInventoryItem* Item);
-
-    UFUNCTION(BlueprintCallable, Category = "Inventory")
-    UInventoryItem* FindItemByClass(TSubclassOf<UInventoryItem> ItemClass);
-};
-
-// InventoryComponent.cpp
-bool UInventoryComponent::AddItem(UInventoryItem* Item)
-{
-    if (Item)
-    {
-        Items.Add(Item);
-        return true;
-    }
-    return false;
-}
-
-bool UInventoryComponent::RemoveItem(UInventoryItem* Item)
-{
-    return Items.Remove(Item) > 0;
-}
-
-UInventoryItem* UInventoryComponent::FindItemByClass(TSubclassOf<UInventoryItem> ItemClass)
-{
-    for (UInventoryItem* Item : Items)
-    {
-        if (Item->GetClass() == ItemClass)
-        {
-            return Item;
-        }
-    }
-    return nullptr;
-}
+       // Store the item that the player is currently inspecting
+            void APlayerChar::StoreInspectedItem()
+            {
+              // Ensure UI widgets revert to their default visibility states
+              if (DotWidget) DotWidget->SetVisibility(ESlateVisibility::Visible);
+              if (InteractWidget) InteractWidget->SetVisibility(ESlateVisibility::Collapsed);
+      
+              // Exit the function if no item is being inspected
+              if (!CurrentlyInspectedItem) return;
+      
+              // Validate that the ItemDatabase is available
+              if (!ItemDatabase) return;
+              const FItemData* Data = ItemDatabase->Items.FindByPredicate([&](const FItemData& ItemData)
+              {
+                // Check if the item class matches the inspected item
+                return ItemData.Class == CurrentlyInspectedItem->GetClass();
+              });
+      
+              if (Data)
+              {
+                if (Data->bCanBePickedUp)
+                {
+                  // Add the item to the player's inventory and remove it from the game world
+                  Inventory.Emplace(*Data);
+                  CurrentlyInspectedItem->Destroy();
+                  if (GetWorld())
+                  {
+                    // Play a sound effect when the item is added to the inventory
+                    UGameplayStatics::PlaySound2D(GetWorld(), AddToInventorySound);
+                  }
+                }
+                else
+                {
+                  // Discard the item if it cannot be picked up
+                  DiscardInspectedItem();
+                }
+              }
+              else
+              {
+                // If the item is not in the database, discard it
+                DiscardInspectedItem();
+              }
+      
+              // Reset the state to indicate the player is no longer inspecting an item
+              bIsInspecting = false;
+              CurrentlyInspectedItem = nullptr;
+      
+              // Revert the player controller settings to resume normal gameplay
+              APlayerController* PlayerController = Cast<APlayerController>(GetController());
+              if (PlayerController)
+              {
+                PlayerController->SetInputMode(FInputModeGameOnly());
+                PlayerController->SetCinematicMode(false, true, true);
+                PlayerController->bShowMouseCursor = false;
+              }
+            }
+          
+           
           </code></pre>
         </div>
       </div>
 
       <div class="code-block">
         <div class="code-header">
-          <h3>Puzzle Logic</h3>
+          <h3>Inspecting Inventory Item</h3>
           <span class="toggle-btn">+</span>
         </div>
         <div class="code-content">
           <pre><code>
-// SafePuzzle.h
-UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class CABINESCAPE_API USafePuzzle : public UActorComponent
-{
-    GENERATED_BODY()
+            // Function to initiate the item inspection process
+            void APlayerChar::StartInspectingItem(AItem* Item)
+            {
+              // If there is no item, exit the function early
+              if (!Item) return;
 
-public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Puzzle")
-    FString CorrectCombination;
+              // Save the item's original location and rotation to restore later
+              OriginalItemLocation = Item->GetActorLocation();
+              OriginalItemRotation = Item->GetActorRotation();
 
-    UFUNCTION(BlueprintCallable, Category = "Puzzle")
-    bool CheckCombination(const FString& InputCombination);
+              // Hide the on-screen dot and interaction widgets while inspecting
+              DotWidget->SetVisibility(ESlateVisibility::Hidden);
+              InteractWidget->SetVisibility(ESlateVisibility::Hidden);
 
-    DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPuzzleSolvedDelegate);
-    UPROPERTY(BlueprintAssignable, Category = "Puzzle")
-    FOnPuzzleSolvedDelegate OnPuzzleSolved;
-};
+              // Set the current item being inspected and flag the inspection state as true
+              CurrentlyInspectedItem = Item;
+              bIsInspecting = true;
 
-// SafePuzzle.cpp
-bool USafePuzzle::CheckCombination(const FString& InputCombination)
-{
-    if (InputCombination == CorrectCombination)
-    {
-        OnPuzzleSolved.Broadcast();
-        return true;
-    }
-    return false;
-}
+              // If the item cannot be picked up, but it's still interactable
+              AInteractableItem* InteractableItem = Cast<AInteractableItem>(Item);
+              if (InteractableItem && !InteractableItem->bCanBePickedUp)
+              {
+                // Here you could interact with or show feedback for non-pickable items
+              }
+
+              // Disable physics on the item to keep it stationary during inspection
+              UStaticMeshComponent* StaticMeshComponent = Item->FindComponentByClass<UStaticMeshComponent>();
+              if (StaticMeshComponent)
+              {
+                StaticMeshComponent->SetSimulatePhysics(false);
+                StaticMeshComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+              }
+
+              // Position the item relative to the camera for inspection
+              // The location offset for the item when inspecting
+              const FVector InspectionRelativeLocation = FVector(100.f, 0.f, 0.f);
+              // The rotation offset for the item when inspecting
+              const FRotator InspectionRelativeRotation = FRotator(0.f, 180.f, 0.f);
+              Item->AttachToComponent(Cast<APlayerController>(GetController())->PlayerCameraManager->GetTransformComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+              Item->SetActorRelativeLocation(InspectionRelativeLocation);
+              Item->SetActorRelativeRotation(InspectionRelativeRotation);
+
+              // Restrict player movement during the inspection by enabling cinematic mode
+              APlayerController* PlayerController = Cast<APlayerController>(GetController());
+              if (PlayerController)
+              {
+                PlayerController->SetCinematicMode(true, true, true);
+              }
+            }
+          
+     
           </code></pre>
         </div>
       </div>
@@ -439,7 +496,6 @@ bool USafePuzzle::CheckCombination(const FString& InputCombination)
         <li>Time Constraint: Developing a complete game in 48 hours required careful planning and efficient use of time.</li>
         <li>Feature Creep: Resisting the temptation to add unnecessary features that could jeopardize the project's completion.</li>
         <li>Performance Issues: Initially, the game suffered from performance problems due to the complexity of the lighting system. This required optimization of the level design and careful use of Lumen settings.</li>
-        <li>Puzzle Balancing: Creating puzzles that were challenging but not frustratingly difficult, especially without time for extensive playtesting.</li>
         <li>Bug Fixing Under Pressure: Identifying and fixing critical bugs quickly while maintaining the development momentum.</li>
       </ul>
     </section>
