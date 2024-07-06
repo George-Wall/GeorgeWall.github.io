@@ -1,97 +1,416 @@
 <!DOCTYPE html>
-
 <html lang="en">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100;200;300;400;700;900&display=swap" rel="stylesheet">  
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Project1 Details - Portfolio</title>
-<link href="project_page.css" rel="stylesheet"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dimension Puzzle - Co-op Puzzle Game</title>
+    <style>
+        :root {
+            --background-color: #1a1a1a;
+            --secondary-bg: #2a2a2a;
+            --text-color: #e0e0e0;
+            --accent-color: #ffb3ba;
+            --accent-hover: #ff8c97;
+            --code-bg: #2d2d2d;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        header {
+            background: linear-gradient(to right, #1a1a1a, #2a2a2a);
+            padding: 40px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        h1, h2, h3 {
+            color: var(--accent-color);
+        }
+        h1 {
+            font-size: 2.5em;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .subtitle {
+            font-size: 1.2em;
+            color: var(--text-color);
+            margin-top: 10px;
+            opacity: 0.8;
+        }
+        nav {
+            background-color: var(--secondary-bg);
+            padding: 10px 0;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+        nav ul li {
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        nav ul li a:hover {
+            color: var(--accent-color);
+        }
+        .project-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 50px;
+        }
+        .project-image {
+            flex: 1;
+            min-width: 300px;
+        }
+        .project-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .project-info {
+            flex: 2;
+            min-width: 300px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--accent-color);
+            color: var(--background-color);
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 15px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .btn:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+        #theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--accent-color);
+            color: var(--background-color);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            line-height: 1;
+            z-index: 1000;
+        }
+        #theme-toggle:hover {
+            background-color: var(--accent-hover);
+            transform: scale(1.1);
+        }
+        .features {
+            margin-top: 50px;
+        }
+        .feature-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .feature-list li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+        .feature-list li::before {
+            content: '✓';
+            color: var(--accent-color);
+            position: absolute;
+            left: 0;
+        }
+        .project-meta {
+            background-color: var(--secondary-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        .project-meta h3 {
+            margin-top: 0;
+        }
+        .project-meta ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .project-meta li {
+            margin-bottom: 10px;
+        }
+        .project-meta strong {
+            color: var(--accent-color);
+        }
+        .code-section {
+            margin-top: 50px;
+        }
+        .code-block {
+            background-color: var(--code-bg);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .code-header {
+            background-color: var(--secondary-bg);
+            padding: 10px 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .code-header h3 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+        .code-content {
+            padding: 15px;
+            display: none;
+        }
+        .code-content.active {
+            display: block;
+        }
+        pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #e0e0e0;
+        }
+        .lessons-learned {
+            background-color: var(--secondary-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        footer {
+            background-color: var(--secondary-bg);
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+        @media (max-width: 768px) {
+            .project-details {
+                flex-direction: column;
+            }
+            #theme-toggle {
+                bottom: 10px;
+                right: 10px;
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
-<header class="site-header">
-<div class="container header-container">
-<h1 class="brand-name">George Wall</h1>
-<nav class="site-nav">
-<div class="social-links">
-<a class="social-link" href="https://www.linkedin.com/in/georgewall-/" target="_blank">
-<img alt="LinkedIn" id="linkedin-icon" src="Images/Linkedin.png"/>
-</a>
-<a class="social-link" href="https://github.com/George-Wall" target="_blank">
-<img alt="GitHub" id="github-icon" src="Images/Github.png"/>
-</a>
-<a class="social-link" href="Documents/GeorgeWall_CV.pdf" target="_blank">
-<img alt="CV" id="cv-icon" src="Images/CV.png"/>
-</a>
-</div>
-</nav>
-</div>
-<a href="index.html" class="back-button"><strong> < Go Back</strong></a></header>
-<main>
-<section id="project1-banner">
-<!-- Banner Image or Video -->
-<video autoplay="True" class="banner-video" loop="True" muted="True" src="Videos/Video2.mp4"></video>
-</section>
-<section class="content-section" id="project1-description">
-<section class="container" id="desc">
-    <div class="grid">
-    <!-- desc Block 1 -->
-    <article class="desc-card">
-    <h4>About</h4>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-    </article>
-    <!-- desc Block 2 -->
-    <article class="desc-card">
-    <h4>Project Info</h4>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-    </article>
-    </div>
-    </section>
-<section class="container" id="projects">
-    <h1>Title</h1>
-    <div class="projects-grid">
-    <!-- Repeat this block for each project -->
-           <video class="project-video" loop muted autoplay>
-              <source src="Videos/Video2.mp4" type="video/mp4"/>
-              Your browser does not support the video tag.
-           </video>
-         </div>
-         <div class="project-info">
-           <h3>Introduction</h3>
-           <p>Game Programmer</p>
-           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-         </div>
-         <div class="project-info">
-           <h3>Code</h3>
-           <p>Game Programmer</p>
-           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-         </div>
-         <section class="container" id="images">
-            <div class="grid">
-            <!-- image Block 1 -->
-            <article class="image-card">
-                <img src="Images/Intro_Pic.jpg" alt="Descriptive Alt Text">
-            <p><i>Lorem ipsum dolor sit amet, consectetur adipiscing elit</i></p>
-            </article>
-            <!-- image Block 2 -->
-            <article class="image-card">
-                <img src="Images/Intro_Pic.jpg" alt="Descriptive Alt Text">
-            <p> <i>Lorem ipsum dolor sit amet, consectetur adipiscing elit</i></p>
-            </article>
+    <header>
+        <div class="container">
+            <h1>Dimension Puzzle</h1>
+            <p class="subtitle">Co-op Puzzle Game in Unreal Engine 5</p>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">← Back</a></li>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#code">Code Snippets</a></li>
+            <li><a href="#lessons">Lessons Learned</a></li>
+        </ul>
+    </nav>
+
+    <button id="theme-toggle" aria-label="Toggle dark/light mode">🌓</button>
+
+    <main class="container">
+        <section id="overview" class="project-details">
+            <div class="project-image">
+                <img src="/api/placeholder/600/338" alt="Dimension Puzzle main gameplay screenshot" width="600" height="338">
             </div>
-            </section>
-         <div class="project-info">
-           <h3>What I learnt</h3>
-           <p>Game Programmer</p>
-           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-         </div>
-    <!-- More project cards... -->
-    </section>
-</section>
-<!-- Additional sections will be similar to the description section with appropriate IDs and class names -->
-</main>
-<script src="Portfolio.js"></script>
-</body>
-</html>
+            <div class="project-info">
+                <h2>Project Overview</h2>
+                <p>"Dimension Puzzle" is an innovative co-op puzzle game developed in Unreal Engine 5. Two players must work together to solve intricate puzzles across different dimensions, each with its unique properties. One player navigates the "real" world while the other explores parallel dimensions such as a mirror world, a time-altered realm, or the past.</p>
+                <p>As the lead developer, I leveraged Unreal Engine 5's powerful features and C++ to create a seamless multiplayer experience with dimension-switching mechanics and challenging puzzles.</p>
+                <div class="project-meta">
+                    <h3>Project Details</h3>
+                    <ul>
+                        <li><strong>Engine:</strong> Unreal Engine 5 (C++)</li>
+                        <li><strong>Team Size:</strong> 2 (Programmer, Designer)</li>
+                        <li><strong>Role:</strong> Lead Programmer</li>
+                        <li><strong>Development Time:</strong> 3 Months</li>
+                    </ul>
+                </div>
+                <a href="#" class="btn" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+                <a href="#" class="btn" target="_blank" rel="noopener noreferrer">Play Demo</a>
+            </div>
+        </section>
+
+        <section id="features" class="features">
+            <h2>Key Features</h2>
+            <ul class="feature-list">
+                <li>Dimension Switching Mechanic: Players can switch between different dimensions, each affecting puzzle-solving strategies.</li>
+                <li>Co-op Gameplay: Two-player cooperative gameplay requiring communication and coordination.</li>
+                <li>Custom Interaction System: Allows players to interact with various objects across dimensions.</li>
+                <li>Unique Puzzles: Time-based, mirror-world, and interdimensional interaction puzzles.</li>
+                <li>Atmospheric Design: Distinct visual styles for each dimension to enhance immersion.</li>
+            </ul>
+        </section>
+
+        <section id="code" class="code-section">
+            <h2>Code Snippets</h2>
+            
+            <div class="code-block">
+                <div class="code-header">
+                    <h3>Dimension Manager</h3>
+                    <span class="toggle-btn">+</span>
+                </div>
+                <div class="code-content">
+                    <pre><code>
+// DimensionManager.h
+UCLASS()
+class DIMENSIONPUZZLE_API UDimensionManager : public UObject
+{
+    GENERATED_BODY()
+
+public:
+    UFUNCTION(BlueprintCallable, Category = "Dimension")
+    void SwitchDimension(EDimensionType NewDimension);
+
+    UFUNCTION(BlueprintPure, Category = "Dimension")
+    EDimensionType GetCurrentDimension() const { return CurrentDimension; }
+
+private:
+    UPROPERTY(VisibleAnywhere, Category = "Dimension")
+    EDimensionType CurrentDimension;
+
+    void ApplyDimensionEffects(EDimensionType Dimension);
+};
+
+// DimensionManager.cpp
+void UDimensionManager::SwitchDimension(EDimensionType NewDimension)
+{
+    if (NewDimension != CurrentDimension)
+    {
+        CurrentDimension = NewDimension;
+        ApplyDimensionEffects(CurrentDimension);
+        // Broadcast dimension change event
+    }
+}
+
+void UDimensionManager::ApplyDimensionEffects(EDimensionType Dimension)
+{
+    // Apply visual effects, physics changes, etc. based on the new dimension
+    switch (Dimension)
+    {
+        case EDimensionType::Normal:
+            // Apply normal world effects
+            break;
+        case EDimensionType::Mirror:
+            // Apply mirror world effects
+            break;
+        case EDimensionType::TimeSlow:
+            // Apply time slow effects
+            break;
+        // Add cases for other dimensions
+    }
+}
+                    </code></pre>
+                </div>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <h3>Puzzle Interactable</h3>
+                    <span class="toggle-btn">+</span>
+                </div>
+                <div class="code-content">
+                    <pre><code>
+// PuzzleInteractable.h
+UCLASS()
+class DIMENSIONPUZZLE_API APuzzleInteractable : public AActor
+{
+    GENERATED_BODY()
+
+public:
+    UFUNCTION(BlueprintNativeEvent, Category = "Interaction")
+    void Interact(APlayerController* PlayerController);
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Puzzle")
+    bool bRequiresOtherDimension;
+
+protected:
+    UFUNCTION(BlueprintImplementableEvent, Category = "Puzzle")
+    void OnPuzzleSolved();
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Puzzle")
+    class UDimensionManager* DimensionManager;
+};
+
+// PuzzleInteractable.cpp
+void APuzzleInteractable::Interact_Implementation(APlayerController* PlayerController)
+{
+    if (bRequiresOtherDimension)
+    {
+        // Check if the other player is in the required dimension
+        // This is a simplified example and would need to be expanded based on your game logic
+        if (DimensionManager && DimensionManager->GetCurrentDimension() != EDimensionType::Normal)
+        {
+            // Puzzle logic here
+            OnPuzzleSolved();
+        }
+        else
+        {
+            // Provide feedback that the puzzle requires cooperation
+        }
+    }
+    else
+    {
+        // Standard interaction logic
+    }
+}
+                    </code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="lessons" class="lessons-learned">
+            <h2>Lessons Learned and Challenges Faced</h2>
+            <h3>Lessons Learned:</h3>
+            <ul>
+                <li>Multiplayer Synchronization: Implementing robust netcode for seamless co-op experiences.</li>
+                <li>Dimension Management: Creating a flexible system to handle different world states efficiently.</li>
+                <li>Puzzle Design: Balancing difficulty and cooperation requirements in multi-dimensional puzzles.</li>
+                <li>Performance Optimization: Efficiently managing resources across multiple dimensions.</li>
+            </ul>
+            <h3>Challenges Faced:</h3>
+            <ul>
+                <li>Networking Complexities: Ensuring smooth gameplay across different network conditions.</li>
+                <li>Dimension Transitions: Creating seamless and visually appealing transitions between dimensions.</li>
+                <li>Puzzle Complexity: Designing puzzles that require cooperation without being frustratingly difficult.</li>
