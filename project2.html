@@ -400,7 +400,7 @@ void APuzzleInteractable::Interact_Implementation(APlayerController* PlayerContr
             </div>
         </section>
 
-        <section id="lessons" class="lessons-learned">
+         <section id="lessons" class="lessons-learned">
             <h2>Lessons Learned and Challenges Faced</h2>
             <h3>Lessons Learned:</h3>
             <ul>
@@ -414,3 +414,44 @@ void APuzzleInteractable::Interact_Implementation(APlayerController* PlayerContr
                 <li>Networking Complexities: Ensuring smooth gameplay across different network conditions.</li>
                 <li>Dimension Transitions: Creating seamless and visually appealing transitions between dimensions.</li>
                 <li>Puzzle Complexity: Designing puzzles that require cooperation without being frustratingly difficult.</li>
+                <li>Player Coordination: Developing clear communication systems for players in different dimensions.</li>
+                <li>Game Balance: Ensuring that both players feel equally engaged and important in puzzle-solving.</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 George Wall. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Code snippet toggle functionality
+        document.querySelectorAll('.code-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                content.classList.toggle('active');
+                const toggleBtn = header.querySelector('.toggle-btn');
+                toggleBtn.textContent = content.classList.contains('active') ? '-' : '+';
+            });
+        });
+
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const root = document.documentElement;
+        let isDark = true;
+
+        themeToggle.addEventListener('click', () => {
+            isDark = !isDark;
+            if (isDark) {
+                root.style.setProperty('--background-color', '#1a1a1a');
+                root.style.setProperty('--secondary-bg', '#2a2a2a');
+                root.style.setProperty('--text-color', '#e0e0e0');
+            } else {
+                root.style.setProperty('--background-color', '#f0f0f0');
+                root.style.setProperty('--secondary-bg', '#ffffff');
+                root.style.setProperty('--text-color', '#333333');
+            }
+        });
+    </script>
+</body>
+</html>
