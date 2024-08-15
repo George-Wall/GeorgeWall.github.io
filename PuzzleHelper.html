@@ -38,7 +38,7 @@
             color: #8a9caa;
             font-style: italic;
         }
-        #numeric-input, #confirmation {
+        #numeric-input, #confirmation, #confirmation-2 {
             display: flex;
             justify-content: center;
             margin: 20px 0;
@@ -115,7 +115,10 @@
         <p id="instruction">Unravel the riddle within Envelope 1</p>
         <div id="numeric-input"></div>
         <div id="confirmation" style="display: none;">
-            <button onclick="confirmEnvelopeOpened()">I have unsealed Envelope 2</button>
+            <button onclick="confirmEnvelopeOpened(2)">I have unsealed Envelope 2</button>
+        </div>
+        <div id="confirmation-2" style="display: none;">
+            <button onclick="confirmEnvelopeOpened(3)">I have unsealed Envelope 3</button>
         </div>
         <div id="letter-table"></div>
         <div id="selected-letters"></div>
@@ -190,10 +193,11 @@
                     resultElement.textContent = "Success! The final mystery lies in Envelope 3.";
                     resultElement.style.color = "#c0a080";
                     envelopeNumberElement.textContent = "Envelope 3";
-                    instructionElement.textContent = "All riddles solved. Open Envelope 3 for your ultimate revelation.";
-                    document.getElementById('letter-table').style.display = 'flex';
-                    document.getElementById('submit-button').style.display = 'block';
-                    currentEnvelope++;
+                    instructionElement.textContent = "Prepare to open Envelope 3 for your ultimate revelation.";
+                    document.getElementById('letter-table').style.display = 'none';
+                    document.getElementById('selected-letters').style.display = 'none';
+                    document.getElementById('confirmation-2').style.display = 'block';
+                    document.getElementById('submit-button').style.display = 'none';
                 } else {
                     resultElement.textContent = "The final truth is revealed! 'In stone, secrets lie; in Skellgill, answers rise.'";
                     resultElement.style.color = "#c0a080";
@@ -210,9 +214,10 @@
             }
         }
 
-        function confirmEnvelopeOpened() {
-            currentEnvelope++;
+        function confirmEnvelopeOpened(envelopeNumber) {
+            currentEnvelope = envelopeNumber;
             document.getElementById('confirmation').style.display = 'none';
+            document.getElementById('confirmation-2').style.display = 'none';
             document.getElementById('letter-table').style.display = 'flex';
             document.getElementById('submit-button').style.display = 'block';
             document.getElementById('instruction').textContent = "Decode the enigma within Envelope 2";
