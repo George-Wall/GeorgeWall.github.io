@@ -220,8 +220,10 @@
             document.getElementById('confirmation-2').style.display = 'none';
             document.getElementById('letter-table').style.display = 'flex';
             document.getElementById('submit-button').style.display = 'block';
-            document.getElementById('instruction').textContent = "Decode the enigma within Envelope 2";
+            document.getElementById('instruction').textContent = `Decode the enigma within Envelope ${envelopeNumber}`;
             document.getElementById('result').textContent = "";
+            document.getElementById('selected-letters').textContent = "";
+            selectedLetters = [];
         }
 
         function resetInputs() {
