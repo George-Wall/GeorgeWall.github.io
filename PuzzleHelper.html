@@ -203,6 +203,7 @@
                     resultElement.style.color = "#c0a080";
                     instructionElement.textContent = "Your journey's end lies within the stone that bears the name.";
                     document.getElementById('letter-table').style.display = 'none';
+                    document.getElementById('selected-letters').style.display = 'none';
                     document.getElementById('submit-button').style.display = 'none';
                 }
                 selectedLetters = [];
@@ -219,6 +220,7 @@
             document.getElementById('confirmation').style.display = 'none';
             document.getElementById('confirmation-2').style.display = 'none';
             document.getElementById('letter-table').style.display = 'flex';
+            document.getElementById('selected-letters').style.display = 'block';
             document.getElementById('submit-button').style.display = 'block';
             document.getElementById('instruction').textContent = `Decode the enigma within Envelope ${envelopeNumber}`;
             document.getElementById('result').textContent = "";
