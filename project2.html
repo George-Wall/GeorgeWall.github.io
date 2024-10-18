@@ -3,108 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dimension Puzzle - Co-op Puzzle Game</title>
+    <title>Warehouse Prototype - First-Person Management Simulation</title>
     <style>
-        :root {
-            --background-color: #1a1a1a;
-            --secondary-bg: #2a2a2a;
-            --text-color: #e0e0e0;
-            --accent-color: #ffb3ba;
-            --accent-hover: #ff8c97;
-            --code-bg: #2d2d2d;
-        }
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            line-height: 1.6;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        header {
-            background: linear-gradient(to right, #1a1a1a, #2a2a2a);
-            padding: 40px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        }
-        h1, h2, h3 {
-            color: var(--accent-color);
-        }
-        h1 {
-            font-size: 2.5em;
-            margin: 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-        .subtitle {
-            font-size: 1.2em;
-            color: var(--text-color);
-            margin-top: 10px;
-            opacity: 0.8;
-        }
-        nav {
-            background-color: var(--secondary-bg);
-            padding: 10px 0;
-        }
-        nav ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-        }
-        nav ul li {
-            margin: 0 15px;
-        }
-        nav ul li a {
-            color: var(--text-color);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        nav ul li a:hover {
-            color: var(--accent-color);
-        }
-        .project-details {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            margin-top: 50px;
-        }
-        .project-image {
-            flex: 1;
-            min-width: 300px;
-        }
-        .project-image img {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-        .project-info {
-            flex: 2;
-            min-width: 300px;
-        }
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: var(--accent-color);
-            color: var(--background-color);
-            text-decoration: none;
-            border-radius: 4px;
-            margin-top: 15px;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .btn:hover {
-            background-color: var(--accent-hover);
-            transform: translateY(-2px);
-        }
-        #theme-toggle {
+  :root {
+    --background-color: #1a1a1a;
+    --secondary-bg: #2a2a2a;
+    --text-color: #e0e0e0;
+    --accent-color: #ffb3ba;
+    --accent-hover: #ff8c97;
+    --code-bg: #2d2d2d;
+  }
+  body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+  }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  header {
+    background: linear-gradient(to right, #1a1a1a, #2a2a2a);
+    padding: 40px 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+  h1, h2, h3 {
+    color: var(--accent-color);
+  }
+  h1 {
+    font-size: 2.5em;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  }
+  .subtitle {
+    font-size: 1.2em;
+    color: var(--text-color);
+    margin-top: 10px;
+    opacity: 0.8;
+  }
+  nav {
+    background-color: var(--secondary-bg);
+    padding: 10px 0;
+  }
+  nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+  }
+  nav ul li {
+    margin: 0 15px;
+  }
+  nav ul li a {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  nav ul li a:hover {
+    color: var(--accent-color);
+  }
+  .project-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-top: 50px;
+  }
+  .project-image {
+    flex: 1;
+    min-width: 300px;
+  }
+  .project-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  }
+  .project-info {
+    flex: 2;
+    min-width: 300px;
+  }
+  .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--accent-color);
+    color: var(--background-color);
+    text-decoration: none;
+    border-radius: 4px;
+    margin-top: 15px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .btn:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-2px);
+  }
+
+          #theme-toggle {
             position: fixed;
             bottom: 20px;
             right: 20px;
@@ -125,100 +126,13 @@
             line-height: 1;
             z-index: 1000;
         }
+
         #theme-toggle:hover {
             background-color: var(--accent-hover);
             transform: scale(1.1);
         }
-        .features {
-            margin-top: 50px;
-        }
-        .feature-list {
-            list-style-type: none;
-            padding: 0;
-        }
-        .feature-list li {
-            margin-bottom: 10px;
-            padding-left: 25px;
-            position: relative;
-        }
-        .feature-list li::before {
-            content: '✓';
-            color: var(--accent-color);
-            position: absolute;
-            left: 0;
-        }
-        .project-meta {
-            background-color: var(--secondary-bg);
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 30px;
-        }
-        .project-meta h3 {
-            margin-top: 0;
-        }
-        .project-meta ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        .project-meta li {
-            margin-bottom: 10px;
-        }
-        .project-meta strong {
-            color: var(--accent-color);
-        }
-        .code-section {
-            margin-top: 50px;
-        }
-        .code-block {
-            background-color: var(--code-bg);
-            border-radius: 8px;
-            margin-bottom: 20px;
-            overflow: hidden;
-        }
-        .code-header {
-            background-color: var(--secondary-bg);
-            padding: 10px 15px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .code-header h3 {
-            margin: 0;
-            font-size: 1.2em;
-        }
-        .code-content {
-            padding: 15px;
-            display: none;
-        }
-        .code-content.active {
-            display: block;
-        }
-        pre {
-            margin: 0;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-        code {
-            font-family: 'Courier New', Courier, monospace;
-            color: #e0e0e0;
-        }
-        .lessons-learned {
-            background-color: var(--secondary-bg);
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 30px;
-        }
-        footer {
-            background-color: var(--secondary-bg);
-            text-align: center;
-            padding: 20px 0;
-            margin-top: 50px;
-        }
+
         @media (max-width: 768px) {
-            .project-details {
-                flex-direction: column;
-            }
             #theme-toggle {
                 bottom: 10px;
                 right: 10px;
@@ -227,13 +141,141 @@
                 font-size: 20px;
             }
         }
+  
+  .features {
+    margin-top: 50px;
+  }
+  .feature-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  .feature-list li {
+    margin-bottom: 10px;
+    padding-left: 25px;
+    position: relative;
+  }
+  .feature-list li::before {
+    content: '✓';
+    color: var(--accent-color);
+    position: absolute;
+    left: 0;
+  }
+  .project-meta {
+    background-color: var(--secondary-bg);
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 30px;
+  }
+  .project-meta h3 {
+    margin-top: 0;
+  }
+  .project-meta ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  .project-meta li {
+    margin-bottom: 10px;
+  }
+  .project-meta strong {
+    color: var(--accent-color);
+  }
+  .code-section {
+    margin-top: 50px;
+  }
+  .code-block {
+    background-color: var(--code-bg);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .code-header {
+    background-color: var(--secondary-bg);
+    padding: 10px 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .code-header h3 {
+    margin: 0;
+    font-size: 1.2em;
+  }
+  .code-content {
+    padding: 15px;
+    display: none;
+  }
+  .code-content.active {
+    display: block;
+  }
+  pre {
+    margin: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  code {
+    font-family: 'Courier New', Courier, monospace;
+    color: #e0e0e0;
+  }
+  .lessons-learned {
+    background-color: var(--secondary-bg);
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 30px;
+  }
+  footer {
+    background-color: var(--secondary-bg);
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 50px;
+  }
+  @media (max-width: 768px) {
+    .project-details {
+      flex-direction: column;
+    }
+  }
+  .screenshots {
+  margin-top: 50px;
+}
+
+.screenshot-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.screenshot {
+  background-color: var(--secondary-bg);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
+}
+
+.screenshot:hover {
+  transform: translateY(-5px);
+}
+
+.screenshot img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.screenshot p {
+  padding: 10px;
+  margin: 0;
+  text-align: center;
+  font-size: 0.9em;
+  color: var(--text-color);
+}
     </style>
 </head>
 <body>
     <header>
         <div class="container">
-            <h1>Dimension Puzzle</h1>
-            <p class="subtitle">Co-op Puzzle Game in Unreal Engine 5</p>
+            <h1>Warehouse Prototype</h1>
+            <p class="subtitle">First-Person Warehouse Management Simulation in Unreal Engine 5</p>
         </div>
     </header>
 
@@ -244,6 +286,7 @@
             <li><a href="#features">Features</a></li>
             <li><a href="#code">Code Snippets</a></li>
             <li><a href="#lessons">Lessons Learned</a></li>
+            <li><a href="#screenshots">Screenshots</a></li>
         </ul>
     </nav>
 
@@ -252,32 +295,36 @@
     <main class="container">
         <section id="overview" class="project-details">
             <div class="project-image">
-                <img src="/api/placeholder/600/338" alt="Dimension Puzzle main gameplay screenshot" width="600" height="338">
+                <img src="/api/placeholder/600/338" alt="Warehouse Prototype main gameplay screenshot" width="600" height="338">
             </div>
             <div class="project-info">
                 <h2>Project Overview</h2>
-                <p>"Dimension Puzzle" is an innovative co-op puzzle game developed in Unreal Engine 5. Two players must work together to solve intricate puzzles across different dimensions, each with its unique properties. One player navigates the "real" world while the other explores parallel dimensions such as a mirror world, a time-altered realm, or the past.</p>
-                <p>As the lead developer, I leveraged Unreal Engine 5's powerful features and C++ to create a seamless multiplayer experience with dimension-switching mechanics and challenging puzzles.</p>
+                <p>"Warehouse Prototype" is a first-person warehouse management simulation developed in Unreal Engine 5. Players are tasked with efficiently managing the flow of boxes through a warehouse, utilizing conveyor belts, delivery vans, and various interaction points to process and transport goods.</p>
+                <p>As the sole developer, I implemented complex systems such as dynamic conveyor belts, box spawning and management, and player interactions, all while maintaining performance and creating an engaging gameplay experience.</p>
                 <div class="project-meta">
                     <h3>Project Details</h3>
                     <ul>
-                        <li><strong>Engine:</strong> Unreal Engine 5 (C++)</li>
-                        <li><strong>Team Size:</strong> 1 (Programmer, Designer)</li>
-                        <li><strong>Role:</strong> Lead Programmer</li>
-                        <li><strong>Development Time:</strong> 3 Months</li>
+                        <li><strong>Engine:</strong> Unreal Engine 5.4 (C++)</li>
+                        <li><strong>Team Size:</strong> 1 (Solo Project)</li>
+                        <li><strong>Role:</strong> Solo Developer (Programming, Design)</li>
+                        <li><strong>Development Time:</strong> [Insert development time]</li>
                     </ul>
                 </div>
+                <!-- Add a link to your project if available -->
+                <!-- <a href="[Your project link]" class="btn" target="_blank" rel="noopener noreferrer">View Project</a> -->
             </div>
         </section>
 
         <section id="features" class="features">
             <h2>Key Features</h2>
             <ul class="feature-list">
-                <li>Dimension Switching Mechanic: Players can switch between different dimensions, each affecting puzzle-solving strategies.</li>
-                <li>Co-op Gameplay: Two-player cooperative gameplay requiring communication and coordination.</li>
-                <li>Custom Interaction System: Allows players to interact with various objects across dimensions.</li>
-                <li>Unique Puzzles: Time-based, mirror-world, and interdimensional interaction puzzles.</li>
-                <li>Atmospheric Design: Distinct visual styles for each dimension to enhance immersion.</li>
+                <li>Dynamic Conveyor Belt System: Implements complex logic for box movement, spacing, and management.</li>
+                <li>Box Interaction: Players can pick up, carry, and place boxes of varying sizes and types.</li>
+                <li>Delivery Van Integration: Coordinated box loading and unloading with delivery vans.</li>
+                <li>Workbench Processing: Allows for box modifications and state changes.</li>
+                <li>First-Person Controls: Smooth player movement and interaction in a warehouse environment.</li>
+                <li>Scoring System: Evaluates player performance based on efficiency and accuracy.</li>
+                <li>Debug Visualization: Comprehensive debug tools for development and testing.</li>
             </ul>
         </section>
 
@@ -286,57 +333,43 @@
             
             <div class="code-block">
                 <div class="code-header">
-                    <h3>Dimension Manager</h3>
+                    <h3>Dynamic Box Movement on Conveyor</h3>
                     <span class="toggle-btn">+</span>
                 </div>
                 <div class="code-content">
                     <pre><code>
-// DimensionManager.h
-UCLASS()
-class DIMENSIONPUZZLE_API UDimensionManager : public UObject
+void AConveyorBelt::ProcessBoxMovement(ABoxx* Box, float DeltaTime, float StopPoint)
 {
-    GENERATED_BODY()
+    if (!IsValid(Box)) return;
 
-public:
-    UFUNCTION(BlueprintCallable, Category = "Dimension")
-    void SwitchDimension(EDimensionType NewDimension);
+    FVector CurrentLocation = Box->GetActorLocation();
+    FVector ConveyorSurface = GetConveyorSurface();
+    float DistanceFromStart = FVector::Dist2D(CurrentLocation, ConveyorSurface);
 
-    UFUNCTION(BlueprintPure, Category = "Dimension")
-    EDimensionType GetCurrentDimension() const { return CurrentDimension; }
-
-private:
-    UPROPERTY(VisibleAnywhere, Category = "Dimension")
-    EDimensionType CurrentDimension;
-
-    void ApplyDimensionEffects(EDimensionType Dimension);
-};
-
-// DimensionManager.cpp
-void UDimensionManager::SwitchDimension(EDimensionType NewDimension)
-{
-    if (NewDimension != CurrentDimension)
+    if (DistanceFromStart >= StopPoint)
     {
-        CurrentDimension = NewDimension;
-        ApplyDimensionEffects(CurrentDimension);
-        // Broadcast dimension change event
+        // Stop the box at the end of the conveyor
+        FVector StopLocation = ConveyorSurface + ConveyorDirection * StopPoint;
+        StopLocation.Z = CurrentLocation.Z; // Maintain current height
+        Box->SetActorLocation(StopLocation, false, nullptr, ETeleportType::TeleportPhysics);
     }
-}
-
-void UDimensionManager::ApplyDimensionEffects(EDimensionType Dimension)
-{
-    // Apply visual effects, physics changes, etc. based on the new dimension
-    switch (Dimension)
+    else if (ConveyorType == EConveyorType::Outbound)
     {
-        case EDimensionType::Normal:
-            // Apply normal world effects
-            break;
-        case EDimensionType::Mirror:
-            // Apply mirror world effects
-            break;
-        case EDimensionType::TimeSlow:
-            // Apply time slow effects
-            break;
-        // Add cases for other dimensions
+        // Check for spacing with the previous box
+        int32 BoxIndex = BoxesOnConveyor.IndexOfByKey(Box);
+        if (BoxIndex > 0 && IsValid(BoxesOnConveyor[BoxIndex - 1]))
+        {
+            ABoxx* PreviousBox = BoxesOnConveyor[BoxIndex - 1];
+            float MinDistance = GetBoxSpacing(Box, PreviousBox);
+            FVector PreviousBoxLocation = PreviousBox->GetActorLocation();
+            
+            if (FVector::Dist2D(CurrentLocation, PreviousBoxLocation) < MinDistance)
+            {
+                FVector AdjustedLocation = PreviousBoxLocation - ConveyorDirection * MinDistance;
+                AdjustedLocation.Z = CurrentLocation.Z; // Maintain current height
+                Box->SetActorLocation(AdjustedLocation, false, nullptr, ETeleportType::TeleportPhysics);
+            }
+        }
     }
 }
                     </code></pre>
@@ -345,81 +378,371 @@ void UDimensionManager::ApplyDimensionEffects(EDimensionType Dimension)
 
             <div class="code-block">
                 <div class="code-header">
-                    <h3>Puzzle Interactable</h3>
+                    <h3>Dynamic Box Spawning</h3>
                     <span class="toggle-btn">+</span>
                 </div>
                 <div class="code-content">
                     <pre><code>
-// PuzzleInteractable.h
-UCLASS()
-class DIMENSIONPUZZLE_API APuzzleInteractable : public AActor
+ABoxx* AConveyorBelt::SpawnBoxAtStartPoint()
 {
-    GENERATED_BODY()
-
-public:
-    UFUNCTION(BlueprintNativeEvent, Category = "Interaction")
-    void Interact(APlayerController* PlayerController);
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Puzzle")
-    bool bRequiresOtherDimension;
-
-protected:
-    UFUNCTION(BlueprintImplementableEvent, Category = "Puzzle")
-    void OnPuzzleSolved();
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Puzzle")
-    class UDimensionManager* DimensionManager;
-};
-
-// PuzzleInteractable.cpp
-void APuzzleInteractable::Interact_Implementation(APlayerController* PlayerController)
-{
-    if (bRequiresOtherDimension)
+    if (!BoxClass || BoxesOnConveyor.Num() >= MaxBoxesOnConveyor)
     {
-        // Check if the other player is in the required dimension
-        // This is a simplified example and would need to be expanded based on your game logic
-        if (DimensionManager && DimensionManager->GetCurrentDimension() != EDimensionType::Normal)
+        return nullptr;
+    }
+
+    FVector SpawnLocation = GetConveyorSurface();
+
+    if (!HasSpaceForNewBox(SpawnLocation))
+    {
+        UE_LOG(LogTemp, Log, TEXT("Not enough space to spawn new box at start point."));
+        return nullptr;
+    }
+
+    // Spawn the box at the conveyor surface
+    ABoxx* NewBox = GetWorld()->SpawnActor<ABoxx>(BoxClass, SpawnLocation, GetActorRotation());
+    if (NewBox)
+    {
+        EBoxType BoxType;
+        if (ConveyorType == EConveyorType::Outbound)
         {
-            // Puzzle logic here
-            OnPuzzleSolved();
+            BoxType = FMath::RandRange(0, 2) == 0 ? EBoxType::Open : (FMath::RandBool() ? EBoxType::Small : EBoxType::Large);
+            NewBox->BoxOrigin = EBoxOrigin::OutboundConveyor;
         }
         else
         {
-            // Provide feedback that the puzzle requires cooperation
+            BoxType = FMath::RandBool() ? EBoxType::Small : EBoxType::Large;
+        }
+        NewBox->SetBoxType(BoxType);
+        
+        NewBox->bIsEligibleForLoading = (BoxType != EBoxType::Open);
+        AddBoxToConveyor(NewBox);
+
+        UE_LOG(LogTemp, Log, TEXT("New box spawned on %s conveyor. Type: %s, Eligible for loading: %s"),
+            ConveyorType == EConveyorType::Outbound ? TEXT("outbound") : TEXT("inbound"),
+            *UEnum::GetValueAsString(BoxType),
+            NewBox->bIsEligibleForLoading ? TEXT("Yes") : TEXT("No"));
+    }
+
+    return NewBox;
+}
+                    </code></pre>
+                </div>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <h3>Debug Visualization</h3>
+                    <span class="toggle-btn">+</span>
+                </div>
+                <div class="code-content">
+                    <pre><code>
+void AConveyorBelt::DrawDebugHelpers()
+{
+#if ENABLE_DRAW_DEBUG
+    if (GetWorld() && GetWorld()->IsPlayInEditor() && bShowDebugHelpers)
+    {
+        // Draw conveyor path
+        FVector Start = StartPoint->GetComponentLocation();
+        FVector End = EndPoint->GetComponentLocation();
+        DrawDebugLine(GetWorld(), Start, End, FColor::Blue, false, -1.0f, 0, 5.0f);
+        
+        // Draw Start and End Points
+        DrawDebugSphere(GetWorld(), Start, 20.0f, 16, FColor::Green, false, -1.0f, 0, 2.0f);
+        DrawDebugSphere(GetWorld(), End, 20.0f, 16, FColor::Red, false, -1.0f, 0, 2.0f);
+        
+        // Draw conveyor bounds and info
+        FVector ConveyorExtent = ConveyorMesh->Bounds.BoxExtent;
+        FVector ConveyorCenter = ConveyorMesh->Bounds.Origin;
+        DrawDebugBox(GetWorld(), ConveyorCenter, ConveyorExtent, FColor::Cyan, false, -1.0f, 0, 2.0f);
+        
+        // Draw box info for each box on the conveyor
+        for (ABoxx* Box : BoxesOnConveyor)
+        {
+            if (IsValid(Box))
+            {
+                DrawDebugBox(GetWorld(), Box->GetActorLocation(), Box->GetBoxExtent(), FColor::Orange, false, -1.0f, 0, 2.0f);
+                FString BoxInfo = FString::Printf(TEXT("Type: %s, Eligible: %s"), 
+                    *UEnum::GetValueAsString(Box->GetBoxType()),
+                    Box->bIsEligibleForLoading ? TEXT("Yes") : TEXT("No"));
+                DrawDebugString(GetWorld(), Box->GetActorLocation(), BoxInfo, nullptr, FColor::White, 0.0f, true);
+            }
+        }
+
+        // Draw conveyor info
+        FString ConveyorInfo = FString::Printf(TEXT("Speed: %.2f, Type: %s"), Speed, ConveyorType == EConveyorType::Inbound ? TEXT("Inbound") : TEXT("Outbound"));
+        DrawDebugString(GetWorld(), ConveyorCenter + FVector(0, 0, 100), ConveyorInfo, nullptr, FColor::White, 0.0f, true);
+    }
+#endif
+}
+                    </code></pre>
+                </div>
+            </div>
+            
+            <div class="code-block">
+                <div class="code-header">
+                    <h3>Dynamic Van Movement System</h3>
+                    <span class="toggle-btn">+</span>
+                </div>
+                <div class="code-content">
+                    <pre><code>
+void UVanMovement::UpdateMovement(float DeltaTime)
+{
+    if (!CurrentSpline || !OwningVan)
+    {
+        return;
+    }
+
+    if (CurrentState == EVanState::WaitingForGate)
+    {
+        CheckGateAndProceed();
+        return;
+    }
+
+    float SplineLength = CurrentSpline->GetSplineLength();
+    float MoveSpeed = (CurrentState == EVanState::Reversing) ? ReverseSpeed : DrivingSpeed;
+
+    DistanceTraveled += MoveSpeed * DeltaTime;
+    DistanceTraveled = FMath::Clamp(DistanceTraveled, 0.0f, SplineLength);
+
+    bool bIsGateRelevant = (CurrentSpline == ArrivalSpline || CurrentSpline == DepartureSpline) && AssociatedGate;
+
+    if (bIsGateRelevant)
+    {
+        float DistanceToGate = CalculateDistanceToGate();
+        bool bIsApproachingGate = DistanceToGate <= GateCheckDistance;
+
+        if (bIsApproachingGate)
+        {
+            CheckGateAndProceed();
+            if (CurrentState == EVanState::WaitingForGate)
+            {
+                return;
+            }
+        }
+    }
+
+    FVector TargetLocation = CurrentSpline->GetLocationAtDistanceAlongSpline(DistanceTraveled, ESplineCoordinateSpace::World);
+    FQuat TargetRotation = CurrentSpline->GetQuaternionAtDistanceAlongSpline(DistanceTraveled, ESplineCoordinateSpace::World);
+
+    if (CurrentState == EVanState::Reversing || CurrentState == EVanState::ReadyForLoading || CurrentState == EVanState::WaitingForDepartureConfirmation)
+    {
+        TargetRotation = TargetRotation * FQuat::MakeFromEuler(FVector(0, 0, 180));
+    }
+
+    FVector NewLocation = FMath::VInterpTo(OwningVan->GetActorLocation(), TargetLocation, DeltaTime, InterpSpeed);
+    FQuat NewRotation = FQuat::Slerp(OwningVan->GetActorQuat(), TargetRotation, DeltaTime * InterpSpeed);
+
+    OwningVan->SetActorLocationAndRotation(NewLocation, NewRotation);
+
+    if (DistanceTraveled >= SplineLength)
+    {
+        HandleEndOfSpline();
+    }
+}
+                    </code></pre>
+                </div>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <h3>Advanced Box Interaction System</h3>
+                    <span class="toggle-btn">+</span>
+                </div>
+                <div class="code-content">
+                    <pre><code>
+void AWarehouseCharacter::ToggleBoxInteraction(const FHitResult& HitResult)
+{
+    if (CarriedBox)
+    {
+        ADeliveryVan* NearbyVan = Cast<ADeliveryVan>(HitResult.GetActor());
+        if (NearbyVan)
+        {
+            if (NearbyVan->LoadBox(CarriedBox))
+            {
+                UE_LOG(LogTemp, Log, TEXT("Box loaded into van"));
+                CarriedBox = nullptr;
+                GetCharacterMovement()->MaxWalkSpeed = DefaultWalkSpeed;
+            }
+            else
+            {
+                UE_LOG(LogTemp, Warning, TEXT("Failed to load box into van. It may be ineligible or the van may not be ready."));
+            }
+        }
+        else
+        {
+            AWorkbench* NearbyWorkbench = Cast<AWorkbench>(HitResult.GetActor());
+            if (NearbyWorkbench)
+            {
+                InteractWithWorkbench(NearbyWorkbench, HitResult);
+            }
+            else
+            {
+                AConveyorBelt* NearbyConveyor = Cast<AConveyorBelt>(HitResult.GetActor());
+                if (NearbyConveyor && NearbyConveyor->ConveyorType == EConveyorType::Inbound)
+                {
+                    InteractWithConveyorBelt(NearbyConveyor);
+                }
+            }
         }
     }
     else
     {
-        // Standard interaction logic
+        // Logic for picking up boxes from various sources
+        ADeliveryVan* NearbyVan = Cast<ADeliveryVan>(HitResult.GetActor());
+        if (NearbyVan)
+        {
+            InteractWithVan(NearbyVan);
+        }
+        else
+        {
+            AWorkbench* NearbyWorkbench = Cast<AWorkbench>(HitResult.GetActor());
+            if (NearbyWorkbench)
+            {
+                InteractWithWorkbench(NearbyWorkbench, HitResult);
+            }
+            else
+            {
+                AConveyorBelt* NearbyConveyor = Cast<AConveyorBelt>(HitResult.GetActor());
+                if (NearbyConveyor && NearbyConveyor->ConveyorType == EConveyorType::Outbound)
+                {
+                    InteractWithConveyorBelt(NearbyConveyor);
+                }
+                else
+                {
+                    ABoxx* NearbyBox = Cast<ABoxx>(HitResult.GetActor());
+                    if (NearbyBox)
+                    {
+                        if (NearbyBox->GetConveyorBelt())
+                        {
+                            AConveyorBelt* Conveyor = NearbyBox->GetConveyorBelt();
+                            if (Conveyor && Conveyor->ConveyorType == EConveyorType::Outbound)
+                            {
+                                PickUpBox(NearbyBox);
+                            }
+                            else
+                            {
+                                UE_LOG(LogTemp, Warning, TEXT("Cannot pick up box from inbound conveyor."));
+                            }
+                        }
+                        else
+                        {
+                            PickUpBox(NearbyBox);
+                        }
+                    }
+                }
+            }
+        }
     }
+}
+                    </code></pre>
+                </div>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <h3>Intelligent Game Mode Management</h3>
+                    <span class="toggle-btn">+</span>
+                </div>
+                <div class="code-content">
+                    <pre><code>
+void AWarehouseGameMode::SpawnDeliveryVan()
+{
+    if (CurrentVan != nullptr)
+    {
+        return;
+    }
+
+    if (DeliveryVanClasses.Num() > 0)
+    {
+        FActorSpawnParameters SpawnParams;
+        SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+
+        int32 RandomIndex = FMath::RandRange(0, DeliveryVanClasses.Num() - 1);
+        CurrentVan = GetWorld()->SpawnActor<ADeliveryVan>(DeliveryVanClasses[RandomIndex], VanSpawnLocation, FRotator::ZeroRotator, SpawnParams);
+        
+        if (CurrentVan)
+        {
+            if (CurrentVan->VanMovementComponent)
+            {
+                CurrentVan->VanMovementComponent->InitializeSplines(VanSpawnLocation, VanReverseLocation, VanLoadingLocation, VanDespawnLocation);
+
+                ADeliveryGate* Gate = FindAssociatedGate();
+                if (Gate)
+                {
+                    CurrentVan->VanMovementComponent->AssociatedGate = Gate;
+                    UE_LOG(LogTemp, Log, TEXT("Associated gate '%s' set for the spawned van"), *Gate->GetName());
+                }
+                
+                CurrentVan->VanMovementComponent->StartDrivingToReversePoint();
+            }
+            
+            int32 BoxesToLoad = CurrentVan->GetRequiredBoxesToLoad();
+            
+            TArray<AActor*> FoundConveyors;
+            UGameplayStatics::GetAllActorsOfClass(GetWorld(), AConveyorBelt::StaticClass(), FoundConveyors);
+            for (AActor* Actor : FoundConveyors)
+            {
+                AConveyorBelt* ConveyorBelt = Cast<AConveyorBelt>(Actor);
+                if (ConveyorBelt && ConveyorBelt->ConveyorType == EConveyorType::Outbound)
+                {
+                    ConveyorBelt->SpawnOutboundBoxes(BoxesToLoad);
+                    break;
+                }
+            }
+        }
+    }
+
+    TimeSinceLastVanArrival = 0.0f;
 }
                     </code></pre>
                 </div>
             </div>
         </section>
 
-         <section id="lessons" class="lessons-learned">
+        <section id="lessons" class="lessons-learned">
             <h2>Lessons Learned and Challenges Faced</h2>
             <h3>Lessons Learned:</h3>
             <ul>
-                <li>Multiplayer Synchronization: Implementing robust netcode for seamless co-op experiences.</li>
-                <li>Dimension Management: Creating a flexible system to handle different world states efficiently.</li>
-                <li>Puzzle Design: Balancing difficulty and cooperation requirements in multi-dimensional puzzles.</li>
-                <li>Performance Optimization: Efficiently managing resources across multiple dimensions.</li>
+                <li>Complex System Management: Designing and implementing interconnected systems like conveyor belts, vans, and player interactions.</li>
+                <li>Performance Optimization: Balancing visual fidelity with smooth gameplay in a dynamic environment.</li>
+                <li>Debug Tool Development: Creating comprehensive debug visualization for efficient testing and problem-solving.</li>
+                <li>Physics Integration: Utilizing Unreal Engine's physics system for realistic object behavior.</li>
             </ul>
             <h3>Challenges Faced:</h3>
             <ul>
-                <li>Networking Complexities: Ensuring smooth gameplay across different network conditions.</li>
-                <li>Dimension Transitions: Creating seamless and visually appealing transitions between dimensions.</li>
-                <li>Puzzle Complexity: Designing puzzles that require cooperation without being frustratingly difficult.</li>
-                <li>Player Coordination: Developing clear communication systems for players in different dimensions.</li>
-                <li>Game Balance: Ensuring that both players feel equally engaged and important in puzzle-solving.</li>
+                <li>Conveyor Logic: Implementing smooth and realistic movement of boxes on conveyor belts with proper spacing and transitions.</li>
+                <li>Player Interaction: Designing intuitive first-person controls for picking up, carrying, and placing boxes of different sizes.</li>
+                <li>Game Balance: Tuning the difficulty and pacing of box spawning and processing to create an engaging yet challenging experience.</li>
+                <li>State Management: Keeping track of box states, eligibility, and properties across different systems (conveyors, vans, workbenches).</li>
+                <li>Code Organization: Structuring the codebase to maintain readability and ease of expansion for future features.</li>
             </ul>
+        </section>
+
+        <section id="screenshots" class="screenshots">
+            <h2>Screenshots</h2>
+            <div class="screenshot-gallery">
+                <div class="screenshot">
+                    <img src="/api/placeholder/400/225" alt="Warehouse overview" width="400" height="225">
+                    <p>Overview of the warehouse layout</p>
+                </div>
+                <div class="screenshot">
+                    <img src="/api/placeholder/400/225" alt="Conveyor belt system" width="400" height="225">
+                    <p>Dynamic conveyor belt system in action</p>
+                </div>
+                <div class="screenshot">
+                    <img src="/api/placeholder/400/225" alt="Box interaction" width="400" height="225">
+                    <p>Player interacting with boxes of various sizes</p>
+                </div>
+                <div class="screenshot">
+                    <img src="/api/placeholder/400/225" alt="Delivery van loading" width="400" height="225">
+                    <p>Loading boxes into a delivery van</p>
+                </div>
+            </div>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2024 George Wall. All rights reserved.</p>
+        <p>&copy; 2024 [Your Name]. All rights reserved.</p>
     </footer>
 
     <script>
@@ -453,3 +776,4 @@ void APuzzleInteractable::Interact_Implementation(APlayerController* PlayerContr
     </script>
 </body>
 </html>
+
