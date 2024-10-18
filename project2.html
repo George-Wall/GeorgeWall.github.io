@@ -292,41 +292,40 @@
 
     <button id="theme-toggle" aria-label="Toggle dark/light mode">🌓</button>
 
-    <main class="container">
-        <section id="overview" class="project-details">
-            <div class="project-image">
-                <img src="/api/placeholder/600/338" alt="Warehouse Prototype main gameplay screenshot" width="600" height="338">
+<main class="container">
+    <section id="overview" class="project-details">
+        <div class="project-image">
+            <img src="/api/placeholder/600/338" alt="Warehouse Prototype main gameplay screenshot" width="600" height="338">
+        </div>
+        <div class="project-info">
+            <h2>Project Overview</h2>
+            <p>"Warehouse Prototype" is an advanced first-person warehouse management simulation developed in Unreal Engine 5. Players are tasked with efficiently managing the complex flow of boxes through a dynamic warehouse environment, utilizing intelligent conveyor belt systems, automated delivery vans, and various interaction points to process and transport goods.</p>
+            <p>As the sole developer, I implemented sophisticated systems such as spline-based van movement with state management, dynamic conveyor belts with intelligent box spacing, complex player interactions, and an overarching game mode to coordinate these elements. This project showcases my ability to create intricate, interconnected gameplay systems while maintaining performance and creating an engaging user experience.</p>
+            <div class="project-meta">
+                <h3>Project Details</h3>
+                <ul>
+                    <li><strong>Engine:</strong> Unreal Engine 5.4 (C++)</li>
+                    <li><strong>Team Size:</strong> 1 (Solo Project)</li>
+                    <li><strong>Role:</strong> Solo Developer (Programming, Design, Systems Architecture)</li>
+                    <li><strong>Development Time:</strong> [Insert development time]</li>
+                </ul>
             </div>
-            <div class="project-info">
-                <h2>Project Overview</h2>
-                <p>"Warehouse Prototype" is a first-person warehouse management simulation developed in Unreal Engine 5. Players are tasked with efficiently managing the flow of boxes through a warehouse, utilizing conveyor belts, delivery vans, and various interaction points to process and transport goods.</p>
-                <p>As the sole developer, I implemented complex systems such as dynamic conveyor belts, box spawning and management, and player interactions, all while maintaining performance and creating an engaging gameplay experience.</p>
-                <div class="project-meta">
-                    <h3>Project Details</h3>
-                    <ul>
-                        <li><strong>Engine:</strong> Unreal Engine 5.4 (C++)</li>
-                        <li><strong>Team Size:</strong> 1 (Solo Project)</li>
-                        <li><strong>Role:</strong> Solo Developer (Programming, Design)</li>
-                        <li><strong>Development Time:</strong> [Insert development time]</li>
-                    </ul>
-                </div>
-                <!-- Add a link to your project if available -->
-                <!-- <a href="[Your project link]" class="btn" target="_blank" rel="noopener noreferrer">View Project</a> -->
-            </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="features" class="features">
-            <h2>Key Features</h2>
-            <ul class="feature-list">
-                <li>Dynamic Conveyor Belt System: Implements complex logic for box movement, spacing, and management.</li>
-                <li>Box Interaction: Players can pick up, carry, and place boxes of varying sizes and types.</li>
-                <li>Delivery Van Integration: Coordinated box loading and unloading with delivery vans.</li>
-                <li>Workbench Processing: Allows for box modifications and state changes.</li>
-                <li>First-Person Controls: Smooth player movement and interaction in a warehouse environment.</li>
-                <li>Scoring System: Evaluates player performance based on efficiency and accuracy.</li>
-                <li>Debug Visualization: Comprehensive debug tools for development and testing.</li>
-            </ul>
-        </section>
+    <section id="features" class="features">
+        <h2>Key Features</h2>
+        <ul class="feature-list">
+            <li>Advanced Conveyor Belt System: Implements complex logic for box movement, dynamic spacing, and efficient management across multiple conveyor types.</li>
+            <li>Intelligent Delivery Van System: Features spline-based movement, state management, and coordinated interactions with warehouse gates and loading areas.</li>
+            <li>Sophisticated Box Interaction: Players can pick up, carry, and place boxes of varying sizes and types, with context-sensitive interactions based on the environment.</li>
+            <li>Integrated Workbench System: Allows for box modifications, state changes, and processing, adding depth to gameplay mechanics.</li>
+            <li>Responsive First-Person Controls: Smooth player movement and interaction in a complex warehouse environment, with dynamic speed adjustments based on carried items.</li>
+            <li>Comprehensive Game Mode Management: Coordinates van spawning, box distribution, scoring, and overall game flow.</li>
+            <li>Advanced Debug Visualization: Extensive debug tools for development, testing, and in-game information display.</li>
+        </ul>
+    </section>
+
 
         <section id="code" class="code-section">
             <h2>Code Snippets</h2>
@@ -699,24 +698,29 @@ void AWarehouseGameMode::SpawnDeliveryVan()
             </div>
         </section>
 
-        <section id="lessons" class="lessons-learned">
-            <h2>Lessons Learned and Challenges Faced</h2>
-            <h3>Lessons Learned:</h3>
-            <ul>
-                <li>Complex System Management: Designing and implementing interconnected systems like conveyor belts, vans, and player interactions.</li>
-                <li>Performance Optimization: Balancing visual fidelity with smooth gameplay in a dynamic environment.</li>
-                <li>Debug Tool Development: Creating comprehensive debug visualization for efficient testing and problem-solving.</li>
-                <li>Physics Integration: Utilizing Unreal Engine's physics system for realistic object behavior.</li>
-            </ul>
-            <h3>Challenges Faced:</h3>
-            <ul>
-                <li>Conveyor Logic: Implementing smooth and realistic movement of boxes on conveyor belts with proper spacing and transitions.</li>
-                <li>Player Interaction: Designing intuitive first-person controls for picking up, carrying, and placing boxes of different sizes.</li>
-                <li>Game Balance: Tuning the difficulty and pacing of box spawning and processing to create an engaging yet challenging experience.</li>
-                <li>State Management: Keeping track of box states, eligibility, and properties across different systems (conveyors, vans, workbenches).</li>
-                <li>Code Organization: Structuring the codebase to maintain readability and ease of expansion for future features.</li>
-            </ul>
-        </section>
+<section id="lessons" class="lessons-learned">
+        <h2>Lessons Learned and Challenges Faced</h2>
+        <h3>Lessons Learned:</h3>
+        <ul>
+            <li>Advanced System Integration: Designing and implementing highly interconnected systems like intelligent conveyor belts, state-driven vans, and context-sensitive player interactions.</li>
+            <li>Spline-Based Movement: Utilizing Unreal Engine's spline components for smooth, path-driven actor movement with precise control and state management.</li>
+            <li>State Machine Design: Implementing robust state machines for complex actors like delivery vans, enhancing behavior predictability and system interactions.</li>
+            <li>Performance Optimization: Balancing visual fidelity with smooth gameplay in a highly dynamic environment with multiple moving parts.</li>
+            <li>Advanced Debug Tool Development: Creating comprehensive debug visualization systems for efficient testing, problem-solving, and real-time system analysis.</li>
+            <li>Physics Integration: Leveraging Unreal Engine's physics system for realistic object behavior while maintaining gameplay consistency.</li>
+        </ul>
+        <h3>Challenges Faced:</h3>
+        <ul>
+            <li>Complex Conveyor Logic: Implementing smooth and realistic movement of boxes on conveyor belts with dynamic spacing, transitions, and multi-conveyor interactions.</li>
+            <li>Intelligent Van Behavior: Creating a robust system for van movement, including gate interactions, reversing, and coordinating with the overall game flow.</li>
+            <li>Advanced Player Interaction: Designing intuitive first-person controls for picking up, carrying, and placing boxes of different sizes, with context-sensitive actions based on the environment.</li>
+            <li>Game Balance and Pacing: Tuning the difficulty and pacing of box spawning, van arrivals, and processing to create an engaging yet challenging experience.</li>
+            <li>Comprehensive State Management: Keeping track of complex states across multiple systems, including boxes, vans, conveyors, and workbenches, ensuring consistent behavior and interactions.</li>
+            <li>Code Architecture: Structuring the codebase to handle complex, interrelated systems while maintaining readability, scalability, and ease of expansion for future features.</li>
+            <li>Debugging Complex Systems: Developing strategies to efficiently debug and troubleshoot issues in a highly interconnected game environment with multiple moving parts.</li>
+        </ul>
+    </section>
+</main>
 
         <section id="screenshots" class="screenshots">
             <h2>Screenshots</h2>
