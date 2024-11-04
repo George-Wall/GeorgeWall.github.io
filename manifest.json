@@ -1,8 +1,8 @@
 {
   "name": "Workout Schedule",
   "short_name": "Workout",
-  "start_url": "/timetable/",
-  "scope": "/timetable/",
+  "start_url": "/timetable",
+  "scope": "/timetable",
   "display": "standalone",
   "background_color": "#121212",
   "theme_color": "#8BC5BF",
