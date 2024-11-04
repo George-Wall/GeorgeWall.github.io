@@ -1,0 +1,44 @@
+{
+  "name": "Workout Schedule",
+  "short_name": "Workout",
+  "description": "Daily workout and routine tracker",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#121212",
+  "theme_color": "#8BC5BF",
+  "dir": "ltr",
+  "lang": "en-US",
+  "prefer_related_applications": false,
+  "categories": ["fitness", "health", "lifestyle"],
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Today's Schedule",
+      "short_name": "Today",
+      "description": "View today's workout schedule",
+      "url": "/?view=today",
+      "icons": [{ "src": "/icon-192x192.png", "sizes": "192x192" }]
+    }
+  ],
+  "display_override": ["standalone", "minimal-ui"],
+  "handle_links": "preferred",
+  "edge_side_panel": {
+    "preferred_width": 400
+  }
+}
