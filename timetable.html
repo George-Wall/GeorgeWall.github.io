@@ -2,270 +2,304 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Workout Schedule</title>
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="/icon-192x192.png">
     <style>
         :root {
+            --safe-area-inset-top: env(safe-area-inset-top);
+            --safe-area-inset-bottom: env(safe-area-inset-bottom);
             --background-color: #121212;
             --secondary-bg: #252525;
             --text-color: white;
             --accent-color: #8BC5BF;
             --accent-hover: #E4BAC1;
+            --ios-bottom-safe-area: 34px;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'League Spartan', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         }
 
         body {
             background-color: var(--background-color);
             color: var(--text-color);
             line-height: 1.6;
+            padding-top: calc(var(--safe-area-inset-top) + 10px);
+            padding-bottom: calc(var(--safe-area-inset-bottom) + var(--ios-bottom-safe-area));
         }
 
         .container {
-            max-width: 600px;
+            max-width: 430px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 10px;
         }
 
         .header {
             background-color: var(--secondary-bg);
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+            padding: 16px;
+            border-radius: 16px;
+            margin-bottom: 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .header h1 {
+            font-size: 20px;
+            font-weight: 600;
         }
 
         .nav-buttons {
+            position: fixed;
+            bottom: calc(var(--safe-area-inset-bottom));
+            left: 0;
+            right: 0;
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 8px;
+            padding: 12px 16px;
+            background-color: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
         }
 
         .nav-button {
             background-color: var(--secondary-bg);
             color: var(--text-color);
             border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
+            padding: 12px 20px;
+            border-radius: 12px;
             cursor: pointer;
             flex: 1;
-            transition: background-color 0.3s ease;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .nav-button.active {
             background-color: var(--accent-color);
             color: var(--background-color);
+            transform: scale(0.98);
         }
 
         .schedule-item {
             background-color: var(--secondary-bg);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 10px;
+            padding: 16px;
+            border-radius: 16px;
+            margin-bottom: 12px;
             display: flex;
-            justify-content: space-between;
+            flex-direction: row;
             align-items: center;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
         .time {
-            font-weight: bold;
+            font-weight: 600;
             color: var(--accent-color);
-            width: 80px;
+            min-width: 70px;
+            font-size: 15px;
         }
 
         .activity {
             flex-grow: 1;
-            padding: 0 15px;
+            padding: 0 12px;
+            font-weight: 500;
+            font-size: 16px;
         }
 
         .details {
-            font-size: 0.9em;
+            font-size: 14px;
             color: #8a8a8a;
+            margin-top: 4px;
         }
 
         .day-type {
             display: inline-block;
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 0.9em;
+            padding: 6px 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
             background-color: var(--accent-color);
             color: var(--background-color);
-        }
-
-        .week-view {
-            display: none;
-        }
-
-        .week-day {
-            background-color: var(--secondary-bg);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-        }
-
-        .week-day.today {
-            border: 2px solid var(--accent-color);
-        }
-
-        .day-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .daily-targets {
-            background-color: var(--accent-color);
-            color: var(--background-color);
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 20px;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 10px;
-            }
-
-            .schedule-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .time {
-                margin-bottom: 5px;
-            }
-        }
-        
-        .schedule-item {
-            position: relative;
-            padding-left: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .schedule-item.completed {
-            background-color: rgba(139, 197, 191, 0.2);
-            transform: translateX(10px);
-        }
-
-        .checkbox {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 24px;
-            height: 24px;
-            border: 2px solid var(--accent-color);
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .checkbox::after {
-            content: '✓';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            color: var(--accent-color);
-            font-size: 16px;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .schedule-item.completed .checkbox::after {
-            transform: translate(-50%, -50%) scale(1);
         }
 
         .progress-section {
             background-color: var(--secondary-bg);
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+            padding: 16px;
+            border-radius: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
         .progress-bar {
-            background-color: #333;
-            height: 10px;
-            border-radius: 5px;
-            margin-top: 10px;
+            background-color: rgba(255,255,255,0.1);
+            height: 8px;
+            border-radius: 4px;
+            margin: 12px 0;
             overflow: hidden;
         }
 
         .progress-fill {
             height: 100%;
             background-color: var(--accent-color);
-            transition: width 0.5s ease;
-        }
-
-        .celebration {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 100px;
-            pointer-events: none;
-            animation: celebrate 1s ease-out forwards;
-            opacity: 0;
-        }
-
-        @keyframes celebrate {
-            0% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.5);
-            }
-            50% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1.2);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(1);
-            }
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 10px;
-            margin-top: 10px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 16px;
         }
 
         .stat-card {
-            background-color: var(--secondary-bg);
-            padding: 15px;
-            border-radius: 8px;
+            background-color: rgba(255,255,255,0.05);
+            padding: 12px;
+            border-radius: 12px;
             text-align: center;
         }
 
         .stat-number {
             font-size: 24px;
             color: var(--accent-color);
-            font-weight: bold;
+            font-weight: 700;
+            margin-bottom: 4px;
         }
 
-        .streak-badge {
+        .stat-card div:last-child {
+            font-size: 13px;
+            color: #8a8a8a;
+        }
+
+        @supports (padding: max(0px)) {
+            .nav-buttons {
+                padding-bottom: max(12px, env(safe-area-inset-bottom));
+                bottom: 0;
+            }
+            
+            body {
+                padding-bottom: max(var(--ios-bottom-safe-area), env(safe-area-inset-bottom));
+            }
+        }
+
+        .schedule-item.completed {
+            background-color: rgba(139, 197, 191, 0.1);
+            transform: scale(0.98);
+        }
+
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--accent-color);
+            border-radius: 50%;
+            margin-right: 12px;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .schedule-item.completed .checkbox::after {
+            content: '';
             position: absolute;
-            top: -10px;
-            right: -10px;
-            background-color: var(--accent-hover);
-            color: var(--background-color);
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.8em;
-            transform: scale(0);
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
         }
 
-        .schedule-item.streaked .streak-badge {
-            transform: scale(1);
+        .daily-targets {
+            background-color: var(--accent-color);
+            color: var(--background-color);
+            padding: 16px;
+            border-radius: 16px;
+            margin-top: 20px;
+            font-weight: 500;
+        }
+
+        .daily-targets h3 {
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .daily-targets p {
+            margin: 8px 0;
+            font-size: 15px;
+        }
+
+        @media (hover: hover) {
+            .schedule-item:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            }
+            
+            .nav-button:hover {
+                background-color: rgba(255,255,255,0.1);
+            }
+        }
+
+        /* Add to Home Screen animation */
+        @keyframes addToHome {
+            0% { transform: translateY(100%); }
+            100% { transform: translateY(0); }
+        }
+
+        .add-to-home {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--secondary-bg);
+            padding: 16px;
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+            animation: addToHome 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1001;
+        }
+
+        .add-to-home-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 430px;
+            margin: 0 auto;
+        }
+
+        .add-to-home-text {
+            flex: 1;
+            margin-right: 16px;
+        }
+
+        .add-to-home h3 {
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .add-to-home p {
+            font-size: 14px;
+            color: #8a8a8a;
+        }
+
+        .add-to-home button {
+            background-color: var(--accent-color);
+            color: var(--background-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 500;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -284,7 +318,7 @@
             <div class="stats">
                 <div class="stat-card">
                     <div class="stat-number" id="today-completed">0</div>
-                    <div>Completed Today</div>
+                    <div>Completed</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number" id="week-completed">0</div>
@@ -297,188 +331,252 @@
             </div>
         </div>
 
-        <div class="nav-buttons">
-            <button class="nav-button active" onclick="showView('today')">Today</button>
-            <button class="nav-button" onclick="showView('tomorrow')">Tomorrow</button>
-            <button class="nav-button" onclick="showView('week')">Full Week</button>
-        </div>
-
         <div id="daily-view"></div>
         <div id="week-view" class="week-view"></div>
     </div>
 
-    <script>
+    <div class="nav-buttons">
+        <button class="nav-button active" onclick="showView('today')">Today</button>
+        <button class="nav-button" onclick="showView('tomorrow')">Tomorrow</button>
+        <button class="nav-button" onclick="showView('week')">Week</button>
+    </div>
+
+<script>
+        // Schedule data
         const scheduleTypes = {
-            1: { type: 'Gym Day', workout: 'A', color: '#8BC5BF', steps: '10,000 (8,000 from walks)' },
-            2: { type: 'Long Run Day', color: '#E4BAC1', steps: '10,000 (6,000 from run)' },
-            3: { type: 'Gym Day', workout: 'B', color: '#8BC5BF', steps: '10,000 (8,000 from walks)' },
-            4: { type: 'Recovery Day', color: '#ffbb54', steps: '10,000 (throughout day)' },
-            5: { type: 'Gym Day', workout: 'A', color: '#8BC5BF', steps: '10,000 (8,000 from walks)' },
-            6: { type: 'HIIT Run Day', color: '#E4BAC1', steps: '10,000 (4,000 from HIIT)' },
-            0: { type: 'Rest Day', color: '#808080', steps: '8,000 (easy pace)' }
+            1: { type: 'Gym Day', workout: 'A', color: '#8BC5BF', steps: '10,000', icon: '💪' },
+            2: { type: 'Long Run Day', color: '#E4BAC1', steps: '10,000', icon: '🏃' },
+            3: { type: 'Gym Day', workout: 'B', color: '#8BC5BF', steps: '10,000', icon: '💪' },
+            4: { type: 'Recovery Day', color: '#ffbb54', steps: '10,000', icon: '🧘' },
+            5: { type: 'Gym Day', workout: 'A', color: '#8BC5BF', steps: '10,000', icon: '💪' },
+            6: { type: 'HIIT Run Day', color: '#E4BAC1', steps: '10,000', icon: '⚡' },
+            0: { type: 'Rest Day', color: '#808080', steps: '8,000', icon: '😴' }
         };
 
         const dailySchedules = {
             'Gym Day': [
-                {time: '06:30', activity: 'Wake Up', details: '500ml water with electrolytes'},
-                {time: '06:35', activity: 'Morning Light Walk', details: '10-15min outdoor exposure'},
-                {time: '06:50', activity: 'Cold Shower', details: '2-3min cold exposure'},
-                {time: '07:00', activity: 'Breathwork', details: '5-5-5 breathing pattern'},
-                {time: '07:15', activity: 'Mobility Work', details: 'Full body mobility routine'},
-                {time: '07:30', activity: 'Pre-Workout Meal', details: 'Light breakfast'},
-                {time: '08:30', activity: 'Walk to Gym', details: '40min walking meditation'},
-                {time: '09:15', activity: 'Workout', details: '90min training session'},
-                {time: '11:00', activity: 'Walk Home', details: '40min recovery walk'},
-                {time: '11:40', activity: 'Arrive Home', details: 'Begin recovery routine'},
-                {time: '12:00', activity: 'Post-Workout Meal', details: 'Protein + carbs'}
+                {time: '06:30', activity: 'Wake Up', details: '500ml water with electrolytes', icon: '⏰'},
+                {time: '06:35', activity: 'Morning Light Walk', details: '10-15min outdoor exposure', icon: '🌅'},
+                {time: '06:50', activity: 'Cold Shower', details: '2-3min cold exposure', icon: '🚿'},
+                {time: '07:00', activity: 'Breathwork', details: '5-5-5 breathing pattern', icon: '🫁'},
+                {time: '07:15', activity: 'Mobility Work', details: 'Full body mobility routine', icon: '🤸'},
+                {time: '07:30', activity: 'Pre-Workout Meal', details: 'Light breakfast', icon: '🥣'},
+                {time: '08:30', activity: 'Walk to Gym', details: '40min walking meditation', icon: '🚶'},
+                {time: '09:15', activity: 'Workout', details: '90min training session', icon: '💪'},
+                {time: '11:00', activity: 'Walk Home', details: '40min recovery walk', icon: '🏃'},
+                {time: '11:40', activity: 'Recovery', details: 'Begin recovery routine', icon: '🧘'},
+                {time: '12:00', activity: 'Post-Workout Meal', details: 'Protein + carbs', icon: '🍳'}
             ],
             'Long Run Day': [
-                {time: '07:00', activity: 'Wake Up', details: '500ml water'},
-                {time: '07:15', activity: 'Morning Light', details: '15min outdoor exposure'},
-                {time: '07:30', activity: 'Light Snack', details: 'Simple carbs'},
-                {time: '08:00', activity: 'Long Run', details: '45min steady state'},
-                {time: '09:00', activity: 'Cool Down Walk', details: '15min easy pace'},
-                {time: '09:30', activity: 'Recovery Meal', details: 'Balanced breakfast'}
+                {time: '07:00', activity: 'Wake Up', details: '500ml water', icon: '⏰'},
+                {time: '07:15', activity: 'Morning Light', details: '15min outdoor exposure', icon: '🌅'},
+                {time: '07:30', activity: 'Light Snack', details: 'Simple carbs', icon: '🍌'},
+                {time: '08:00', activity: 'Long Run', details: '45min steady state', icon: '🏃'},
+                {time: '09:00', activity: 'Cool Down Walk', details: '15min easy pace', icon: '🚶'},
+                {time: '09:30', activity: 'Recovery Meal', details: 'Balanced breakfast', icon: '🍳'}
             ],
             'Recovery Day': [
-                {time: '07:00', activity: 'Wake Up', details: '500ml water'},
-                {time: '07:15', activity: 'Morning Light', details: '15min exposure'},
-                {time: '07:30', activity: 'Mobility Work', details: '20min mobility routine'},
-                {time: '08:00', activity: 'Breakfast', details: 'Balanced breakfast'},
-                {time: '09:00', activity: 'Morning Walk', details: '30min easy pace'},
-                {time: '13:00', activity: 'Lunch Walk', details: '30min easy pace'},
-                {time: '17:00', activity: 'Evening Walk', details: '30min easy pace'}
+                {time: '07:00', activity: 'Wake Up', details: '500ml water', icon: '⏰'},
+                {time: '07:15', activity: 'Morning Light', details: '15min exposure', icon: '🌅'},
+                {time: '07:30', activity: 'Mobility Work', details: '20min mobility routine', icon: '🤸'},
+                {time: '08:00', activity: 'Breakfast', details: 'Balanced breakfast', icon: '🍳'},
+                {time: '09:00', activity: 'Morning Walk', details: '30min easy pace', icon: '🚶'},
+                {time: '13:00', activity: 'Lunch Walk', details: '30min easy pace', icon: '🚶'},
+                {time: '17:00', activity: 'Evening Walk', details: '30min easy pace', icon: '🚶'}
             ],
             'HIIT Run Day': [
-                {time: '07:30', activity: 'Wake Up', details: '500ml water'},
-                {time: '07:45', activity: 'Morning Light', details: '15min exposure'},
-                {time: '08:00', activity: 'Light Snack', details: 'Simple carbs'},
-                {time: '08:30', activity: 'HIIT Session', details: '30min (30s hard/90s easy × 10)'},
-                {time: '09:15', activity: 'Cool Down Walk', details: '15min easy pace'},
-                {time: '09:45', activity: 'Recovery Meal', details: 'Protein + carbs'}
+                {time: '07:30', activity: 'Wake Up', details: '500ml water', icon: '⏰'},
+                {time: '07:45', activity: 'Morning Light', details: '15min exposure', icon: '🌅'},
+                {time: '08:00', activity: 'Light Snack', details: 'Simple carbs', icon: '🍌'},
+                {time: '08:30', activity: 'HIIT Session', details: '30min (30s hard/90s easy × 10)', icon: '⚡'},
+                {time: '09:15', activity: 'Cool Down Walk', details: '15min easy pace', icon: '🚶'},
+                {time: '09:45', activity: 'Recovery Meal', details: 'Protein + carbs', icon: '🍳'}
             ],
             'Rest Day': [
-                {time: '08:00', activity: 'Natural Wake', details: 'No alarm needed'},
-                {time: '08:15', activity: 'Morning Light', details: '15min exposure'},
-                {time: '08:30', activity: 'Light Movement', details: 'Gentle mobility'},
-                {time: '09:00', activity: 'Breakfast', details: 'Relaxed meal'},
-                {time: '10:00', activity: 'Leisure Walk', details: '45-60min easy pace'}
+                {time: '08:00', activity: 'Natural Wake', details: 'No alarm needed', icon: '😴'},
+                {time: '08:15', activity: 'Morning Light', details: '15min exposure', icon: '🌅'},
+                {time: '08:30', activity: 'Light Movement', details: 'Gentle mobility', icon: '🤸'},
+                {time: '09:00', activity: 'Breakfast', details: 'Relaxed meal', icon: '🍳'},
+                {time: '10:00', activity: 'Leisure Walk', details: '45-60min easy pace', icon: '🚶'}
             ]
         };
 
-        function getScheduleForDate(date) {
-            return scheduleTypes[date.getDay()];
+        // Progress data management
+        let progressData = JSON.parse(localStorage.getItem('progressData')) || {
+            completedTasks: {},
+            streaks: 0,
+            lastCompletedDate: null,
+            weeklyStats: {},
+            lastSync: new Date().toISOString()
+        };
+
+        // Handle offline storage and sync
+        function syncProgressData() {
+            localStorage.setItem('progressData', JSON.stringify(progressData));
         }
 
+        // Add haptic feedback support
+        function triggerHapticFeedback(type = 'medium') {
+            if (window.navigator && window.navigator.vibrate) {
+                switch(type) {
+                    case 'light':
+                        navigator.vibrate(10);
+                        break;
+                    case 'medium':
+                        navigator.vibrate([15, 15]);
+                        break;
+                    case 'heavy':
+                        navigator.vibrate([20, 20, 20]);
+                        break;
+                }
+            }
+        }
+
+        // Format date with iOS style
         function formatDate(date) {
+            const today = new Date();
+            const yesterday = new Date(today);
+            yesterday.setDate(yesterday.getDate() - 1);
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+
+            if (date.toDateString() === today.toDateString()) {
+                return 'Today';
+            } else if (date.toDateString() === yesterday.toDateString()) {
+                return 'Yesterday';
+            } else if (date.toDateString() === tomorrow.toDateString()) {
+                return 'Tomorrow';
+            }
+
             return date.toLocaleDateString('en-GB', { 
                 weekday: 'long', 
                 day: 'numeric', 
-                month: 'short' 
+                month: 'short'
             });
         }
 
+    // Show schedule with enhanced mobile interactions
         function showSchedule(date) {
             const schedule = getScheduleForDate(date);
             const dailySchedule = dailySchedules[schedule.type];
+            const dateStr = date.toLocaleDateString();
             
             document.getElementById('current-date').textContent = formatDate(date);
             const scheduleType = document.getElementById('schedule-type');
-            scheduleType.textContent = `${schedule.type}${schedule.workout ? ` (Workout ${schedule.workout})` : ''}`;
+            scheduleType.textContent = `${schedule.icon} ${schedule.type}${schedule.workout ? ` (${schedule.workout})` : ''}`;
             scheduleType.style.backgroundColor = schedule.color;
 
             const dailyView = document.getElementById('daily-view');
             dailyView.innerHTML = '';
 
-            dailySchedule.forEach(item => {
-                dailyView.innerHTML += `
-                    <div class="schedule-item">
-                        <span class="time">${item.time}</span>
-                        <span class="activity">${item.activity}</span>
-                        <span class="details">${item.details}</span>
+            dailySchedule.forEach((item, index) => {
+                const taskKey = `${schedule.type}-${index}`;
+                const isCompleted = progressData.completedTasks[dateStr]?.includes(taskKey);
+                
+                const scheduleItem = document.createElement('div');
+                scheduleItem.className = `schedule-item ${isCompleted ? 'completed' : ''}`;
+                scheduleItem.innerHTML = `
+                    <div class="checkbox"></div>
+                    <div class="time">${item.time}</div>
+                    <div class="content">
+                        <div class="activity">${item.icon} ${item.activity}</div>
+                        <div class="details">${item.details}</div>
                     </div>
                 `;
+
+                // Add touch handling
+                let touchStartX = 0;
+                let touchStartY = 0;
+                
+                scheduleItem.addEventListener('touchstart', (e) => {
+                    touchStartX = e.touches[0].clientX;
+                    touchStartY = e.touches[0].clientY;
+                });
+
+                scheduleItem.addEventListener('touchend', (e) => {
+                    const touchEndX = e.changedTouches[0].clientX;
+                    const touchEndY = e.changedTouches[0].clientY;
+                    const deltaX = touchEndX - touchStartX;
+                    const deltaY = touchEndY - touchStartY;
+
+                    // If it's a tap (minimal movement)
+                    if (Math.abs(deltaX) < 10 && Math.abs(deltaY) < 10) {
+                        toggleTask(taskKey, date);
+                    }
+                    // Swipe right to complete
+                    else if (deltaX > 50 && Math.abs(deltaY) < 30) {
+                        if (!isCompleted) {
+                            toggleTask(taskKey, date);
+                        }
+                    }
+                });
+
+                dailyView.appendChild(scheduleItem);
             });
 
-            dailyView.innerHTML += `
-                <div class="daily-targets">
-                    <h3>Daily Targets:</h3>
-                    <p>• Steps: ${schedule.steps}</p>
-                    <p>• Water: 2L before 2 PM</p>
-                    <p>• Sleep: 7-9 hours</p>
-                </div>
+            // Add daily targets with enhanced styling
+            const targets = document.createElement('div');
+            targets.className = 'daily-targets';
+            targets.innerHTML = `
+                <h3>Daily Targets</h3>
+                <p>🦶 Steps: ${schedule.steps}</p>
+                <p>💧 Water: 2L before 2 PM</p>
+                <p>😴 Sleep: 7-9 hours</p>
             `;
+            dailyView.appendChild(targets);
+
+            updateProgress();
         }
 
-        function showWeekView() {
-            const weekView = document.getElementById('week-view');
-            weekView.innerHTML = '';
+        // Toggle task with animations and haptic feedback
+        function toggleTask(taskKey, date) {
+            const dateStr = date.toLocaleDateString();
+            progressData.completedTasks[dateStr] = progressData.completedTasks[dateStr] || [];
             
-            const today = new Date();
-            const currentDay = today.getDay();
-            
-            for (let i = 0; i < 7; i++) {
-                const date = new Date();
-                date.setDate(today.getDate() - currentDay + i);
-                const schedule = getScheduleForDate(date);
-                const isToday = i === currentDay;
+            const index = progressData.completedTasks[dateStr].indexOf(taskKey);
+            if (index === -1) {
+                progressData.completedTasks[dateStr].push(taskKey);
+                triggerHapticFeedback('medium');
+                celebrate();
                 
-                weekView.innerHTML += `
-                    <div class="week-day ${isToday ? 'today' : ''}">
-                        <div class="day-header">
-                            <h3>${formatDate(date)}</h3>
-                            <span class="day-type" style="background-color: ${schedule.color}">
-                                ${schedule.type}${schedule.workout ? ` (${schedule.workout})` : ''}
-                            </span>
-                        </div>
-                        <div>Steps: ${schedule.steps}</div>
-                        <div>Main Activity: ${schedule.type.includes('Gym') ? '09:15 Workout' : 
-                                           schedule.type.includes('Run') ? '08:00 Run' : 'Active Recovery'}</div>
-                    </div>
-                `;
-            }
-        }
-
-        function showView(view) {
-            const dailyView = document.getElementById('daily-view');
-            const weekView = document.getElementById('week-view');
-            const buttons = document.querySelectorAll('.nav-button');
-            
-            buttons.forEach(button => button.classList.remove('active'));
-            event.target.classList.add('active');
-
-            if (view === 'week') {
-                dailyView.style.display = 'none';
-                weekView.style.display = 'block';
-                document.getElementById('current-date').textContent = 'This Week';
-                document.getElementById('schedule-type').style.display = 'none';
-                showWeekView();
-            } else {
-                dailyView.style.display = 'block';
-                weekView.style.display = 'none';
-                document.getElementById('schedule-type').style.display = 'inline-block';
-                const date = new Date();
-                if (view === 'tomorrow') {
-                    date.setDate(date.getDate() + 1);
+                // Update streaks with enhanced logic
+                const today = new Date().toLocaleDateString();
+                if (dateStr === today) {
+                    const yesterdayDate = new Date();
+                    yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+                    const yesterdayStr = yesterdayDate.toLocaleDateString();
+                    
+                    if (!progressData.lastCompletedDate || 
+                        progressData.lastCompletedDate === yesterdayStr) {
+                        progressData.streaks++;
+                        triggerHapticFeedback('heavy');
+                    }
+                    progressData.lastCompletedDate = today;
                 }
-                showSchedule(date);
+            } else {
+                progressData.completedTasks[dateStr].splice(index, 1);
+                triggerHapticFeedback('light');
             }
+            
+            syncProgressData();
+            updateProgress();
+            showSchedule(date);
         }
-
-let progressData = JSON.parse(localStorage.getItem('progressData')) || {
-            completedTasks: {},
-            streaks: 0,
-            lastCompletedDate: null
-        };
-
+            // Update progress with enhanced animations
         function updateProgress() {
             const today = new Date().toLocaleDateString();
             const todayCompleted = (progressData.completedTasks[today] || []).length;
             const totalTasks = dailySchedules[getScheduleForDate(new Date()).type].length;
             
             const progress = (todayCompleted / totalTasks) * 100;
-            document.getElementById('progress-fill').style.width = `${progress}%`;
-            document.getElementById('today-completed').textContent = todayCompleted;
+            const progressFill = document.getElementById('progress-fill');
+            
+            // Animate progress bar
+            progressFill.style.transition = 'width 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+            progressFill.style.width = `${progress}%`;
+            
+            // Update stats with animation
+            animateNumber('today-completed', todayCompleted);
 
             // Calculate week progress
             const weekCompleted = Object.keys(progressData.completedTasks)
@@ -490,94 +588,224 @@ let progressData = JSON.parse(localStorage.getItem('progressData')) || {
                 })
                 .reduce((acc, date) => acc + progressData.completedTasks[date].length, 0);
             
-            document.getElementById('week-completed').textContent = weekCompleted;
-            document.getElementById('streak-count').textContent = progressData.streaks;
+            animateNumber('week-completed', weekCompleted);
+            animateNumber('streak-count', progressData.streaks);
+
+            // Check for achievements
+            checkAchievements(todayCompleted, totalTasks);
         }
 
-        function toggleTask(taskKey, date) {
-            const dateStr = date.toLocaleDateString();
-            progressData.completedTasks[dateStr] = progressData.completedTasks[dateStr] || [];
-            
-            const index = progressData.completedTasks[dateStr].indexOf(taskKey);
-            if (index === -1) {
-                progressData.completedTasks[dateStr].push(taskKey);
-                celebrate();
+        // Animate number changes
+        function animateNumber(elementId, target) {
+            const element = document.getElementById(elementId);
+            const current = parseInt(element.textContent);
+            const diff = target - current;
+            const steps = 10;
+            const stepValue = diff / steps;
+            let step = 0;
+
+            const animate = () => {
+                step++;
+                const value = Math.round(current + (stepValue * step));
+                element.textContent = value;
                 
-                // Update streaks
-                const today = new Date().toLocaleDateString();
-                if (dateStr === today) {
-                    if (!progressData.lastCompletedDate || 
-                        new Date(progressData.lastCompletedDate).toLocaleDateString() === 
-                        new Date(Date.now() - 86400000).toLocaleDateString()) {
-                        progressData.streaks++;
-                    }
-                    progressData.lastCompletedDate = today;
+                if (step < steps) {
+                    requestAnimationFrame(animate);
                 }
-            } else {
-                progressData.completedTasks[dateStr].splice(index, 1);
-            }
-            
-            localStorage.setItem('progressData', JSON.stringify(progressData));
-            updateProgress();
-            showSchedule(date);
+            };
+
+            animate();
         }
 
+        // Show week view with enhanced mobile layout
+        function showWeekView() {
+            const weekView = document.getElementById('week-view');
+            weekView.innerHTML = '';
+            
+            const today = new Date();
+            const currentDay = today.getDay();
+            
+            // Create week overview
+            for (let i = 0; i < 7; i++) {
+                const date = new Date();
+                date.setDate(today.getDate() - currentDay + i);
+                const schedule = getScheduleForDate(date);
+                const isToday = i === currentDay;
+                const dateStr = date.toLocaleDateString();
+                const completedCount = (progressData.completedTasks[dateStr] || []).length;
+                const totalTasks = dailySchedules[schedule.type].length;
+                const progress = (completedCount / totalTasks) * 100;
+                
+                weekView.innerHTML += `
+                    <div class="week-day ${isToday ? 'today' : ''}" onclick="showSchedule(new Date('${date}'))">
+                        <div class="day-header">
+                            <h3>${formatDate(date)}</h3>
+                            <span class="day-type" style="background-color: ${schedule.color}">
+                                ${schedule.icon} ${schedule.type}${schedule.workout ? ` ${schedule.workout}` : ''}
+                            </span>
+                        </div>
+                        <div class="week-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${progress}%"></div>
+                            </div>
+                            <div class="progress-stats">
+                                <span>${completedCount}/${totalTasks} completed</span>
+                                <span>${schedule.steps} steps</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Achievement system
+        function checkAchievements(completed, total) {
+            if (completed === total) {
+                showAchievement('Perfect Day! 🎯');
+            }
+            if (progressData.streaks === 7) {
+                showAchievement('Week Warrior! 🔥');
+            }
+            // Add more achievements as needed
+        }
+
+        function showAchievement(message) {
+            const achievement = document.createElement('div');
+            achievement.className = 'achievement';
+            achievement.innerHTML = `
+                <div class="achievement-content">
+                    <div class="achievement-icon">🏆</div>
+                    <div class="achievement-text">
+                        <h4>Achievement Unlocked!</h4>
+                        <p>${message}</p>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(achievement);
+            
+            triggerHapticFeedback('heavy');
+            
+            setTimeout(() => {
+                achievement.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(achievement);
+                }, 300);
+            }, 3000);
+        }
+
+        // Show celebration animation
         function celebrate() {
             const celebration = document.createElement('div');
             celebration.className = 'celebration';
-            celebration.textContent = '🎉';
             document.body.appendChild(celebration);
             
+            // Create confetti effect
+            for (let i = 0; i < 30; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.setProperty('--delay', `${Math.random() * 500}ms`);
+                confetti.style.setProperty('--rotation', `${Math.random() * 360}deg`);
+                confetti.style.left = `${Math.random() * 100}%`;
+                celebration.appendChild(confetti);
+            }
+            
             setTimeout(() => {
-                document.body.removeChild(celebration);
-            }, 1000);
+                celebration.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(celebration);
+                }, 500);
+            }, 1500);
         }
 
-        // Modify showSchedule function
-        function showSchedule(date) {
-            const schedule = getScheduleForDate(date);
-            const dailySchedule = dailySchedules[schedule.type];
-            const dateStr = date.toLocaleDateString();
+        // Add pull-to-refresh functionality
+        let touchStartY = 0;
+        let pullDistance = 0;
+        const maxPullDistance = 150;
+        
+        document.addEventListener('touchstart', (e) => {
+            if (document.scrollTop === 0) {
+                touchStartY = e.touches[0].clientY;
+            }
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if (touchStartY > 0 && document.scrollTop === 0) {
+                pullDistance = e.touches[0].clientY - touchStartY;
+                if (pullDistance > 0 && pullDistance <= maxPullDistance) {
+                    document.body.style.setProperty('--pull-distance', `${pullDistance}px`);
+                }
+            }
+        });
+
+        document.addEventListener('touchend', () => {
+            if (pullDistance >= 100) {
+                // Refresh data
+                showSchedule(new Date());
+                triggerHapticFeedback('medium');
+            }
+            touchStartY = 0;
+            pullDistance = 0;
+            document.body.style.removeProperty('--pull-distance');
+        });
+
+        // Initialize the app
+        function initializeApp() {
+            // Check if running as PWA
+            if (window.matchMedia('(display-mode: standalone)').matches) {
+                document.body.classList.add('standalone');
+            }
+
+            // Set up offline support
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/service-worker.js');
+            }
+
+            // Initialize view
+            showSchedule(new Date());
+
+            // Set up periodic sync
+            setInterval(syncProgressData, 30000);
+        }
+
+        // Add home screen prompt for iOS
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            showAddToHome();
+        });
+
+        function showAddToHome() {
+            if (document.querySelector('.add-to-home')) return;
             
-            document.getElementById('current-date').textContent = formatDate(date);
-            const scheduleType = document.getElementById('schedule-type');
-            scheduleType.textContent = `${schedule.type}${schedule.workout ? ` (Workout ${schedule.workout})` : ''}`;
-            scheduleType.style.backgroundColor = schedule.color;
-
-            const dailyView = document.getElementById('daily-view');
-            dailyView.innerHTML = '';
-
-            dailySchedule.forEach((item, index) => {
-                const taskKey = `${schedule.type}-${index}`;
-                const isCompleted = progressData.completedTasks[dateStr]?.includes(taskKey);
-                const hasStreak = progressData.streaks > 2;
-                
-                dailyView.innerHTML += `
-                    <div class="schedule-item ${isCompleted ? 'completed' : ''} ${hasStreak ? 'streaked' : ''}" 
-                         onclick="toggleTask('${taskKey}', new Date('${date}'))">
-                        <div class="checkbox"></div>
-                        ${hasStreak ? '<span class="streak-badge">🔥 ${progressData.streaks} days</span>' : ''}
-                        <span class="time">${item.time}</span>
-                        <span class="activity">${item.activity}</span>
-                        <span class="details">${item.details}</span>
+            const prompt = document.createElement('div');
+            prompt.className = 'add-to-home';
+            prompt.innerHTML = `
+                <div class="add-to-home-content">
+                    <div class="add-to-home-text">
+                        <h3>Add to Home Screen</h3>
+                        <p>Track your workouts more easily</p>
                     </div>
-                `;
-            });
-
-            dailyView.innerHTML += `
-                <div class="daily-targets">
-                    <h3>Daily Targets:</h3>
-                    <p>• Steps: ${schedule.steps}</p>
-                    <p>• Water: 2L before 2 PM</p>
-                    <p>• Sleep: 7-9 hours</p>
+                    <button onclick="addToHomeScreen()">Add</button>
                 </div>
             `;
-            
-            updateProgress();
+            document.body.appendChild(prompt);
         }
 
-        // Initial load
-        showSchedule(new Date());
+        async function addToHomeScreen() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const result = await deferredPrompt.userChoice;
+                if (result.outcome === 'accepted') {
+                    console.log('Added to home screen');
+                }
+                deferredPrompt = null;
+            }
+            document.querySelector('.add-to-home')?.remove();
+        }
+
+        // Start the app
+        initializeApp();
     </script>
 </body>
 </html>
