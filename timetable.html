@@ -9,183 +9,315 @@
     <link rel="manifest" href="/manifest.json">
     <link rel="apple-touch-icon" href="/icon-192x192.png">
     <style>
-    /* CSS Variables */
-    :root {
-        --safe-area-inset-top: env(safe-area-inset-top);
-        --safe-area-inset-bottom: env(safe-area-inset-bottom);
-        --background-color: #121212;
-        --secondary-bg: #252525;
-        --text-color: white;
-        --accent-color: #8BC5BF;
-        --accent-hover: #E4BAC1;
-        --ios-bottom-safe-area: 34px;
-        --warning-color: #ff4444;
-        --upcoming-color: #4444ff;
-        --success-color: #44ff44;
-        --neutral-text: #8a8a8a;
-        --xp-color: #FFD700;
-        --attribute-strength: #ff7676;
-        --attribute-endurance: #76ff76;
-        --attribute-agility: #7676ff;
-        --attribute-discipline: #ffff76;
-        --attribute-resilience: #ff76ff;
-    }
+        /* CSS Variables */
+        :root {
+            --safe-area-inset-top: env(safe-area-inset-top);
+            --safe-area-inset-bottom: env(safe-area-inset-bottom);
+            --background-color: #121212;
+            --secondary-bg: #252525;
+            --text-color: white;
+            --accent-color: #8BC5BF;
+            --accent-hover: #E4BAC1;
+            --ios-bottom-safe-area: 34px;
+            --warning-color: #ff4444;
+            --upcoming-color: #4444ff;
+            --success-color: #44ff44;
+            --neutral-text: #8a8a8a;
+            --xp-color: #FFD700;
+            --attribute-strength: #ff7676;
+            --attribute-endurance: #76ff76;
+            --attribute-agility: #7676ff;
+            --attribute-discipline: #ffff76;
+            --attribute-resilience: #ff76ff;
+        }
 
-    /* Reset and Base Styles */
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        -webkit-tap-highlight-color: transparent;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    }
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
 
-    body {
-        background-color: var(--background-color);
-        color: var(--text-color);
-        line-height: 1.6;
-        padding-top: calc(var(--safe-area-inset-top) + 10px);
-        padding-bottom: calc(var(--safe-area-inset-bottom) + var(--ios-bottom-safe-area));
-    }
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding-top: calc(var(--safe-area-inset-top) + 10px);
+            padding-bottom: calc(var(--safe-area-inset-bottom) + var(--ios-bottom-safe-area));
+        }
 
-    /* Layout */
-    .container {
-        max-width: 430px;
-        margin: 0 auto;
-        padding: 10px;
-    }
+        /* Layout */
+        .container {
+            max-width: 430px;
+            margin: 0 auto;
+            padding: 10px;
+        }
 
-    /* Character Stats Section */
-    .character-stats {
-        background: linear-gradient(to bottom right, #2a2a2a, #1a1a1a);
-        padding: 16px;
-        border-radius: 16px;
-        margin-bottom: 16px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    }
+        /* Header Styles */
+        .header {
+            background-color: var(--secondary-bg);
+            padding: 16px;
+            border-radius: 16px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
 
-    .level-info {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 12px;
-    }
+        .header-content {
+            display: flex;
+            flex-direction: column;
+        }
 
-    .level-number {
-        font-size: 24px;
+        .header h1 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .character-level {
+            font-size: 14px;
+            color: var(--xp-color);
+        }
+
+        .points-display {
+            background: rgba(255,255,255,0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .points-icon {
+            color: var(--xp-color);
+        }
+
+        /* Character Stats Panel */
+        .character-panel {
+            background: linear-gradient(to right, var(--secondary-bg), #1a1a1a);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .xp-bar {
+            background: rgba(255,255,255,0.1);
+            height: 6px;
+            border-radius: 3px;
+            margin: 8px 0;
+            overflow: hidden;
+        }
+
+        .xp-fill {
+            height: 100%;
+            background: var(--xp-color);
+            transition: width 0.3s ease;
+        }
+
+        .attributes-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .attribute-card {
+            background: rgba(255,255,255,0.05);
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .attribute-name {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .attribute-bar {
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .attribute-fill {
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        /* Schedule Items */
+        .schedule-item {
+            background-color: var(--secondary-bg);
+            padding: 16px;
+            border-radius: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .schedule-item.completed {
+            background-color: rgba(139, 197, 191, 0.1);
+            transform: scale(0.98);
+        }
+
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--accent-color);
+            border-radius: 50%;
+            margin-right: 12px;
+            position: relative;
+        }
+
+        .schedule-item.completed .checkbox::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+        }
+
+        const newStyles = `
+    /* Floating Text Animations */
+    .floating-text {
+        position: fixed;
+        pointer-events: none;
+        animation: float-up 0.8s ease-out forwards;
+        z-index: 1000;
         font-weight: bold;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .floating-text.xp {
         color: var(--xp-color);
     }
 
-    .xp-bar {
-        background: rgba(255,255,255,0.1);
-        height: 6px;
-        border-radius: 3px;
-        margin: 8px 0;
-        overflow: hidden;
+    .floating-text.attribute {
+        color: var(--accent-color);
     }
 
-    .xp-fill {
-        height: 100%;
-        background: var(--xp-color);
-        transition: width 0.3s ease;
+    .floating-text.error {
+        color: var(--warning-color);
     }
 
-    .attributes {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-        margin-top: 16px;
+    @keyframes float-up {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        10% {
+            opacity: 1;
+        }
+        90% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
     }
 
-    .attribute {
-        background: rgba(255,255,255,0.05);
-        padding: 12px;
-        border-radius: 8px;
-        position: relative;
+    /* Modal Styles */
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0,0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
     }
 
-    .attribute-name {
-        font-size: 14px;
-        margin-bottom: 4px;
-    }
-
-    .attribute-bar {
-        height: 4px;
-        background: rgba(255,255,255,0.1);
-        border-radius: 2px;
-        overflow: hidden;
-    }
-
-    .attribute-fill {
-        height: 100%;
-        transition: width 0.3s ease;
-    }
-
-    .attribute-fill.strength { background: var(--attribute-strength); }
-    .attribute-fill.endurance { background: var(--attribute-endurance); }
-    .attribute-fill.agility { background: var(--attribute-agility); }
-    .attribute-fill.discipline { background: var(--attribute-discipline); }
-    .attribute-fill.resilience { background: var(--attribute-resilience); }
-
-    /* Header with Points */
-    .header {
+    .modal-content {
         background-color: var(--secondary-bg);
-        padding: 16px;
+        padding: 24px;
         border-radius: 16px;
+        width: 90%;
+        max-width: 400px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .modal h3 {
         margin-bottom: 16px;
+        font-size: 20px;
+    }
+
+    .modal-buttons {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        gap: 12px;
+        margin-top: 24px;
     }
 
-    .points-display {
-        background: rgba(255,255,255,0.1);
-        padding: 6px 12px;
-        border-radius: 20px;
-        font-weight: 500;
-        color: var(--xp-color);
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
-
-            /* Reward Shop Styles */
-    .reward-shop {
-        background: linear-gradient(to bottom right, #2a2a2a, #1a1a1a);
-        padding: 16px;
-        border-radius: 16px;
-        margin-bottom: 16px;
-    }
-
-    .reward-categories {
-        display: flex;
-        gap: 8px;
-        overflow-x: auto;
-        padding-bottom: 8px;
-        margin-bottom: 16px;
-    }
-
-    .reward-category {
-        padding: 8px 16px;
-        background: rgba(255,255,255,0.1);
-        border-radius: 20px;
-        white-space: nowrap;
+    .modal button {
+        flex: 1;
+        padding: 12px;
         border: none;
-        color: var(--text-color);
+        border-radius: 8px;
+        font-weight: 500;
         cursor: pointer;
     }
 
-    .reward-category.active {
-        background: var(--accent-color);
+    .confirm-button {
+        background-color: var(--accent-color);
         color: var(--background-color);
     }
 
-    .reward-grid {
+    .cancel-button {
+        background-color: rgba(255,255,255,0.1);
+        color: var(--text-color);
+    }
+
+    /* Rewards Shop Styles */
+    .rewards-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .rewards-categories {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        padding: 4px 0 12px 0;
+        margin: -4px 0;
+    }
+
+    .reward-category {
+        background: rgba(255,255,255,0.1);
+        border: none;
+        padding: 8px 16px;
+        border-radius: 20px;
+        color: var(--text-color);
+        white-space: nowrap;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .reward-category.active {
+        background-color: var(--accent-color);
+        color: var(--background-color);
+    }
+
+    .rewards-grid {
         display: grid;
-        grid-template-columns: 1fr;
         gap: 12px;
+        margin-top: 16px;
     }
 
     .reward-item {
@@ -193,22 +325,27 @@
         padding: 16px;
         border-radius: 12px;
         display: flex;
-        align-items: center;
-        gap: 12px;
+        gap: 16px;
         cursor: pointer;
-        transition: transform 0.2s ease;
+        transition: all 0.2s ease;
     }
 
     .reward-item:hover {
         transform: translateY(-2px);
+        background: rgba(255,255,255,0.08);
+    }
+
+    .reward-item.locked {
+        opacity: 0.5;
+        cursor: not-allowed;
     }
 
     .reward-icon {
-        font-size: 24px;
+        font-size: 32px;
     }
 
     .reward-info {
-        flex-grow: 1;
+        flex: 1;
     }
 
     .reward-name {
@@ -216,138 +353,147 @@
         margin-bottom: 4px;
     }
 
-    .reward-cost {
-        color: var(--xp-color);
-        font-weight: bold;
-    }
-
-    /* Navigation Updates */
-    .nav-buttons {
-        position: fixed;
-        bottom: calc(var(--safe-area-inset-bottom) + 15px);
-        left: 0;
-        right: 0;
-        display: flex;
-        gap: 8px;
-        padding: 12px 16px;
-        background-color: rgba(18, 18, 18, 0.95);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        z-index: 1000;
-    }
-
-    .nav-button {
-        background-color: var(--secondary-bg);
-        color: var(--text-color);
-        border: none;
-        padding: 12px;
-        border-radius: 12px;
-        cursor: pointer;
-        flex: 1;
+    .reward-description {
         font-size: 14px;
-        font-weight: 500;
+        color: var(--neutral-text);
+        margin-bottom: 8px;
+    }
+
+    .reward-cost {
         display: flex;
-        flex-direction: column;
         align-items: center;
         gap: 4px;
+        color: var(--xp-color);
+        font-weight: 500;
     }
 
-    .nav-icon {
-        font-size: 20px;
+    .cooldown {
+        font-size: 12px;
+        color: var(--warning-color);
+        margin-top: 4px;
     }
+
+    /* Achievement Animation */
+    @keyframes achievement-slide {
+        0% {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+        10% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        90% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+    }
+
+    /* Attribute Progress Bars */
+    .attribute-progress {
+        background: rgba(255,255,255,0.1);
+        height: 4px;
+        border-radius: 2px;
+        overflow: hidden;
+        margin-top: 4px;
+    }
+
+    .attribute-bar {
+        height: 100%;
+        transition: width 0.3s ease;
+    }
+
+    .attribute-bar.strength { background: linear-gradient(to right, #ff4d4d, #ff8080); }
+    .attribute-bar.endurance { background: linear-gradient(to right, #4dff4d, #80ff80); }
+    .attribute-bar.agility { background: linear-gradient(to right, #4d4dff, #8080ff); }
+    .attribute-bar.discipline { background: linear-gradient(to right, #ffd700, #ffe44d); }
+    .attribute-bar.resilience { background: linear-gradient(to right, #ff4dff, #ff80ff); }
+`;
+
+// Add styles to document
+const styleSheet = document.createElement("style");
+styleSheet.textContent = newStyles;
+document.head.appendChild(styleSheet);
+
+// Initialize the app when the document is ready
+document.addEventListener('DOMContentLoaded', () => {
+    App.initialize();
+});
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Header with Character Level -->
         <div class="header">
-            <div class="level-display">
+            <div class="header-content">
                 <h1 id="current-date">Today's Quest</h1>
-                <span id="schedule-type" class="day-type">Loading...</span>
+                <div class="character-level">Level <span id="level">1</span> - <span id="character-title">Novice Athlete</span></div>
             </div>
             <div class="points-display">
-                <span class="points-icon">🎯</span>
+                <span class="points-icon">✨</span>
                 <span id="points-amount">0</span>
             </div>
         </div>
 
-        <!-- Character Stats Section -->
-        <div id="character-stats" class="character-stats" style="display: none;">
-            <div class="level-info">
-                <div class="level-title">Level <span id="character-level">1</span></div>
-                <div class="level-number">Fitness Warrior</div>
-            </div>
-            <div class="xp-bar">
-                <div id="xp-fill" class="xp-fill" style="width: 0%"></div>
-            </div>
-            <div class="xp-text">
-                <span id="current-xp">0</span> / <span id="next-level-xp">1000</span> XP
-            </div>
-            <div class="attributes">
-                <div class="attribute">
-                    <div class="attribute-name">💪 Strength</div>
-                    <div class="attribute-bar">
-                        <div id="strength-fill" class="attribute-fill strength" style="width: 10%"></div>
+        <div id="character-panel" class="character-panel" style="display: none;">
+            <!-- Character stats will be populated by JS -->
+        </div>
+
+        <div id="daily-view">
+            <div class="progress-section">
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill"></div>
+                </div>
+                <div class="stats">
+                    <div class="stat-card">
+                        <div class="stat-number" id="completed-count">0</div>
+                        <div class="stat-label">Completed</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="streak-count">0</div>
+                        <div class="stat-label">Streak</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="level-count">1</div>
+                        <div class="stat-label">Level</div>
                     </div>
                 </div>
-                <div class="attribute">
-                    <div class="attribute-name">❤️ Endurance</div>
-                    <div class="attribute-bar">
-                        <div id="endurance-fill" class="attribute-fill endurance" style="width: 10%"></div>
-                    </div>
-                </div>
-                <!-- More attributes... -->
+            </div>
+
+            <div id="schedule-container">
+                <!-- Schedule items will be populated by JS -->
             </div>
         </div>
 
-        <!-- Progress Section -->
-        <div class="progress-section">
-            <h3>Today's Progress</h3>
-            <div class="progress-bar">
-                <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
-            </div>
-            <div class="stats">
-                <div class="stat-card">
-                    <div class="stat-number" id="today-completed">0</div>
-                    <div>Completed</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="week-completed">0</div>
-                    <div>This Week</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="streak-count">0</div>
-                    <div>Day Streak</div>
-                </div>
-            </div>
+        <div id="rewards-view" style="display: none;">
+            <!-- Rewards shop will be populated by JS -->
         </div>
-
-        <!-- Views -->
-        <div id="daily-view"></div>
-        <div id="week-view" class="week-view"></div>
-        <div id="rewards-view" class="rewards-view" style="display: none;"></div>
     </div>
 
-    <!-- Updated Navigation -->
     <div class="nav-buttons">
-        <button class="nav-button active" onclick="showView('today')">
+        <button class="nav-button active" onclick="UI.showView('daily')">
             <span class="nav-icon">📋</span>
             <span>Today</span>
         </button>
-        <button class="nav-button" onclick="showView('character')">
+        <button class="nav-button" onclick="UI.showView('character')">
             <span class="nav-icon">⚔️</span>
             <span>Character</span>
         </button>
-        <button class="nav-button" onclick="showView('rewards')">
+        <button class="nav-button" onclick="UI.showView('rewards')">
             <span class="nav-icon">🎁</span>
             <span>Rewards</span>
         </button>
-        <button class="nav-button" onclick="showView('week')">
+        <button class="nav-button" onclick="UI.showView('week')">
             <span class="nav-icon">📅</span>
             <span>Week</span>
         </button>
     </div>
-    // Configuration and Constants
+
+<script>
+// Core Configurations
 const CONFIG = {
     TIME: {
         UPCOMING_THRESHOLD: 30,
@@ -373,15 +519,14 @@ const CONFIG = {
     }
 };
 
-// Gamification Configuration
+    // Game Configuration
 const GAMIFICATION_CONFIG = {
     XP_REWARDS: {
         TASK_COMPLETION: 100,
         ON_TIME_BONUS: 50,
         STREAK_MILESTONE: 500,
         PERFECT_DAY: 1000,
-        WEEKLY_GOAL: 2000,
-        ATTRIBUTE_MILESTONE: 300
+        WEEKLY_GOAL: 2000
     },
     ATTRIBUTE_GAINS: {
         GYM_WORKOUT: {
@@ -414,7 +559,6 @@ const GAMIFICATION_CONFIG = {
             COFFEE: { 
                 id: 'coffee',
                 name: "Coffee Shop Visit",
-                description: "Your favorite coffee and pastry combo",
                 points: 800, 
                 cooldown: 4 * 24 * 60 * 60 * 1000,
                 icon: "☕"
@@ -422,7 +566,6 @@ const GAMIFICATION_CONFIG = {
             RESTAURANT: { 
                 id: 'restaurant',
                 name: "Restaurant Meal",
-                description: "Enjoy a meal at your chosen restaurant (up to £30)",
                 points: 3000, 
                 cooldown: 14 * 24 * 60 * 60 * 1000,
                 icon: "🍽️"
@@ -432,7 +575,6 @@ const GAMIFICATION_CONFIG = {
             SLEEP_IN: { 
                 id: 'sleep_in',
                 name: "Sleep In Day",
-                description: "Start your schedule 1 hour later",
                 points: 1000, 
                 cooldown: 7 * 24 * 60 * 60 * 1000,
                 icon: "😴"
@@ -440,7 +582,6 @@ const GAMIFICATION_CONFIG = {
             REST_DAY: { 
                 id: 'rest_day',
                 name: "Rest Day",
-                description: "Redeem a guilt-free rest day",
                 points: 2500, 
                 cooldown: 14 * 24 * 60 * 60 * 1000,
                 icon: "🌟"
@@ -450,55 +591,62 @@ const GAMIFICATION_CONFIG = {
             SMALL_ITEM: { 
                 id: 'small_item',
                 name: "Online Shopping (£10)",
-                description: "Treat yourself to something nice",
                 points: 2000, 
                 cooldown: 7 * 24 * 60 * 60 * 1000,
                 icon: "🛍️"
-            },
-            MEDIUM_ITEM: { 
-                id: 'medium_item',
-                name: "Fitness Gear (£20)",
-                description: "New workout gear or accessories",
-                points: 4000, 
-                cooldown: 30 * 24 * 60 * 60 * 1000,
-                icon: "👕"
             }
         }
     },
-    STREAK_BONUSES: {
-        3: { multiplier: 1.1, name: "Dedicated" },
-        7: { multiplier: 1.25, name: "Consistent" },
-        14: { multiplier: 1.5, name: "Committed" },
-        30: { multiplier: 2.0, name: "Legendary" }
-    },
-    ACHIEVEMENTS: {
-        EARLY_BIRD: {
-            id: 'early_bird',
-            name: 'Early Bird',
-            description: 'Complete morning routine before 8 AM',
-            xp: 300,
-            icon: '🌅'
-        },
-        STRENGTH_MILESTONE: {
-            id: 'strength_milestone',
-            name: 'Strength Milestone',
-            description: 'Complete 5 gym workouts in a week',
-            xp: 500,
-            icon: '💪'
-        },
-        PERFECT_WEEK: {
-            id: 'perfect_week',
-            name: 'Perfect Week',
-            description: 'Complete all tasks for 7 days straight',
-            xp: 1000,
-            icon: '🌟'
+    LEVEL_THRESHOLDS: {
+        TITLES: {
+            1: "Novice Athlete",
+            5: "Dedicated Trainee",
+            10: "Fitness Enthusiast",
+            15: "Elite Performer",
+            20: "Fitness Master",
+            30: "Legendary Athlete"
         }
-        // More achievements...
     }
 };
 
-// Game State
-let gameState = JSON.parse(localStorage.getItem('gameState')) || {
+// Schedule Configuration
+const SCHEDULE_CONFIG = {
+    TYPES: {
+        1: { type: 'Gym Day', workout: 'A', color: '#8BC5BF', steps: '10,000', icon: '💪' },
+        2: { type: 'Long Run Day', color: '#E4BAC1', steps: '10,000', icon: '🏃' },
+        3: { type: 'Gym Day', workout: 'B', color: '#8BC5BF', steps: '10,000', icon: '💪' },
+        4: { type: 'Recovery Day', color: '#ffbb54', steps: '10,000', icon: '🧘' },
+        5: { type: 'Gym Day', workout: 'A', color: '#8BC5BF', steps: '10,000', icon: '💪' },
+        6: { type: 'Fast Run Day', color: '#E4BAC1', steps: '10,000', icon: '⚡' },
+        0: { type: 'Rest Day', color: '#808080', steps: '8,000', icon: '😴' }
+    },
+    DAILY_SCHEDULES: {
+        'Gym Day': [
+            {time: '07:30', activity: 'Wake Up', details: '500ml water with electrolytes', icon: '⏰', type: 'RECOVERY'},
+            {time: '07:35', activity: 'Morning Light', details: '10min outdoor exposure', icon: '🌅', type: 'RECOVERY'},
+            {time: '07:45', activity: 'Pre-Workout Snack', details: 'Light snack + caffeine', icon: '🥣', type: 'RECOVERY'},
+            {time: '08:00', activity: 'Walk to Gym', details: '40min walking meditation', icon: '🚶', type: 'MOBILITY'},
+            {time: '08:40', activity: 'Workout', details: '60min training session', icon: '💪', type: 'GYM_WORKOUT'},
+            {time: '09:40', activity: 'Walk Home', details: '40min recovery walk', icon: '🏃', type: 'MOBILITY'},
+            {time: '10:20', activity: 'Cold Shower', details: '2-3min cold exposure', icon: '🚿', type: 'RECOVERY'},
+            {time: '10:30', activity: 'Post-Workout Meal', details: 'Protein + carbs', icon: '🍳', type: 'RECOVERY'},
+            {time: '11:00', activity: 'Mobility Work', details: '15min recovery routine', icon: '🧘', type: 'MOBILITY'}
+        ],
+        'Long Run Day': [
+            {time: '07:30', activity: 'Wake Up', details: '500ml water', icon: '⏰', type: 'RECOVERY'},
+            {time: '07:45', activity: 'Morning Light', details: '10min exposure', icon: '🌅', type: 'RECOVERY'},
+            {time: '08:00', activity: 'Light Snack', details: 'Simple carbs', icon: '🍌', type: 'RECOVERY'},
+            {time: '08:30', activity: 'Long Run', details: '45min steady state', icon: '🏃', type: 'RUNNING'},
+            {time: '09:15', activity: 'Cool Down Walk', details: '15min easy pace', icon: '🚶', type: 'MOBILITY'},
+            {time: '09:45', activity: 'Recovery Meal', details: 'Balanced breakfast', icon: '🍳', type: 'RECOVERY'},
+            {time: '10:15', activity: 'Mobility Work', details: '15min recovery routine', icon: '🧘', type: 'MOBILITY'}
+        ]
+        // Other day types...
+    }
+};
+
+// Game State Management
+let gameState = {
     character: {
         level: 1,
         experience: 0,
@@ -530,48 +678,61 @@ let gameState = JSON.parse(localStorage.getItem('gameState')) || {
     }
 };
 
-// Game Systems
+// Core Game Systems
 const GameSystems = {
+    initialize() {
+        // Load saved state
+        const savedState = localStorage.getItem('gameState');
+        if (savedState) {
+            gameState = JSON.parse(savedState);
+        }
+        this.syncGameState();
+    },
+
+    syncGameState() {
+        localStorage.setItem('gameState', JSON.stringify(gameState));
+    },
+
     calculateNextLevelXp(level) {
         return Math.floor(1000 * Math.pow(1.5, level - 1));
     },
 
-    awardExperience(amount) {
+    awardExperience(amount, source = '') {
         const bonusXp = Math.floor(amount * gameState.character.streakBonus);
         gameState.character.experience += bonusXp;
-        
+
+        // Level up check
         while (gameState.character.experience >= gameState.character.nextLevelXp) {
-            gameState.character.experience -= gameState.character.nextLevelXp;
-            gameState.character.level++;
-            gameState.character.nextLevelXp = this.calculateNextLevelXp(gameState.character.level);
-            this.handleLevelUp();
+            this.levelUp();
         }
 
-        this.updateCharacterUI();
-        this.saveGameState();
+        UI.updateExperienceBar();
+        this.syncGameState();
+
+        // Show XP gain notification
+        UI.showFloatingText(`+${bonusXp} XP`, 'xp');
     },
 
-    handleLevelUp() {
-        UI.showAchievement(`Level Up! 🎉\nYou're now level ${gameState.character.level}!`);
-        Utils.triggerHapticFeedback('heavy');
+    levelUp() {
+        gameState.character.experience -= gameState.character.nextLevelXp;
+        gameState.character.level++;
+        gameState.character.nextLevelXp = this.calculateNextLevelXp(gameState.character.level);
         
-        // Award level-up bonus
+        // Award level up bonus
         gameState.character.points += 500;
         
-        // Update character title based on level
+        // Update title if needed
         this.updateCharacterTitle();
+        
+        // Show level up celebration
+        UI.showAchievement('Level Up! 🎉', 
+            `You've reached level ${gameState.character.level}!\n+500 points bonus!`);
+        
+        UI.celebrate();
     },
 
     updateCharacterTitle() {
-        const titles = {
-            1: 'Novice Athlete',
-            5: 'Dedicated Trainee',
-            10: 'Fitness Enthusiast',
-            15: 'Elite Performer',
-            20: 'Fitness Master',
-            30: 'Legendary Athlete'
-        };
-
+        const titles = GAMIFICATION_CONFIG.LEVEL_THRESHOLDS.TITLES;
         for (const [level, title] of Object.entries(titles).reverse()) {
             if (gameState.character.level >= parseInt(level)) {
                 gameState.character.title = title;
@@ -579,25 +740,608 @@ const GameSystems = {
             }
         }
     },
+    GW
+continue
 
-    updateAttributes(activityType) {
+
+I'll continue with more game systems and start the UI implementation:
+
+javascript
+
+Copy
+    // Continue GameSystems...
+    updateAttributes(activityType, multiplier = 1) {
         const gains = GAMIFICATION_CONFIG.ATTRIBUTE_GAINS[activityType];
         if (gains) {
             Object.entries(gains).forEach(([attribute, amount]) => {
                 const oldValue = gameState.character.attributes[attribute];
-                gameState.character.attributes[attribute] = Math.min(100, oldValue + amount);
+                const gain = amount * multiplier;
+                gameState.character.attributes[attribute] = Math.min(100, oldValue + gain);
                 
-                // Check if we crossed a milestone (every 10 points)
+                // Check for milestone (every 10 points)
                 if (Math.floor(oldValue / 10) < Math.floor(gameState.character.attributes[attribute] / 10)) {
                     this.handleAttributeMilestone(attribute);
                 }
+
+                UI.showFloatingText(`+${gain} ${attribute}`, 'attribute');
             });
         }
-        this.updateCharacterUI();
+        UI.updateAttributeBars();
+        this.syncGameState();
     },
 
     handleAttributeMilestone(attribute) {
-        const capitalizedAttribute = attribute.charAt(0).toUpperCase() + attribute.slice(1);
-        UI.showAchievement(`${capitalizedAttribute} Milestone! 🎯\nYour ${attribute} has reached a new tier!`);
-        this.awardExperience(GAMIFICATION_CONFIG.XP_REWARDS.ATTRIBUTE_MILESTONE);
+        const milestoneLevel = Math.floor(gameState.character.attributes[attribute] / 10) * 10;
+        UI.showAchievement(
+            `${attribute.charAt(0).toUpperCase() + attribute.slice(1)} Milestone!`,
+            `Reached ${milestoneLevel} ${attribute}!\n+300 XP`
+        );
+        this.awardExperience(300, 'milestone');
     },
+
+    redeemReward(rewardId) {
+        const reward = this.getRewardById(rewardId);
+        if (!reward) return false;
+
+        if (this.canRedeemReward(rewardId)) {
+            gameState.character.points -= reward.points;
+            gameState.rewards.redeemed.push({
+                id: rewardId,
+                timestamp: Date.now()
+            });
+            gameState.rewards.cooldowns[rewardId] = Date.now() + reward.cooldown;
+            
+            UI.showAchievement('Reward Redeemed! 🎁', 
+                `You've redeemed: ${reward.name}`);
+            
+            this.syncGameState();
+            return true;
+        }
+        return false;
+    },
+
+    canRedeemReward(rewardId) {
+        const reward = this.getRewardById(rewardId);
+        if (!reward) return false;
+
+        // Check points
+        if (gameState.character.points < reward.points) return false;
+
+        // Check cooldown
+        const cooldownEnd = gameState.rewards.cooldowns[rewardId] || 0;
+        if (Date.now() < cooldownEnd) return false;
+
+        return true;
+    },
+
+    getRewardById(rewardId) {
+        for (const category of Object.values(GAMIFICATION_CONFIG.REWARDS)) {
+            for (const reward of Object.values(category)) {
+                if (reward.id === rewardId) return reward;
+            }
+        }
+        return null;
+    }
+};
+
+// UI System
+const UI = {
+    views: {
+        daily: document.getElementById('daily-view'),
+        character: document.getElementById('character-panel'),
+        rewards: document.getElementById('rewards-view'),
+        week: document.getElementById('week-view')
+    },
+
+    initialize() {
+        this.setupViewTransitions();
+        this.updateAll();
+    },
+
+    setupViewTransitions() {
+        const buttons = document.querySelectorAll('.nav-button');
+        buttons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                buttons.forEach(b => b.classList.remove('active'));
+                button.classList.add('active');
+            });
+        });
+    },
+
+    showView(viewName) {
+        Object.entries(this.views).forEach(([name, element]) => {
+            element.style.display = name === viewName ? 'block' : 'none';
+        });
+
+        // Special handling for each view
+        switch(viewName) {
+            case 'daily':
+                this.updateDailyView();
+                break;
+            case 'character':
+                this.updateCharacterView();
+                break;
+            case 'rewards':
+                this.updateRewardsView();
+                break;
+            case 'week':
+                this.updateWeekView();
+                break;
+        }
+    },
+
+    updateAll() {
+        this.updateHeader();
+        this.updateExperienceBar();
+        this.updateAttributeBars();
+        this.updateDailyView();
+    },
+
+    updateHeader() {
+        document.getElementById('level').textContent = gameState.character.level;
+        document.getElementById('character-title').textContent = gameState.character.title;
+        document.getElementById('points-amount').textContent = gameState.character.points;
+    },
+
+    updateExperienceBar() {
+        const percentage = (gameState.character.experience / gameState.character.nextLevelXp) * 100;
+        document.querySelector('.xp-fill').style.width = `${percentage}%`;
+        
+        document.getElementById('current-xp').textContent = gameState.character.experience;
+        document.getElementById('next-level-xp').textContent = gameState.character.nextLevelXp;
+    },
+
+    updateAttributeBars() {
+        Object.entries(gameState.character.attributes).forEach(([attribute, value]) => {
+            const bar = document.getElementById(`${attribute}-fill`);
+            if (bar) {
+                bar.style.width = `${value}%`;
+            }
+        });
+    },
+
+    updateDailyView() {
+        const container = document.getElementById('schedule-container');
+        container.innerHTML = ''; // Clear existing content
+
+        const today = new Date();
+        const schedule = this.getScheduleForDate(today);
+        
+        schedule.forEach((task, index) => {
+            container.appendChild(this.createTaskElement(task, index));
+        });
+    },
+
+    createTaskElement(task, index) {
+        const element = document.createElement('div');
+        element.className = `schedule-item ${this.getTaskStatus(task, index)}`;
+        
+        element.innerHTML = `
+            <div class="checkbox"></div>
+            <div class="task-content">
+                <div class="task-time">${task.time}</div>
+                <div class="task-title">${task.icon} ${task.activity}</div>
+                <div class="task-details">${task.details}</div>
+            </div>
+            ${this.getTaskStatusIndicator(task, index)}
+        `;
+
+        element.addEventListener('click', () => this.handleTaskClick(task, index));
+        
+        return element;
+    },
+
+    getTaskStatus(task, index) {
+        const dateStr = new Date().toLocaleDateString();
+        const taskKey = `${index}-${dateStr}`;
+        
+        if (gameState.progress.completedTasks[dateStr]?.includes(taskKey)) {
+            return 'completed';
+        }
+
+        const timeDiff = this.getTimeDifferenceInMinutes(task.time);
+        if (timeDiff > CONFIG.TIME.GRACE_PERIOD) return 'overdue';
+        if (timeDiff > -CONFIG.TIME.UPCOMING_THRESHOLD) return 'upcoming';
+        
+        return '';
+    },
+
+    getTaskStatusIndicator(task, index) {
+        const status = this.getTaskStatus(task, index);
+        if (!status) return '';
+
+        const indicators = {
+            completed: '✓ Completed',
+            overdue: '⚠️ Overdue',
+            upcoming: '⏳ Coming up'
+        };
+
+        return `<div class="task-status ${status}">${indicators[status]}</div>`;
+    },
+
+    handleTaskClick(task, index) {
+        const dateStr = new Date().toLocaleDateString();
+        const taskKey = `${index}-${dateStr}`;
+        
+        if (!gameState.progress.completedTasks[dateStr]) {
+            gameState.progress.completedTasks[dateStr] = [];
+        }
+
+        const isCompleted = gameState.progress.completedTasks[dateStr].includes(taskKey);
+        
+        if (isCompleted) {
+            // Uncomplete task
+            const taskIndex = gameState.progress.completedTasks[dateStr].indexOf(taskKey);
+            gameState.progress.completedTasks[dateStr].splice(taskIndex, 1);
+            this.handleTaskUncompletion(task);
+        } else {
+            // Complete task
+            gameState.progress.completedTasks[dateStr].push(taskKey);
+            this.handleTaskCompletion(task);
+        }
+
+        this.updateDailyView();
+        GameSystems.syncGameState();
+    },
+
+    handleTaskCompletion(task) {
+        // Base XP award
+        GameSystems.awardExperience(GAMIFICATION_CONFIG.XP_REWARDS.TASK_COMPLETION, 'task');
+        
+        // Attribute gains
+        GameSystems.updateAttributes(task.type);
+        
+        // Visual feedback
+        this.celebrate();
+        Utils.triggerHapticFeedback('medium');
+    },
+
+    celebrate() {
+        const celebration = document.createElement('div');
+        celebration.className = 'celebration';
+        
+        for (let i = 0; i < CONFIG.ANIMATION.CONFETTI_COUNT; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.setProperty('--delay', `${Math.random() * 500}ms`);
+            confetti.style.setProperty('--rotation', `${Math.random() * 360}deg`);
+            confetti.style.left = `${Math.random() * 100}%`;
+            celebration.appendChild(confetti);
+        }
+        
+        document.body.appendChild(celebration);
+        setTimeout(() => celebration.remove(), 2000);
+    },
+    GW
+continue
+
+
+I'll continue with more game systems and start the UI implementation:
+
+javascript
+
+Copy
+    // Continue GameSystems...
+    updateAttributes(activityType, multiplier = 1) {
+        const gains = GAMIFICATION_CONFIG.ATTRIBUTE_GAINS[activityType];
+        if (gains) {
+            Object.entries(gains).forEach(([attribute, amount]) => {
+                const oldValue = gameState.character.attributes[attribute];
+                const gain = amount * multiplier;
+                gameState.character.attributes[attribute] = Math.min(100, oldValue + gain);
+                
+                // Check for milestone (every 10 points)
+                if (Math.floor(oldValue / 10) < Math.floor(gameState.character.attributes[attribute] / 10)) {
+                    this.handleAttributeMilestone(attribute);
+                }
+
+                UI.showFloatingText(`+${gain} ${attribute}`, 'attribute');
+            });
+        }
+        UI.updateAttributeBars();
+        this.syncGameState();
+    },
+
+    handleAttributeMilestone(attribute) {
+        const milestoneLevel = Math.floor(gameState.character.attributes[attribute] / 10) * 10;
+        UI.showAchievement(
+            `${attribute.charAt(0).toUpperCase() + attribute.slice(1)} Milestone!`,
+            `Reached ${milestoneLevel} ${attribute}!\n+300 XP`
+        );
+        this.awardExperience(300, 'milestone');
+    },
+
+    redeemReward(rewardId) {
+        const reward = this.getRewardById(rewardId);
+        if (!reward) return false;
+
+        if (this.canRedeemReward(rewardId)) {
+            gameState.character.points -= reward.points;
+            gameState.rewards.redeemed.push({
+                id: rewardId,
+                timestamp: Date.now()
+            });
+            gameState.rewards.cooldowns[rewardId] = Date.now() + reward.cooldown;
+            
+            UI.showAchievement('Reward Redeemed! 🎁', 
+                `You've redeemed: ${reward.name}`);
+            
+            this.syncGameState();
+            return true;
+        }
+        return false;
+    },
+
+    canRedeemReward(rewardId) {
+        const reward = this.getRewardById(rewardId);
+        if (!reward) return false;
+
+        // Check points
+        if (gameState.character.points < reward.points) return false;
+
+        // Check cooldown
+        const cooldownEnd = gameState.rewards.cooldowns[rewardId] || 0;
+        if (Date.now() < cooldownEnd) return false;
+
+        return true;
+    },
+
+    getRewardById(rewardId) {
+        for (const category of Object.values(GAMIFICATION_CONFIG.REWARDS)) {
+            for (const reward of Object.values(category)) {
+                if (reward.id === rewardId) return reward;
+            }
+        }
+        return null;
+    }
+};
+
+// UI System
+const UI = {
+    views: {
+        daily: document.getElementById('daily-view'),
+        character: document.getElementById('character-panel'),
+        rewards: document.getElementById('rewards-view'),
+        week: document.getElementById('week-view')
+    },
+
+    initialize() {
+        this.setupViewTransitions();
+        this.updateAll();
+    },
+
+    setupViewTransitions() {
+        const buttons = document.querySelectorAll('.nav-button');
+        buttons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                buttons.forEach(b => b.classList.remove('active'));
+                button.classList.add('active');
+            });
+        });
+    },
+
+    showView(viewName) {
+        Object.entries(this.views).forEach(([name, element]) => {
+            element.style.display = name === viewName ? 'block' : 'none';
+        });
+
+        // Special handling for each view
+        switch(viewName) {
+            case 'daily':
+                this.updateDailyView();
+                break;
+            case 'character':
+                this.updateCharacterView();
+                break;
+            case 'rewards':
+                this.updateRewardsView();
+                break;
+            case 'week':
+                this.updateWeekView();
+                break;
+        }
+    },
+
+    updateAll() {
+        this.updateHeader();
+        this.updateExperienceBar();
+        this.updateAttributeBars();
+        this.updateDailyView();
+    },
+
+    updateHeader() {
+        document.getElementById('level').textContent = gameState.character.level;
+        document.getElementById('character-title').textContent = gameState.character.title;
+        document.getElementById('points-amount').textContent = gameState.character.points;
+    },
+
+    updateExperienceBar() {
+        const percentage = (gameState.character.experience / gameState.character.nextLevelXp) * 100;
+        document.querySelector('.xp-fill').style.width = `${percentage}%`;
+        
+        document.getElementById('current-xp').textContent = gameState.character.experience;
+        document.getElementById('next-level-xp').textContent = gameState.character.nextLevelXp;
+    },
+
+    updateAttributeBars() {
+        Object.entries(gameState.character.attributes).forEach(([attribute, value]) => {
+            const bar = document.getElementById(`${attribute}-fill`);
+            if (bar) {
+                bar.style.width = `${value}%`;
+            }
+        });
+    },
+
+    updateDailyView() {
+        const container = document.getElementById('schedule-container');
+        container.innerHTML = ''; // Clear existing content
+
+        const today = new Date();
+        const schedule = this.getScheduleForDate(today);
+        
+        schedule.forEach((task, index) => {
+            container.appendChild(this.createTaskElement(task, index));
+        });
+    },
+
+    createTaskElement(task, index) {
+        const element = document.createElement('div');
+        element.className = `schedule-item ${this.getTaskStatus(task, index)}`;
+        
+        element.innerHTML = `
+            <div class="checkbox"></div>
+            <div class="task-content">
+                <div class="task-time">${task.time}</div>
+                <div class="task-title">${task.icon} ${task.activity}</div>
+                <div class="task-details">${task.details}</div>
+            </div>
+            ${this.getTaskStatusIndicator(task, index)}
+        `;
+
+        element.addEventListener('click', () => this.handleTaskClick(task, index));
+        
+        return element;
+    },
+
+    getTaskStatus(task, index) {
+        const dateStr = new Date().toLocaleDateString();
+        const taskKey = `${index}-${dateStr}`;
+        
+        if (gameState.progress.completedTasks[dateStr]?.includes(taskKey)) {
+            return 'completed';
+        }
+
+        const timeDiff = this.getTimeDifferenceInMinutes(task.time);
+        if (timeDiff > CONFIG.TIME.GRACE_PERIOD) return 'overdue';
+        if (timeDiff > -CONFIG.TIME.UPCOMING_THRESHOLD) return 'upcoming';
+        
+        return '';
+    },
+
+    getTaskStatusIndicator(task, index) {
+        const status = this.getTaskStatus(task, index);
+        if (!status) return '';
+
+        const indicators = {
+            completed: '✓ Completed',
+            overdue: '⚠️ Overdue',
+            upcoming: '⏳ Coming up'
+        };
+
+        return `<div class="task-status ${status}">${indicators[status]}</div>`;
+    },
+
+    handleTaskClick(task, index) {
+        const dateStr = new Date().toLocaleDateString();
+        const taskKey = `${index}-${dateStr}`;
+        
+        if (!gameState.progress.completedTasks[dateStr]) {
+            gameState.progress.completedTasks[dateStr] = [];
+        }
+
+        const isCompleted = gameState.progress.completedTasks[dateStr].includes(taskKey);
+        
+        if (isCompleted) {
+            // Uncomplete task
+            const taskIndex = gameState.progress.completedTasks[dateStr].indexOf(taskKey);
+            gameState.progress.completedTasks[dateStr].splice(taskIndex, 1);
+            this.handleTaskUncompletion(task);
+        } else {
+            // Complete task
+            gameState.progress.completedTasks[dateStr].push(taskKey);
+            this.handleTaskCompletion(task);
+        }
+
+        this.updateDailyView();
+        GameSystems.syncGameState();
+    },
+
+    handleTaskCompletion(task) {
+        // Base XP award
+        GameSystems.awardExperience(GAMIFICATION_CONFIG.XP_REWARDS.TASK_COMPLETION, 'task');
+        
+        // Attribute gains
+        GameSystems.updateAttributes(task.type);
+        
+        // Visual feedback
+        this.celebrate();
+        Utils.triggerHapticFeedback('medium');
+    },
+
+    celebrate() {
+        const celebration = document.createElement('div');
+        celebration.className = 'celebration';
+        
+        for (let i = 0; i < CONFIG.ANIMATION.CONFETTI_COUNT; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.setProperty('--delay', `${Math.random() * 500}ms`);
+            confetti.style.setProperty('--rotation', `${Math.random() * 360}deg`);
+            confetti.style.left = `${Math.random() * 100}%`;
+            celebration.appendChild(confetti);
+        }
+        
+        document.body.appendChild(celebration);
+        setTimeout(() => celebration.remove(), 2000);
+    },
+    // App Initialization
+const App = {
+    async initialize() {
+        // Load saved state
+        GameSystems.initialize();
+        UI.initialize();
+
+        // Set up service worker for PWA
+        if ('serviceWorker' in navigator) {
+            try {
+                await navigator.serviceWorker.register('/service-worker.js');
+            } catch (error) {
+                console.error('Service worker registration failed:', error);
+            }
+        }
+
+        // Set up notifications
+        if ('Notification' in window && Notification.permission === 'default') {
+            await Notification.requestPermission();
+        }
+
+        // Set up periodic checks
+        setInterval(() => this.checkSchedule(), CONFIG.TIME.CHECK_INTERVAL);
+        setInterval(() => this.syncData(), CONFIG.TIME.SYNC_INTERVAL);
+
+        // Initialize first view
+        UI.showView('daily');
+    },
+
+    checkSchedule() {
+        const now = new Date();
+        const todaySchedule = SCHEDULE_CONFIG.DAILY_SCHEDULES[this.getCurrentScheduleType()];
+        
+        todaySchedule.forEach((task, index) => {
+            const taskTime = Utils.parseTime(task.time);
+            const diff = (taskTime - now) / 1000 / 60; // minutes
+
+            if (diff <= CONFIG.TIME.UPCOMING_THRESHOLD && diff > 0) {
+                this.notifyUpcoming(task);
+            }
+        });
+    },
+
+    getCurrentScheduleType() {
+        const dayOfWeek = new Date().getDay();
+        return SCHEDULE_CONFIG.TYPES[dayOfWeek].type;
+    },
+
+    notifyUpcoming(task) {
+        if (Notification.permission === 'granted') {
+            const notification = new Notification('Upcoming Task', {
+                body: `${task.activity} starts in ${Math.round(diff)} minutes`,
+                icon: '/icon-192x192.png'
+            });
+        }
+    },
+
+    syncData() {
+        GameSystems.syncGameState();
+    }
+};
