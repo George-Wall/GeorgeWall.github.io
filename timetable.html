@@ -318,53 +318,47 @@
             0: { type: 'Rest Day', color: '#808080', steps: '8,000 (easy pace)' }
         };
 
-        const dailySchedules = {
-            'Gym Day': [
-                {time: '06:30', activity: 'Wake Up', details: '500ml water with electrolytes'},
-                {time: '06:35', activity: 'Morning Light Walk', details: '10-15min outdoor exposure'},
-                {time: '06:50', activity: 'Cold Shower', details: '2-3min cold exposure'},
-                {time: '07:00', activity: 'Breathwork', details: '5-5-5 breathing pattern'},
-                {time: '07:15', activity: 'Mobility Work', details: 'Full body mobility routine'},
-                {time: '07:30', activity: 'Pre-Workout Meal', details: 'Light breakfast'},
-                {time: '08:30', activity: 'Walk to Gym', details: '40min walking meditation'},
-                {time: '09:15', activity: 'Workout', details: '90min training session'},
-                {time: '11:00', activity: 'Walk Home', details: '40min recovery walk'},
-                {time: '11:40', activity: 'Arrive Home', details: 'Begin recovery routine'},
-                {time: '12:00', activity: 'Post-Workout Meal', details: 'Protein + carbs'}
-            ],
-            'Long Run Day': [
-                {time: '07:00', activity: 'Wake Up', details: '500ml water'},
-                {time: '07:15', activity: 'Morning Light', details: '15min outdoor exposure'},
-                {time: '07:30', activity: 'Light Snack', details: 'Simple carbs'},
-                {time: '08:00', activity: 'Long Run', details: '45min steady state'},
-                {time: '09:00', activity: 'Cool Down Walk', details: '15min easy pace'},
-                {time: '09:30', activity: 'Recovery Meal', details: 'Balanced breakfast'}
-            ],
-            'Recovery Day': [
-                {time: '07:00', activity: 'Wake Up', details: '500ml water'},
-                {time: '07:15', activity: 'Morning Light', details: '15min exposure'},
-                {time: '07:30', activity: 'Mobility Work', details: '20min mobility routine'},
-                {time: '08:00', activity: 'Breakfast', details: 'Balanced breakfast'},
-                {time: '09:00', activity: 'Morning Walk', details: '30min easy pace'},
-                {time: '13:00', activity: 'Lunch Walk', details: '30min easy pace'},
-                {time: '17:00', activity: 'Evening Walk', details: '30min easy pace'}
-            ],
-            'HIIT Run Day': [
-                {time: '07:30', activity: 'Wake Up', details: '500ml water'},
-                {time: '07:45', activity: 'Morning Light', details: '15min exposure'},
-                {time: '08:00', activity: 'Light Snack', details: 'Simple carbs'},
-                {time: '08:30', activity: 'HIIT Session', details: '30min (30s hard/90s easy × 10)'},
-                {time: '09:15', activity: 'Cool Down Walk', details: '15min easy pace'},
-                {time: '09:45', activity: 'Recovery Meal', details: 'Protein + carbs'}
-            ],
-            'Rest Day': [
-                {time: '08:00', activity: 'Natural Wake', details: 'No alarm needed'},
-                {time: '08:15', activity: 'Morning Light', details: '15min exposure'},
-                {time: '08:30', activity: 'Light Movement', details: 'Gentle mobility'},
-                {time: '09:00', activity: 'Breakfast', details: 'Relaxed meal'},
-                {time: '10:00', activity: 'Leisure Walk', details: '45-60min easy pace'}
-            ]
-        };
+       const dailySchedules = {
+    'Gym Day': [
+        {time: '07:00', activity: 'Wake Up', details: '500ml water + morning light'},
+        {time: '07:15', activity: 'Cold Shower', details: '2-3min cold exposure'},
+        {time: '07:20', activity: 'Quick Mobility', details: '10min basic stretches'},
+        {time: '07:30', activity: 'Pre-Workout Meal', details: 'Light breakfast'},
+        {time: '08:30', activity: 'Walk to Gym', details: '40min walking meditation'},
+        {time: '09:15', activity: 'Workout', details: '90min training session'},
+        {time: '11:00', activity: 'Walk Home', details: '40min recovery walk'},
+        {time: '11:40', activity: 'Arrive Home', details: 'Begin recovery'},
+        {time: '12:00', activity: 'Post-Workout Meal', details: 'Protein + carbs'}
+    ],
+    'Long Run Day': [
+        {time: '07:00', activity: 'Wake Up', details: '500ml water + morning light'},
+        {time: '07:15', activity: 'Light Snack', details: 'Simple carbs'},
+        {time: '08:00', activity: 'Run Session', details: '45min steady state'},
+        {time: '09:00', activity: 'Cool Down', details: '10min easy walk'},
+        {time: '09:30', activity: 'Recovery Meal', details: 'Balanced breakfast'}
+    ],
+    'Recovery Day': [
+        {time: '07:00', activity: 'Wake Up', details: '500ml water + morning light'},
+        {time: '07:15', activity: 'Mobility Work', details: '15min stretching'},
+        {time: '07:30', activity: 'Breakfast', details: 'Balanced meal'},
+        {time: '09:00', activity: 'Morning Walk', details: '30min easy pace'},
+        {time: '13:00', activity: 'Lunch Walk', details: '30min easy pace'},
+        {time: '17:00', activity: 'Evening Walk', details: '30min easy pace'}
+    ],
+    'HIIT Run Day': [
+        {time: '07:00', activity: 'Wake Up', details: '500ml water + morning light'},
+        {time: '07:15', activity: 'Light Snack', details: 'Simple carbs'},
+        {time: '08:00', activity: 'HIIT Session', details: '30min (30s hard/90s easy × 10)'},
+        {time: '08:45', activity: 'Cool Down', details: '10min easy walk'},
+        {time: '09:15', activity: 'Recovery Meal', details: 'Protein + carbs'}
+    ],
+    'Rest Day': [
+        {time: '07:30', activity: 'Wake Up', details: 'No rush + morning light'},
+        {time: '07:45', activity: 'Light Movement', details: 'Basic mobility'},
+        {time: '08:00', activity: 'Breakfast', details: 'Relaxed meal'},
+        {time: '10:00', activity: 'Leisure Walk', details: '45min easy pace'}
+    ]
+};
 
         function getScheduleForDate(date) {
             return scheduleTypes[date.getDay()];
