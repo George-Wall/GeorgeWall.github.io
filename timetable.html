@@ -267,56 +267,6 @@
         .schedule-item.streaked .streak-badge {
             transform: scale(1);
         }
-
-        .suggestion-banner {
-    background-color: var(--secondary-bg);
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    border-left: 4px solid var(--accent-color);
-}
-
-.suggestion-banner.critical {
-    border-color: #ff4444;
-}
-
-.suggestion-banner.adjustment {
-    border-color: #ffbb54;
-}
-
-.suggestion-banner.alternative {
-    border-color: var(--accent-color);
-}
-
-.schedule-item.missed {
-    opacity: 0.6;
-}
-
-.schedule-item.adjusted {
-    border-left: 4px solid #ffbb54;
-}
-
-.adjusted-time {
-    color: #ffbb54;
-}
-
-.adjusted-badge {
-    font-size: 0.8em;
-    background-color: #ffbb54;
-    color: var(--background-color);
-    padding: 2px 6px;
-    border-radius: 4px;
-    margin-left: 8px;
-}
-
-.missed-badge {
-    font-size: 0.8em;
-    background-color: #ff4444;
-    color: white;
-    padding: 2px 6px;
-    border-radius: 4px;
-    margin-left: 8px;
-}
     </style>
 </head>
 <body>
@@ -368,47 +318,53 @@
             0: { type: 'Rest Day', color: '#808080', steps: '8,000 (easy pace)' }
         };
 
-       const dailySchedules = {
-    'Gym Day': [
-        {time: '07:00', activity: 'Wake Up', details: '500ml water + morning light'},
-        {time: '07:15', activity: 'Cold Shower', details: '2-3min cold exposure'},
-        {time: '07:20', activity: 'Quick Mobility', details: '10min basic stretches'},
-        {time: '07:30', activity: 'Pre-Workout Meal', details: 'Light breakfast'},
-        {time: '08:30', activity: 'Walk to Gym', details: '40min walking meditation'},
-        {time: '09:15', activity: 'Workout', details: '90min training session'},
-        {time: '11:00', activity: 'Walk Home', details: '40min recovery walk'},
-        {time: '11:40', activity: 'Arrive Home', details: 'Begin recovery'},
-        {time: '12:00', activity: 'Post-Workout Meal', details: 'Protein + carbs'}
-    ],
-    'Long Run Day': [
-        {time: '07:00', activity: 'Wake Up', details: '500ml water + morning light'},
-        {time: '07:15', activity: 'Light Snack', details: 'Simple carbs'},
-        {time: '08:00', activity: 'Run Session', details: '45min steady state'},
-        {time: '09:00', activity: 'Cool Down', details: '10min easy walk'},
-        {time: '09:30', activity: 'Recovery Meal', details: 'Balanced breakfast'}
-    ],
-    'Recovery Day': [
-        {time: '07:00', activity: 'Wake Up', details: '500ml water + morning light'},
-        {time: '07:15', activity: 'Mobility Work', details: '15min stretching'},
-        {time: '07:30', activity: 'Breakfast', details: 'Balanced meal'},
-        {time: '09:00', activity: 'Morning Walk', details: '30min easy pace'},
-        {time: '13:00', activity: 'Lunch Walk', details: '30min easy pace'},
-        {time: '17:00', activity: 'Evening Walk', details: '30min easy pace'}
-    ],
-    'HIIT Run Day': [
-        {time: '07:00', activity: 'Wake Up', details: '500ml water + morning light'},
-        {time: '07:15', activity: 'Light Snack', details: 'Simple carbs'},
-        {time: '08:00', activity: 'HIIT Session', details: '30min (30s hard/90s easy × 10)'},
-        {time: '08:45', activity: 'Cool Down', details: '10min easy walk'},
-        {time: '09:15', activity: 'Recovery Meal', details: 'Protein + carbs'}
-    ],
-    'Rest Day': [
-        {time: '07:30', activity: 'Wake Up', details: 'No rush + morning light'},
-        {time: '07:45', activity: 'Light Movement', details: 'Basic mobility'},
-        {time: '08:00', activity: 'Breakfast', details: 'Relaxed meal'},
-        {time: '10:00', activity: 'Leisure Walk', details: '45min easy pace'}
-    ]
-};
+        const dailySchedules = {
+            'Gym Day': [
+                {time: '06:30', activity: 'Wake Up', details: '500ml water with electrolytes'},
+                {time: '06:35', activity: 'Morning Light Walk', details: '10-15min outdoor exposure'},
+                {time: '06:50', activity: 'Cold Shower', details: '2-3min cold exposure'},
+                {time: '07:00', activity: 'Breathwork', details: '5-5-5 breathing pattern'},
+                {time: '07:15', activity: 'Mobility Work', details: 'Full body mobility routine'},
+                {time: '07:30', activity: 'Pre-Workout Meal', details: 'Light breakfast'},
+                {time: '08:30', activity: 'Walk to Gym', details: '40min walking meditation'},
+                {time: '09:15', activity: 'Workout', details: '90min training session'},
+                {time: '11:00', activity: 'Walk Home', details: '40min recovery walk'},
+                {time: '11:40', activity: 'Arrive Home', details: 'Begin recovery routine'},
+                {time: '12:00', activity: 'Post-Workout Meal', details: 'Protein + carbs'}
+            ],
+            'Long Run Day': [
+                {time: '07:00', activity: 'Wake Up', details: '500ml water'},
+                {time: '07:15', activity: 'Morning Light', details: '15min outdoor exposure'},
+                {time: '07:30', activity: 'Light Snack', details: 'Simple carbs'},
+                {time: '08:00', activity: 'Long Run', details: '45min steady state'},
+                {time: '09:00', activity: 'Cool Down Walk', details: '15min easy pace'},
+                {time: '09:30', activity: 'Recovery Meal', details: 'Balanced breakfast'}
+            ],
+            'Recovery Day': [
+                {time: '07:00', activity: 'Wake Up', details: '500ml water'},
+                {time: '07:15', activity: 'Morning Light', details: '15min exposure'},
+                {time: '07:30', activity: 'Mobility Work', details: '20min mobility routine'},
+                {time: '08:00', activity: 'Breakfast', details: 'Balanced breakfast'},
+                {time: '09:00', activity: 'Morning Walk', details: '30min easy pace'},
+                {time: '13:00', activity: 'Lunch Walk', details: '30min easy pace'},
+                {time: '17:00', activity: 'Evening Walk', details: '30min easy pace'}
+            ],
+            'HIIT Run Day': [
+                {time: '07:30', activity: 'Wake Up', details: '500ml water'},
+                {time: '07:45', activity: 'Morning Light', details: '15min exposure'},
+                {time: '08:00', activity: 'Light Snack', details: 'Simple carbs'},
+                {time: '08:30', activity: 'HIIT Session', details: '30min (30s hard/90s easy × 10)'},
+                {time: '09:15', activity: 'Cool Down Walk', details: '15min easy pace'},
+                {time: '09:45', activity: 'Recovery Meal', details: 'Protein + carbs'}
+            ],
+            'Rest Day': [
+                {time: '08:00', activity: 'Natural Wake', details: 'No alarm needed'},
+                {time: '08:15', activity: 'Morning Light', details: '15min exposure'},
+                {time: '08:30', activity: 'Light Movement', details: 'Gentle mobility'},
+                {time: '09:00', activity: 'Breakfast', details: 'Relaxed meal'},
+                {time: '10:00', activity: 'Leisure Walk', details: '45-60min easy pace'}
+            ]
+        };
 
         function getScheduleForDate(date) {
             return scheduleTypes[date.getDay()];
@@ -422,308 +378,206 @@
             });
         }
 
-        function getCurrentTime() {
-    const now = new Date();
-    return now.toLocaleTimeString('en-GB', { 
-        hour: '2-digit', 
-        minute: '2-digit',
-        hour12: false 
-    });
-}
-
-function timeToMinutes(timeStr) {
-    const [hours, minutes] = timeStr.split(':').map(Number);
-    return hours * 60 + minutes;
-}
-
-function minutesToTime(minutes) {
-    const hours = Math.floor(minutes / 60);
-    const mins = minutes % 60;
-    return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
-}
-
-function getTimeAdjustedSchedule(schedule, currentTime) {
-    const currentMinutes = timeToMinutes(currentTime);
-    let adjustedSchedule = [...schedule];
-    let missedActivities = [];
-    
-    // Check for missed activities
-    adjustedSchedule.forEach(item => {
-        const itemMinutes = timeToMinutes(item.time);
-        if (currentMinutes > itemMinutes + 15) { // 15 minutes grace period
-            item.missed = true;
-            missedActivities.push(item);
-        }
-    });
-
-    // If we're behind but can still make it to the gym
-    if (currentMinutes < timeToMinutes('08:30')) { // Before gym walk time
-        const delayMinutes = currentMinutes - timeToMinutes('07:00');
-        const adjustmentNeeded = Math.ceil(delayMinutes / 15) * 15; // Round up to nearest 15 min
-
-        adjustedSchedule = adjustedSchedule
-            .filter(item => !item.missed) // Remove missed items
-            .map(item => ({
-                ...item,
-                time: minutesToTime(timeToMinutes(item.time) + adjustmentNeeded),
-                adjusted: true
-            }));
-    }
-
-    return { adjustedSchedule, missedActivities };
-}
-
-function getAdaptiveSuggestion(missedActivities, currentTime) {
-    const currentMinutes = timeToMinutes(currentTime);
-
-    if (missedActivities.length > 0) {
-        if (currentMinutes < timeToMinutes('08:30')) {
-            return {
-                type: 'adjustment',
-                message: `Schedule adjusted to start at ${currentTime}. Combined morning activities for efficiency.`,
-                priority: 'Stay on track for gym by 9:15'
-            };
-        } else if (currentMinutes < timeToMinutes('09:15')) {
-            return {
-                type: 'critical',
-                message: 'Morning routine missed but can still make gym session!',
-                priority: 'Quick mobility + light meal, then head to gym'
-            };
-        } else {
-            return {
-                type: 'alternative',
-                message: 'Main morning session missed. Alternative options:',
-                priority: '1. Home workout\n2. Evening gym session\n3. Extra cardio today'
-            };
-        }
-    }
-    return null;
-}
-
-function showSchedule(date) {
-    const schedule = getScheduleForDate(date);
-    const dailySchedule = dailySchedules[schedule.type];
-    const dateStr = date.toLocaleDateString();
-    const currentTime = getCurrentTime();
-    
-    document.getElementById('current-date').textContent = formatDate(date);
-    const scheduleType = document.getElementById('schedule-type');
-    scheduleType.textContent = `${schedule.type}${schedule.workout ? ` (Workout ${schedule.workout})` : ''}`;
-    scheduleType.style.backgroundColor = schedule.color;
-
-    const dailyView = document.getElementById('daily-view');
-    dailyView.innerHTML = '';
-
-    // Only process time adjustments for today's schedule
-    if (dateStr === new Date().toLocaleDateString()) {
-        const { adjustedSchedule, missedActivities } = getTimeAdjustedSchedule(dailySchedule, currentTime);
-        const suggestion = getAdaptiveSuggestion(missedActivities, currentTime);
-
-        if (suggestion) {
-            dailyView.innerHTML += `
-                <div class="suggestion-banner ${suggestion.type}">
-                    <h4>${suggestion.message}</h4>
-                    <p>Priority: ${suggestion.priority}</p>
-                </div>
-            `;
-        }
-
-        adjustedSchedule.forEach((item, index) => {
-            const taskKey = `${schedule.type}-${index}`;
-            const isCompleted = progressData.completedTasks[dateStr]?.includes(taskKey);
-            const hasStreak = progressData.streaks > 2;
+        function showSchedule(date) {
+            const schedule = getScheduleForDate(date);
+            const dailySchedule = dailySchedules[schedule.type];
             
+            document.getElementById('current-date').textContent = formatDate(date);
+            const scheduleType = document.getElementById('schedule-type');
+            scheduleType.textContent = `${schedule.type}${schedule.workout ? ` (Workout ${schedule.workout})` : ''}`;
+            scheduleType.style.backgroundColor = schedule.color;
+
+            const dailyView = document.getElementById('daily-view');
+            dailyView.innerHTML = '';
+
+            dailySchedule.forEach(item => {
+                dailyView.innerHTML += `
+                    <div class="schedule-item">
+                        <span class="time">${item.time}</span>
+                        <span class="activity">${item.activity}</span>
+                        <span class="details">${item.details}</span>
+                    </div>
+                `;
+            });
+
             dailyView.innerHTML += `
-                <div class="schedule-item ${isCompleted ? 'completed' : ''} 
-                                         ${hasStreak ? 'streaked' : ''} 
-                                         ${item.missed ? 'missed' : ''} 
-                                         ${item.adjusted ? 'adjusted' : ''}" 
-                     onclick="toggleTask('${taskKey}', new Date('${date}'))">
-                    <div class="checkbox"></div>
-                    ${hasStreak ? `<span class="streak-badge">🔥 ${progressData.streaks} days</span>` : ''}
-                    <span class="time ${item.adjusted ? 'adjusted-time' : ''}">${item.time}</span>
-                    <span class="activity">${item.activity}</span>
-                    <span class="details">${item.details}</span>
-                    ${item.adjusted ? '<span class="adjusted-badge">Adjusted</span>' : ''}
-                    ${item.missed ? '<span class="missed-badge">Missed - Skip/Combine</span>' : ''}
+                <div class="daily-targets">
+                    <h3>Daily Targets:</h3>
+                    <p>• Steps: ${schedule.steps}</p>
+                    <p>• Water: 2L before 2 PM</p>
+                    <p>• Sleep: 7-9 hours</p>
                 </div>
             `;
-        });
-    } else {
-        // Show regular schedule for non-today dates
-        dailySchedule.forEach((item, index) => {
-            const taskKey = `${schedule.type}-${index}`;
-            const isCompleted = progressData.completedTasks[dateStr]?.includes(taskKey);
-            const hasStreak = progressData.streaks > 2;
+        }
+
+        function showWeekView() {
+            const weekView = document.getElementById('week-view');
+            weekView.innerHTML = '';
             
-            dailyView.innerHTML += `
-                <div class="schedule-item ${isCompleted ? 'completed' : ''} ${hasStreak ? 'streaked' : ''}" 
-                     onclick="toggleTask('${taskKey}', new Date('${date}'))">
-                    <div class="checkbox"></div>
-                    ${hasStreak ? `<span class="streak-badge">🔥 ${progressData.streaks} days</span>` : ''}
-                    <span class="time">${item.time}</span>
-                    <span class="activity">${item.activity}</span>
-                    <span class="details">${item.details}</span>
-                </div>
-            `;
-        });
-    }
-
-    dailyView.innerHTML += `
-        <div class="daily-targets">
-            <h3>Daily Targets:</h3>
-            <p>• Steps: ${schedule.steps}</p>
-            <p>• Water: 2L before 2 PM</p>
-            <p>• Sleep: 7-9 hours</p>
-        </div>
-    `;
-    
-    updateProgress();
-}
-
-function startTimeCheck() {
-    // Update immediately
-    showSchedule(new Date());
-    
-    // Then check every minute
-    setInterval(() => {
-        if (document.getElementById('daily-view').style.display !== 'none') {
-            showSchedule(new Date());
+            const today = new Date();
+            const currentDay = today.getDay();
+            
+            for (let i = 0; i < 7; i++) {
+                const date = new Date();
+                date.setDate(today.getDate() - currentDay + i);
+                const schedule = getScheduleForDate(date);
+                const isToday = i === currentDay;
+                
+                weekView.innerHTML += `
+                    <div class="week-day ${isToday ? 'today' : ''}">
+                        <div class="day-header">
+                            <h3>${formatDate(date)}</h3>
+                            <span class="day-type" style="background-color: ${schedule.color}">
+                                ${schedule.type}${schedule.workout ? ` (${schedule.workout})` : ''}
+                            </span>
+                        </div>
+                        <div>Steps: ${schedule.steps}</div>
+                        <div>Main Activity: ${schedule.type.includes('Gym') ? '09:15 Workout' : 
+                                           schedule.type.includes('Run') ? '08:00 Run' : 'Active Recovery'}</div>
+                    </div>
+                `;
+            }
         }
-    }, 60000); // Update every minute
-}
 
-function showWeekView() {
-    const weekView = document.getElementById('week-view');
-    weekView.innerHTML = '';
-    
-    const today = new Date();
-    const currentDay = today.getDay();
-    
-    for (let i = 0; i < 7; i++) {
-        const date = new Date();
-        date.setDate(today.getDate() - currentDay + i);
-        const schedule = getScheduleForDate(date);
-        const isToday = i === currentDay;
-        
-        weekView.innerHTML += `
-            <div class="week-day ${isToday ? 'today' : ''}">
-                <div class="day-header">
-                    <h3>${formatDate(date)}</h3>
-                    <span class="day-type" style="background-color: ${schedule.color}">
-                        ${schedule.type}${schedule.workout ? ` (${schedule.workout})` : ''}
-                    </span>
-                </div>
-                <div>Steps: ${schedule.steps}</div>
-                <div>Main Activity: ${schedule.type.includes('Gym') ? '09:15 Workout' : 
-                                   schedule.type.includes('Run') ? '08:00 Run' : 'Active Recovery'}</div>
-            </div>
-        `;
-    }
-}
+        function showView(view) {
+            const dailyView = document.getElementById('daily-view');
+            const weekView = document.getElementById('week-view');
+            const buttons = document.querySelectorAll('.nav-button');
+            
+            buttons.forEach(button => button.classList.remove('active'));
+            event.target.classList.add('active');
 
-function showView(view) {
-    const dailyView = document.getElementById('daily-view');
-    const weekView = document.getElementById('week-view');
-    const buttons = document.querySelectorAll('.nav-button');
-    
-    buttons.forEach(button => button.classList.remove('active'));
-    event.target.classList.add('active');
-
-    if (view === 'week') {
-        dailyView.style.display = 'none';
-        weekView.style.display = 'block';
-        document.getElementById('current-date').textContent = 'This Week';
-        document.getElementById('schedule-type').style.display = 'none';
-        showWeekView();
-    } else {
-        dailyView.style.display = 'block';
-        weekView.style.display = 'none';
-        document.getElementById('schedule-type').style.display = 'inline-block';
-        const date = new Date();
-        if (view === 'tomorrow') {
-            date.setDate(date.getDate() + 1);
+            if (view === 'week') {
+                dailyView.style.display = 'none';
+                weekView.style.display = 'block';
+                document.getElementById('current-date').textContent = 'This Week';
+                document.getElementById('schedule-type').style.display = 'none';
+                showWeekView();
+            } else {
+                dailyView.style.display = 'block';
+                weekView.style.display = 'none';
+                document.getElementById('schedule-type').style.display = 'inline-block';
+                const date = new Date();
+                if (view === 'tomorrow') {
+                    date.setDate(date.getDate() + 1);
+                }
+                showSchedule(date);
+            }
         }
-        showSchedule(date);
-    }
-}
 
 let progressData = JSON.parse(localStorage.getItem('progressData')) || {
-    completedTasks: {},
-    streaks: 0,
-    lastCompletedDate: null
-};
+            completedTasks: {},
+            streaks: 0,
+            lastCompletedDate: null
+        };
 
-function updateProgress() {
-    const today = new Date().toLocaleDateString();
-    const todayCompleted = (progressData.completedTasks[today] || []).length;
-    const totalTasks = dailySchedules[getScheduleForDate(new Date()).type].length;
-    
-    const progress = (todayCompleted / totalTasks) * 100;
-    document.getElementById('progress-fill').style.width = `${progress}%`;
-    document.getElementById('today-completed').textContent = todayCompleted;
+        function updateProgress() {
+            const today = new Date().toLocaleDateString();
+            const todayCompleted = (progressData.completedTasks[today] || []).length;
+            const totalTasks = dailySchedules[getScheduleForDate(new Date()).type].length;
+            
+            const progress = (todayCompleted / totalTasks) * 100;
+            document.getElementById('progress-fill').style.width = `${progress}%`;
+            document.getElementById('today-completed').textContent = todayCompleted;
 
-    const weekCompleted = Object.keys(progressData.completedTasks)
-        .filter(date => {
-            const taskDate = new Date(date);
-            const weekAgo = new Date();
-            weekAgo.setDate(weekAgo.getDate() - 7);
-            return taskDate >= weekAgo;
-        })
-        .reduce((acc, date) => acc + progressData.completedTasks[date].length, 0);
-    
-    document.getElementById('week-completed').textContent = weekCompleted;
-    document.getElementById('streak-count').textContent = progressData.streaks;
-}
-
-function toggleTask(taskKey, date) {
-    const dateStr = date.toLocaleDateString();
-    progressData.completedTasks[dateStr] = progressData.completedTasks[dateStr] || [];
-    
-    const index = progressData.completedTasks[dateStr].indexOf(taskKey);
-    if (index === -1) {
-        progressData.completedTasks[dateStr].push(taskKey);
-        celebrate();
-        
-        const today = new Date().toLocaleDateString();
-        if (dateStr === today) {
-            if (!progressData.lastCompletedDate || 
-                new Date(progressData.lastCompletedDate).toLocaleDateString() === 
-                new Date(Date.now() - 86400000).toLocaleDateString()) {
-                progressData.streaks++;
-            }
-            progressData.lastCompletedDate = today;
+            // Calculate week progress
+            const weekCompleted = Object.keys(progressData.completedTasks)
+                .filter(date => {
+                    const taskDate = new Date(date);
+                    const weekAgo = new Date();
+                    weekAgo.setDate(weekAgo.getDate() - 7);
+                    return taskDate >= weekAgo;
+                })
+                .reduce((acc, date) => acc + progressData.completedTasks[date].length, 0);
+            
+            document.getElementById('week-completed').textContent = weekCompleted;
+            document.getElementById('streak-count').textContent = progressData.streaks;
         }
-    } else {
-        progressData.completedTasks[dateStr].splice(index, 1);
-    }
-    
-    localStorage.setItem('progressData', JSON.stringify(progressData));
-    updateProgress();
-    showSchedule(date);
-}
 
-function celebrate() {
-    const celebration = document.createElement('div');
-    celebration.className = 'celebration';
-    celebration.textContent = '🎉';
-    document.body.appendChild(celebration);
-    
-    setTimeout(() => {
-        document.body.removeChild(celebration);
-    }, 1000);
-}
-
-// Initialize with time checking
-document.addEventListener('DOMContentLoaded', () => {
-    startTimeCheck();
-    
-    // Add vibration feedback for mobile
-    if ('vibrate' in navigator) {
-        document.addEventListener('click', (e) => {
-            if (e.target.closest('.schedule-item')) {
-                navigator.vibrate(50);
+        function toggleTask(taskKey, date) {
+            const dateStr = date.toLocaleDateString();
+            progressData.completedTasks[dateStr] = progressData.completedTasks[dateStr] || [];
+            
+            const index = progressData.completedTasks[dateStr].indexOf(taskKey);
+            if (index === -1) {
+                progressData.completedTasks[dateStr].push(taskKey);
+                celebrate();
+                
+                // Update streaks
+                const today = new Date().toLocaleDateString();
+                if (dateStr === today) {
+                    if (!progressData.lastCompletedDate || 
+                        new Date(progressData.lastCompletedDate).toLocaleDateString() === 
+                        new Date(Date.now() - 86400000).toLocaleDateString()) {
+                        progressData.streaks++;
+                    }
+                    progressData.lastCompletedDate = today;
+                }
+            } else {
+                progressData.completedTasks[dateStr].splice(index, 1);
             }
-        });
-    }
-});
+            
+            localStorage.setItem('progressData', JSON.stringify(progressData));
+            updateProgress();
+            showSchedule(date);
+        }
+
+        function celebrate() {
+            const celebration = document.createElement('div');
+            celebration.className = 'celebration';
+            celebration.textContent = '🎉';
+            document.body.appendChild(celebration);
+            
+            setTimeout(() => {
+                document.body.removeChild(celebration);
+            }, 1000);
+        }
+
+        // Modify showSchedule function
+        function showSchedule(date) {
+            const schedule = getScheduleForDate(date);
+            const dailySchedule = dailySchedules[schedule.type];
+            const dateStr = date.toLocaleDateString();
+            
+            document.getElementById('current-date').textContent = formatDate(date);
+            const scheduleType = document.getElementById('schedule-type');
+            scheduleType.textContent = `${schedule.type}${schedule.workout ? ` (Workout ${schedule.workout})` : ''}`;
+            scheduleType.style.backgroundColor = schedule.color;
+
+            const dailyView = document.getElementById('daily-view');
+            dailyView.innerHTML = '';
+
+            dailySchedule.forEach((item, index) => {
+                const taskKey = `${schedule.type}-${index}`;
+                const isCompleted = progressData.completedTasks[dateStr]?.includes(taskKey);
+                const hasStreak = progressData.streaks > 2;
+                
+                dailyView.innerHTML += `
+                    <div class="schedule-item ${isCompleted ? 'completed' : ''} ${hasStreak ? 'streaked' : ''}" 
+                         onclick="toggleTask('${taskKey}', new Date('${date}'))">
+                        <div class="checkbox"></div>
+                        ${hasStreak ? '<span class="streak-badge">🔥 ${progressData.streaks} days</span>' : ''}
+                        <span class="time">${item.time}</span>
+                        <span class="activity">${item.activity}</span>
+                        <span class="details">${item.details}</span>
+                    </div>
+                `;
+            });
+
+            dailyView.innerHTML += `
+                <div class="daily-targets">
+                    <h3>Daily Targets:</h3>
+                    <p>• Steps: ${schedule.steps}</p>
+                    <p>• Water: 2L before 2 PM</p>
+                    <p>• Sleep: 7-9 hours</p>
+                </div>
+            `;
+            
+            updateProgress();
+        }
+
+        // Initial load
+        showSchedule(new Date());
+    </script>
+</body>
+</html>
