@@ -2,86 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Workout Schedule</title>
-    
-    <!-- iOS specific meta tags -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Workout Schedule">
-    
-    <!-- Add to home screen icons for iOS -->
-    <link rel="apple-touch-icon" href="icon-192.png">
-    <meta name="theme-color" content="#121212">
-
-    <style>
-        /* Prevent text selection on iOS */
-        * {
-            -webkit-tap-highlight-color: transparent;
-            -webkit-touch-callout: none;
-            user-select: none;
-        }
-
-        /* iOS specific button styles */
-        button {
-            -webkit-appearance: none;
-            appearance: none;
-        }
-
-        /* Fix for iOS momentum scrolling */
-        body {
-            -webkit-overflow-scrolling: touch;
-            overflow-x: hidden;
-        }
-
-        /* iOS-style switches instead of checkboxes */
-        .checkbox {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 40px;
-            height: 24px;
-            background-color: #333;
-            border-radius: 12px;
-            transition: background-color 0.3s ease;
-        }
-
-        .checkbox::after {
-            content: '';
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 20px;
-            height: 20px;
-            background-color: white;
-            border-radius: 50%;
-            transition: transform 0.3s ease;
-        }
-
-        .schedule-item.completed .checkbox {
-            background-color: var(--accent-color);
-        }
-
-        .schedule-item.completed .checkbox::after {
-            transform: translateX(16px);
-        }
-
-        /* Add haptic feedback hints */
-        .schedule-item {
-            touch-action: manipulation;
-        }
-
-        /* iOS-style animations */
-        @supports (-webkit-touch-callout: none) {
-            .schedule-item {
-                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            }
-
-            .schedule-item:active {
-                transform: scale(0.98);
-            }
-        }
     <style>
         :root {
             --background-color: #121212;
@@ -386,87 +308,6 @@
     </div>
 
     <script>
-         function isStorageAvailable() {
-            try {
-                const test = '__storage_test__';
-                localStorage.setItem(test, test);
-                localStorage.removeItem(test);
-                return true;
-            } catch(e) {
-                return false;
-            }
-        }
-
-        // Safe storage wrapper
-        const storage = {
-            get: function(key) {
-                if (!isStorageAvailable()) return null;
-                try {
-                    return JSON.parse(localStorage.getItem(key));
-                } catch (e) {
-                    console.error('Error reading from storage:', e);
-                    return null;
-                }
-            },
-            set: function(key, value) {
-                if (!isStorageAvailable()) return;
-                try {
-                    localStorage.setItem(key, JSON.stringify(value));
-                } catch (e) {
-                    console.error('Error writing to storage:', e);
-                    // Handle QuotaExceededError
-                    if (e.name === 'QuotaExceededError') {
-                        // Clear old data if needed
-                        this.clearOldData();
-                        try {
-                            localStorage.setItem(key, JSON.stringify(value));
-                        } catch (e2) {
-                            console.error('Still unable to write to storage:', e2);
-                        }
-                    }
-                }
-            },
-            clearOldData: function() {
-                // Clear data older than 30 days
-                const thirtyDaysAgo = new Date();
-                thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-                
-                const data = this.get('progressData');
-                if (!data || !data.completedTasks) return;
-
-                Object.keys(data.completedTasks).forEach(dateStr => {
-                    if (new Date(dateStr) < thirtyDaysAgo) {
-                        delete data.completedTasks[dateStr];
-                    }
-                });
-
-                this.set('progressData', data);
-            }
-        };
-
-        // Load progress data with fallback
-        let progressData = storage.get('progressData') || {
-            completedTasks: {},
-            streaks: 0,
-            lastCompletedDate: null
-        };
-
-        // Handle touch events for iOS
-        function handleTouch(event) {
-            event.preventDefault();
-            const element = event.currentTarget;
-            const taskKey = element.dataset.taskKey;
-            const dateStr = element.dataset.date;
-
-            toggleTask(taskKey, new Date(dateStr));
-
-            // Trigger haptic feedback if available
-            if (window.navigator && window.navigator.vibrate) {
-                window.navigator.vibrate(50);
-            }
-        }
-
-        
         const scheduleTypes = {
             1: { type: 'Gym Day', workout: 'A', color: '#8BC5BF', steps: '10,000 (8,000 from walks)' },
             2: { type: 'Long Run Day', color: '#E4BAC1', steps: '10,000 (6,000 from run)' },
@@ -549,27 +390,14 @@
             const dailyView = document.getElementById('daily-view');
             dailyView.innerHTML = '';
 
-           dailySchedule.forEach((item, index) => {
-                const taskKey = `${schedule.type}-${index}`;
-                const dateStr = date.toLocaleDateString();
-                const isCompleted = progressData.completedTasks[dateStr]?.includes(taskKey);
-                const hasStreak = progressData.streaks > 2;
-                
-                const itemElement = document.createElement('div');
-                itemElement.className = `schedule-item ${isCompleted ? 'completed' : ''} ${hasStreak ? 'streaked' : ''}`;
-                itemElement.dataset.taskKey = taskKey;
-                itemElement.dataset.date = date;
-                
-                itemElement.innerHTML = `
-                    <div class="checkbox"></div>
-                    ${hasStreak ? '<span class="streak-badge">🔥 ${progressData.streaks} days</span>' : ''}
-                    <span class="time">${item.time}</span>
-                    <span class="activity">${item.activity}</span>
-                    <span class="details">${item.details}</span>
+            dailySchedule.forEach(item => {
+                dailyView.innerHTML += `
+                    <div class="schedule-item">
+                        <span class="time">${item.time}</span>
+                        <span class="activity">${item.activity}</span>
+                        <span class="details">${item.details}</span>
+                    </div>
                 `;
-
-                itemElement.addEventListener('touchstart', handleTouch, {passive: false});
-                dailyView.appendChild(itemElement);
             });
 
             dailyView.innerHTML += `
@@ -581,7 +409,6 @@
                 </div>
             `;
         }
-        
 
         function showWeekView() {
             const weekView = document.getElementById('week-view');
@@ -748,21 +575,6 @@ let progressData = JSON.parse(localStorage.getItem('progressData')) || {
             
             updateProgress();
         }
-
-        // Save progress immediately when changes occur
-        function saveProgress() {
-            storage.set('progressData', progressData);
-        }
-
-        // Add iOS-specific event handlers
-        document.addEventListener('visibilitychange', () => {
-            if (document.visibilityState === 'hidden') {
-                saveProgress();
-            }
-        });
-
-        window.addEventListener('pagehide', saveProgress);
-        window.addEventListener('beforeunload', saveProgress);
 
         // Initial load
         showSchedule(new Date());
