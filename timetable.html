@@ -1035,34 +1035,36 @@ const Core = {
     },
 
     // Touch Handlers
-    attachTouchHandlers(element, taskKey, date, scheduledTime) {
-        let touchStartX = 0;
-        let touchStartY = 0;
-        
-        element.addEventListener('touchstart', (e) => {
-            touchStartX = e.touches[0].clientX;
-            touchStartY = e.touches[0].clientY;
-        });
+   attachTouchHandlers(element, taskKey, date, scheduledTime) {
+    let touchStartX = 0;
+    let touchStartY = 0;
+    
+    element.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+    });
 
-        element.addEventListener('touchend', (e) => {
-            const touchEndX = e.changedTouches[0].clientX;
-            const touchEndY = e.changedTouches[0].clientY;
-            const deltaX = touchEndX - touchStartX;
-            const deltaY = touchEndY - touchStartY;
+    element.addEventListener('touchend', (e) => {
+        const touchEndX = e.changedTouches[0].clientX;
+        const touchEndY = e.changedTouches[0].clientY;
+        const deltaX = touchEndX - touchStartX;
+        const deltaY = touchEndY - touchStartY;
 
-            if (Math.abs(deltaX) < CONFIG.TOUCH.TAP_THRESHOLD && 
-                Math.abs(deltaY) < CONFIG.TOUCH.TAP_THRESHOLD) {
+        if (Math.abs(deltaX) < CONFIG.TOUCH.TAP_THRESHOLD && 
+            Math.abs(deltaY) < CONFIG.TOUCH.TAP_THRESHOLD) {
+            
+            const timeStatus = this.getTimeStatus(scheduledTime, false);
+            if (timeStatus?.type === 'overdue') {
+                const schedule = Utils.getScheduleForDate(date);
+                const taskIndex = parseInt(taskKey.split('-')[1]);
+                const task = dailySchedules[schedule.type][taskIndex];
+                UI.showTaskModal(task, date.toISOString(), taskKey);
+            } else {
                 this.toggleTask(taskKey, date, scheduledTime);
-            } else if (deltaX > CONFIG.TOUCH.SWIPE_THRESHOLD && 
-                Math.abs(deltaY) < CONFIG.TOUCH.TAP_THRESHOLD) {
-                const isCompleted = progressData.completedTasks[date.toLocaleDateString()]?.includes(taskKey);
-                if (!isCompleted) {
-                    this.toggleTask(taskKey, date, scheduledTime);
-                }
             }
-        });
-    }
-};
+        }
+    });
+}
     // UI Functions
 const UI = {
     // View Management
@@ -1188,11 +1190,10 @@ const UI = {
         }
     },
 
-    handleTaskCompletion(status, taskKey, date) {
+   handleTaskCompletion(status, taskKey, date) {
         Core.handleTaskStatus(taskKey, new Date(date), status);
         this.closeTaskModal();
-    }
-},
+    },
 
     // Visual Feedback
     showAchievement(message) {
