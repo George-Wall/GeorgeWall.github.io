@@ -418,11 +418,6 @@
 const styleSheet = document.createElement("style");
 styleSheet.textContent = newStyles;
 document.head.appendChild(styleSheet);
-
-// Initialize the app when the document is ready
-document.addEventListener('DOMContentLoaded', () => {
-    App.initialize();
-});
     </style>
 </head>
 <body>
@@ -1345,3 +1340,7 @@ const App = {
         GameSystems.syncGameState();
     }
 };
+    // Initialize the app when the document is ready
+document.addEventListener('DOMContentLoaded', () => {
+    App.initialize();
+});
