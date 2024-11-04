@@ -1,17 +1,11 @@
 {
   "name": "Workout Schedule",
   "short_name": "Workout",
-  "description": "Daily workout and routine tracker",
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "/timetable/",
+  "scope": "/timetable/",
   "display": "standalone",
-  "orientation": "portrait",
   "background_color": "#121212",
   "theme_color": "#8BC5BF",
-  "dir": "ltr",
-  "lang": "en-US",
-  "prefer_related_applications": false,
-  "categories": ["fitness", "health", "lifestyle"],
   "icons": [
     {
       "src": "/icon-192x192.png",
