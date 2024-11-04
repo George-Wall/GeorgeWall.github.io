@@ -508,55 +508,54 @@ const scheduleTypes = {
     3: { type: 'Gym Day', workout: 'B', color: '#8BC5BF', steps: '10,000', icon: '💪' },
     4: { type: 'Recovery Day', color: '#ffbb54', steps: '10,000', icon: '🧘' },
     5: { type: 'Gym Day', workout: 'A', color: '#8BC5BF', steps: '10,000', icon: '💪' },
-    6: { type: 'HIIT Run Day', color: '#E4BAC1', steps: '10,000', icon: '⚡' },
+    6: { type: 'Fast Run Day', color: '#E4BAC1', steps: '10,000', icon: '⚡' },
     0: { type: 'Rest Day', color: '#808080', steps: '8,000', icon: '😴' }
 };
 
 const dailySchedules = {
     'Gym Day': [
-        {time: '06:30', activity: 'Wake Up', details: '500ml water with electrolytes', icon: '⏰'},
-        {time: '06:35', activity: 'Morning Light Walk', details: '10-15min outdoor exposure', icon: '🌅'},
-        {time: '06:50', activity: 'Cold Shower', details: '2-3min cold exposure', icon: '🚿'},
-        {time: '07:00', activity: 'Breathwork', details: '5-5-5 breathing pattern', icon: '🫁'},
-        {time: '07:15', activity: 'Mobility Work', details: 'Full body mobility routine', icon: '🤸'},
-        {time: '07:30', activity: 'Pre-Workout Meal', details: 'Light breakfast', icon: '🥣'},
-        {time: '08:30', activity: 'Walk to Gym', details: '40min walking meditation', icon: '🚶'},
-        {time: '09:15', activity: 'Workout', details: '90min training session', icon: '💪'},
-        {time: '11:00', activity: 'Walk Home', details: '40min recovery walk', icon: '🏃'},
-        {time: '11:40', activity: 'Recovery', details: 'Begin recovery routine', icon: '🧘'},
-        {time: '12:00', activity: 'Post-Workout Meal', details: 'Protein + carbs', icon: '🍳'}
+        {time: '07:30', activity: 'Wake Up', details: '500ml water with electrolytes', icon: '⏰'},
+        {time: '07:35', activity: 'Morning Light', details: '10min outdoor exposure', icon: '🌅'},
+        {time: '07:45', activity: 'Pre-Workout Snack', details: 'Light snack + caffeine', icon: '🥣'},
+        {time: '08:00', activity: 'Walk to Gym', details: '40min walking meditation', icon: '🚶'},
+        {time: '08:40', activity: 'Workout', details: '60min training session', icon: '💪'},
+        {time: '09:40', activity: 'Walk Home', details: '40min recovery walk', icon: '🏃'},
+        {time: '10:20', activity: 'Cold Shower', details: '2-3min cold exposure', icon: '🚿'},
+        {time: '10:30', activity: 'Post-Workout Meal', details: 'Protein + carbs', icon: '🍳'},
+        {time: '11:00', activity: 'Mobility Work', details: '15min recovery routine', icon: '🧘'}
     ],
     'Long Run Day': [
-        {time: '07:00', activity: 'Wake Up', details: '500ml water', icon: '⏰'},
-        {time: '07:15', activity: 'Morning Light', details: '15min outdoor exposure', icon: '🌅'},
-        {time: '07:30', activity: 'Light Snack', details: 'Simple carbs', icon: '🍌'},
-        {time: '08:00', activity: 'Long Run', details: '45min steady state', icon: '🏃'},
-        {time: '09:00', activity: 'Cool Down Walk', details: '15min easy pace', icon: '🚶'},
-        {time: '09:30', activity: 'Recovery Meal', details: 'Balanced breakfast', icon: '🍳'}
+        {time: '07:30', activity: 'Wake Up', details: '500ml water', icon: '⏰'},
+        {time: '07:45', activity: 'Morning Light', details: '10min outdoor exposure', icon: '🌅'},
+        {time: '08:00', activity: 'Light Snack', details: 'Simple carbs', icon: '🍌'},
+        {time: '08:30', activity: 'Long Run', details: '45min steady state', icon: '🏃'},
+        {time: '09:15', activity: 'Cool Down Walk', details: '15min easy pace', icon: '🚶'},
+        {time: '09:45', activity: 'Recovery Meal', details: 'Balanced breakfast', icon: '🍳'},
+        {time: '10:15', activity: 'Mobility Work', details: '15min recovery routine', icon: '🧘'}
     ],
     'Recovery Day': [
-        {time: '07:00', activity: 'Wake Up', details: '500ml water', icon: '⏰'},
-        {time: '07:15', activity: 'Morning Light', details: '15min exposure', icon: '🌅'},
-        {time: '07:30', activity: 'Mobility Work', details: '20min mobility routine', icon: '🤸'},
-        {time: '08:00', activity: 'Breakfast', details: 'Balanced breakfast', icon: '🍳'},
-        {time: '09:00', activity: 'Morning Walk', details: '30min easy pace', icon: '🚶'},
-        {time: '13:00', activity: 'Lunch Walk', details: '30min easy pace', icon: '🚶'},
-        {time: '17:00', activity: 'Evening Walk', details: '30min easy pace', icon: '🚶'}
-    ],
-    'HIIT Run Day': [
         {time: '07:30', activity: 'Wake Up', details: '500ml water', icon: '⏰'},
         {time: '07:45', activity: 'Morning Light', details: '15min exposure', icon: '🌅'},
+        {time: '08:15', activity: 'Mobility Work', details: '20min mobility routine', icon: '🤸'},
+        {time: '08:45', activity: 'Breakfast', details: 'Balanced breakfast', icon: '🍳'},
+        {time: '09:30', activity: 'Morning Walk', details: '45min easy pace', icon: '🚶'},
+        {time: '10:30', activity: 'Light Stretching', details: '15min flexibility work', icon: '🧘'}
+    ],
+    'Fast Run Day': [
+        {time: '07:30', activity: 'Wake Up', details: '500ml water', icon: '⏰'},
+        {time: '07:45', activity: 'Morning Light', details: '10min exposure', icon: '🌅'},
         {time: '08:00', activity: 'Light Snack', details: 'Simple carbs', icon: '🍌'},
-        {time: '08:30', activity: 'HIIT Session', details: '30min (30s hard/90s easy × 10)', icon: '⚡'},
+        {time: '08:30', activity: 'HIIT Session', details: '30min (30s hard/90s easy × 8)', icon: '⚡'},
         {time: '09:15', activity: 'Cool Down Walk', details: '15min easy pace', icon: '🚶'},
-        {time: '09:45', activity: 'Recovery Meal', details: 'Protein + carbs', icon: '🍳'}
+        {time: '09:45', activity: 'Recovery Meal', details: 'Protein + carbs', icon: '🍳'},
+        {time: '10:15', activity: 'Mobility Work', details: '15min recovery routine', icon: '🧘'}
     ],
     'Rest Day': [
-        {time: '08:00', activity: 'Natural Wake', details: 'No alarm needed', icon: '😴'},
-        {time: '08:15', activity: 'Morning Light', details: '15min exposure', icon: '🌅'},
-        {time: '08:30', activity: 'Light Movement', details: 'Gentle mobility', icon: '🤸'},
-        {time: '09:00', activity: 'Breakfast', details: 'Relaxed meal', icon: '🍳'},
-        {time: '10:00', activity: 'Leisure Walk', details: '45-60min easy pace', icon: '🚶'}
+        {time: '07:30', activity: 'Natural Wake', details: 'Consistent wake time', icon: '😴'},
+        {time: '07:45', activity: 'Morning Light', details: '15min exposure', icon: '🌅'},
+        {time: '08:15', activity: 'Light Movement', details: 'Gentle mobility', icon: '🤸'},
+        {time: '08:45', activity: 'Breakfast', details: 'Relaxed meal', icon: '🍳'},
+        {time: '09:30', activity: 'Leisure Walk', details: '45min easy pace', icon: '🚶'}
     ]
 };
 
