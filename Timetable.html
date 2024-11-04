@@ -1,253 +1,327 @@
-import React, { useState, useEffect } from 'react';
-import { Sun, Dumbbell, Heart, Droplets, Brain, Apple, Clock } from 'lucide-react';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Schedule</title>
+    <style>
+        :root {
+            --background-color: #121212;
+            --secondary-bg: #252525;
+            --text-color: white;
+            --accent-color: #8BC5BF;
+            --accent-hover: #E4BAC1;
+        }
 
-const ScheduleViewer = () => {
-  const [viewMode, setViewMode] = useState('today');
-  const [currentDate] = useState(new Date());
-  const [weekDates, setWeekDates] = useState([]);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'League Spartan', sans-serif;
+        }
 
-  const dayTypes = {
-    1: { type: 'Gym Day', workout: 'A', color: 'bg-blue-100', steps: '10,000 (8,000 from walks)' },
-    2: { type: 'Long Run Day', color: 'bg-green-100', steps: '10,000 (6,000 from run)' },
-    3: { type: 'Gym Day', workout: 'B', color: 'bg-blue-100', steps: '10,000 (8,000 from walks)' },
-    4: { type: 'Recovery Day', color: 'bg-yellow-100', steps: '10,000 (throughout day)' },
-    5: { type: 'Gym Day', workout: 'A', color: 'bg-blue-100', steps: '10,000 (8,000 from walks)' },
-    6: { type: 'HIIT Run Day', color: 'bg-green-100', steps: '10,000 (4,000 from HIIT)' },
-    0: { type: 'Rest Day', color: 'bg-gray-100', steps: '8,000 (easy pace)' }
-  };
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
 
-  const dailySchedule = {
-    'Gym Day': [
-      {time: '06:30', activity: 'Wake Up', icon: Sun, details: '500ml water with electrolytes'},
-      {time: '06:35', activity: 'Morning Light Walk', icon: Sun, details: '10-15min outdoor exposure'},
-      {time: '06:50', activity: 'Cold Shower', icon: Droplets, details: '2-3min cold exposure'},
-      {time: '07:00', activity: 'Breathwork', icon: Brain, details: '5-5-5 breathing pattern'},
-      {time: '07:15', activity: 'Mobility Work', icon: Dumbbell, details: 'Full body mobility routine'},
-      {time: '07:30', activity: 'Pre-Workout Meal', icon: Apple, details: 'Light breakfast'},
-      {time: '08:30', activity: 'Walk to Gym', icon: Heart, details: '40min walking meditation'},
-      {time: '09:15', activity: 'Workout', icon: Dumbbell, details: '90min training session'},
-      {time: '11:00', activity: 'Walk Home', icon: Heart, details: '40min recovery walk'},
-      {time: '11:40', activity: 'Arrive Home', icon: Clock, details: 'Begin recovery routine'},
-      {time: '12:00', activity: 'Post-Workout Meal', icon: Apple, details: 'Protein + carbs'}
-    ],
-    'Long Run Day': [
-      {time: '07:00', activity: 'Wake Up', icon: Sun, details: '500ml water'},
-      {time: '07:15', activity: 'Morning Light', icon: Sun, details: '15min outdoor exposure'},
-      {time: '07:30', activity: 'Light Snack', icon: Apple, details: 'Simple carbs'},
-      {time: '08:00', activity: 'Long Run', icon: Heart, details: '45min steady state'},
-      {time: '09:00', activity: 'Cool Down Walk', icon: Heart, details: '15min easy pace'},
-      {time: '09:30', activity: 'Recovery Meal', icon: Apple, details: 'Balanced breakfast'}
-    ],
-    'Recovery Day': [
-      {time: '07:00', activity: 'Wake Up', icon: Sun, details: '500ml water'},
-      {time: '07:15', activity: 'Morning Light', icon: Sun, details: '15min exposure'},
-      {time: '07:30', activity: 'Mobility Work', icon: Brain, details: '20min mobility routine'},
-      {time: '08:00', activity: 'Breakfast', icon: Apple, details: 'Balanced breakfast'},
-      {time: '09:00', activity: 'Morning Walk', icon: Heart, details: '30min easy pace'},
-      {time: '13:00', activity: 'Lunch Walk', icon: Heart, details: '30min easy pace'},
-      {time: '17:00', activity: 'Evening Walk', icon: Heart, details: '30min easy pace'}
-    ],
-    'HIIT Run Day': [
-      {time: '07:30', activity: 'Wake Up', icon: Sun, details: '500ml water'},
-      {time: '07:45', activity: 'Morning Light', icon: Sun, details: '15min exposure'},
-      {time: '08:00', activity: 'Light Snack', icon: Apple, details: 'Simple carbs'},
-      {time: '08:30', activity: 'HIIT Session', icon: Heart, details: '30min (30s hard/90s easy × 10)'},
-      {time: '09:15', activity: 'Cool Down Walk', icon: Heart, details: '15min easy pace'},
-      {time: '09:45', activity: 'Recovery Meal', icon: Apple, details: 'Protein + carbs'}
-    ],
-    'Rest Day': [
-      {time: '08:00', activity: 'Natural Wake', icon: Sun, details: 'No alarm needed'},
-      {time: '08:15', activity: 'Morning Light', icon: Sun, details: '15min exposure'},
-      {time: '08:30', activity: 'Light Movement', icon: Brain, details: 'Gentle mobility'},
-      {time: '09:00', activity: 'Breakfast', icon: Apple, details: 'Relaxed meal'},
-      {time: '10:00', activity: 'Leisure Walk', icon: Heart, details: '45-60min easy pace'},
-      {time: 'Evening', activity: 'Week Prep', icon: Brain, details: 'Plan next week'}
-    ]
-  };
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-  useEffect(() => {
-    const dates = [];
-    const currentDay = currentDate.getDay();
-    const sunday = new Date(currentDate);
-    sunday.setDate(currentDate.getDate() - currentDay);
-    
-    for (let i = 0; i < 7; i++) {
-      const date = new Date(sunday);
-      date.setDate(sunday.getDate() + i);
-      dates.push(date);
-    }
-    setWeekDates(dates);
-  }, [currentDate]);
+        .header {
+            background-color: var(--secondary-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-  const DaySchedule = ({ date }) => {
-    const dayType = dayTypes[date.getDay()];
-    return (
-      <div className="space-y-3">
-        {dailySchedule[dayType.type].map((item, idx) => (
-          <div key={idx} className="bg-white p-4 rounded-lg shadow-sm">
-            <div className="flex items-center justify-between mb-1">
-              <div className="flex items-center">
-                <item.icon className="h-5 w-5 text-blue-500 mr-3" />
-                <span className="font-medium">{item.time}</span>
-              </div>
-              <span className="text-sm text-gray-500">{item.activity}</span>
-            </div>
-            <p className="text-sm text-gray-600 ml-8">{item.details}</p>
-          </div>
-        ))}
-      </div>
-    );
-  };
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
 
-  const WeekOverview = () => (
-    <div className="space-y-3">
-      {weekDates.map((date, index) => {
-        const dayType = dayTypes[date.getDay()];
-        const isToday = date.toDateString() === currentDate.toDateString();
-        
-        return (
-          <div 
-            key={index} 
-            className={`${dayType.color} p-4 rounded-lg ${
-              isToday ? 'border-2 border-blue-500' : ''
-            }`}
-          >
-            <div className="flex justify-between items-center">
-              <div>
-                <h3 className="font-medium flex items-center gap-2">
-                  {date.toLocaleDateString('en-GB', { weekday: 'long' })}
-                  <span className="text-sm text-gray-600">
-                    {date.toLocaleDateString('en-GB', { 
-                      day: 'numeric',
-                      month: 'short'
-                    })}
-                  </span>
-                  {isToday && (
-                    <span className="text-xs bg-blue-600 text-white px-2 py-0.5 rounded-full">
-                      Today
-                    </span>
-                  )}
-                </h3>
-                <p className="text-sm text-gray-600">
-                  {dayType.type} {dayType.workout ? `(Workout ${dayType.workout})` : ''}
-                </p>
-              </div>
-              <div className="text-sm text-gray-600">
-                {dayType.type.includes('Gym') ? (
-                  <>
-                    06:30 Wake<br/>
-                    09:15 Workout<br/>
-                    11:40 Home
-                  </>
-                ) : dayType.type.includes('Run') ? (
-                  <>
-                    07:00 Wake<br/>
-                    08:00 Run<br/>
-                    09:30 Complete
-                  </>
-                ) : (
-                  <>
-                    07:30 Wake<br/>
-                    Active Recovery
-                  </>
-                )}
-              </div>
-            </div>
-            <div className="mt-2 text-sm text-gray-600">
-              Steps: {dayType.steps}
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
+        .nav-button {
+            background-color: var(--secondary-bg);
+            color: var(--text-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            flex: 1;
+            transition: background-color 0.3s ease;
+        }
 
-  const getTomorrow = () => {
-    const tomorrow = new Date(currentDate);
-    tomorrow.setDate(currentDate.getDate() + 1);
-    return tomorrow;
-  };
+        .nav-button.active {
+            background-color: var(--accent-color);
+            color: var(--background-color);
+        }
 
-  return (
-    <div className="w-full max-w-md mx-auto bg-gray-50 min-h-screen pb-6">
-      <div className="sticky top-0 bg-white border-b z-10">
-        <div className="flex justify-between items-center p-4">
-          <div>
-            <h1 className="text-xl font-bold">
-              {viewMode === 'week' ? 'This Week' : 
-               viewMode === 'today' ? "Today's Schedule" : 
-               "Tomorrow's Schedule"}
-            </h1>
-            {viewMode === 'week' ? (
-              <p className="text-sm text-gray-500">
-                Week of {weekDates[0]?.toLocaleDateString('en-GB', { 
-                  day: 'numeric',
-                  month: 'short'
-                })}
-              </p>
-            ) : (
-              <p className="text-sm text-gray-500">
-                {(viewMode === 'today' ? currentDate : getTomorrow())
-                  .toLocaleDateString('en-GB', { 
-                    weekday: 'long', 
-                    day: 'numeric', 
-                    month: 'short' 
-                  })}
-              </p>
-            )}
-          </div>
-          {viewMode !== 'week' && (
-            <span className={`${dayTypes[viewMode === 'today' ? currentDate.getDay() : getTomorrow().getDay()].color} 
-              text-gray-800 px-3 py-1 rounded-full text-sm`}>
-              {dayTypes[viewMode === 'today' ? currentDate.getDay() : getTomorrow().getDay()].type}
-              {dayTypes[viewMode === 'today' ? currentDate.getDay() : getTomorrow().getDay()].workout ? 
-                ` (Workout ${dayTypes[viewMode === 'today' ? currentDate.getDay() : getTomorrow().getDay()].workout})` : 
-                ''}
-            </span>
-          )}
+        .schedule-item {
+            background-color: var(--secondary-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .time {
+            font-weight: bold;
+            color: var(--accent-color);
+            width: 80px;
+        }
+
+        .activity {
+            flex-grow: 1;
+            padding: 0 15px;
+        }
+
+        .details {
+            font-size: 0.9em;
+            color: #8a8a8a;
+        }
+
+        .day-type {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            background-color: var(--accent-color);
+            color: var(--background-color);
+        }
+
+        .week-view {
+            display: none;
+        }
+
+        .week-day {
+            background-color: var(--secondary-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .week-day.today {
+            border: 2px solid var(--accent-color);
+        }
+
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .daily-targets {
+            background-color: var(--accent-color);
+            color: var(--background-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+
+            .schedule-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .time {
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 id="current-date">Today's Schedule</h1>
+            <span id="schedule-type" class="day-type">Loading...</span>
         </div>
 
-        <div className="flex border-t">
-          <button
-            onClick={() => setViewMode('today')}
-            className={`flex-1 py-3 text-center ${viewMode === 'today' ? 'border-b-2 border-blue-600' : ''}`}
-          >
-            Today
-          </button>
-          <button
-            onClick={() => setViewMode('tomorrow')}
-            className={`flex-1 py-3 text-center ${viewMode === 'tomorrow' ? 'border-b-2 border-blue-600' : ''}`}
-          >
-            Tomorrow
-          </button>
-          <button
-            onClick={() => setViewMode('week')}
-            className={`flex-1 py-3 text-center ${viewMode === 'week' ? 'border-b-2 border-blue-600' : ''}`}
-          >
-            Full Week
-          </button>
+        <div class="nav-buttons">
+            <button class="nav-button active" onclick="showView('today')">Today</button>
+            <button class="nav-button" onclick="showView('tomorrow')">Tomorrow</button>
+            <button class="nav-button" onclick="showView('week')">Full Week</button>
         </div>
-      </div>
 
-      <div className="p-4">
-        {viewMode === 'week' ? (
-          <WeekOverview />
-        ) : (
-          <>
-            <DaySchedule date={viewMode === 'today' ? currentDate : getTomorrow()} />
-            <div className="mt-6 bg-blue-50 p-4 rounded-lg">
-              <h3 className="font-medium mb-2">Daily Targets:</h3>
-              <ul className="text-sm text-gray-700 space-y-1">
-                <li>• Steps: {dayTypes[viewMode === 'today' ? currentDate.getDay() : getTomorrow().getDay()].steps}</li>
-                <li>• Water: 2L before 2 PM</li>
-                <li>• Sleep: 7-9 hours</li>
-              </ul>
-            </div>
-          </>
-        )}
-      </div>
+        <div id="daily-view"></div>
+        <div id="week-view" class="week-view"></div>
     </div>
-  );
-};
 
-export default ScheduleViewer;
+    <script>
+        const scheduleTypes = {
+            1: { type: 'Gym Day', workout: 'A', color: '#8BC5BF', steps: '10,000 (8,000 from walks)' },
+            2: { type: 'Long Run Day', color: '#E4BAC1', steps: '10,000 (6,000 from run)' },
+            3: { type: 'Gym Day', workout: 'B', color: '#8BC5BF', steps: '10,000 (8,000 from walks)' },
+            4: { type: 'Recovery Day', color: '#ffbb54', steps: '10,000 (throughout day)' },
+            5: { type: 'Gym Day', workout: 'A', color: '#8BC5BF', steps: '10,000 (8,000 from walks)' },
+            6: { type: 'HIIT Run Day', color: '#E4BAC1', steps: '10,000 (4,000 from HIIT)' },
+            0: { type: 'Rest Day', color: '#808080', steps: '8,000 (easy pace)' }
+        };
+
+        const dailySchedules = {
+            'Gym Day': [
+                {time: '06:30', activity: 'Wake Up', details: '500ml water with electrolytes'},
+                {time: '06:35', activity: 'Morning Light Walk', details: '10-15min outdoor exposure'},
+                {time: '06:50', activity: 'Cold Shower', details: '2-3min cold exposure'},
+                {time: '07:00', activity: 'Breathwork', details: '5-5-5 breathing pattern'},
+                {time: '07:15', activity: 'Mobility Work', details: 'Full body mobility routine'},
+                {time: '07:30', activity: 'Pre-Workout Meal', details: 'Light breakfast'},
+                {time: '08:30', activity: 'Walk to Gym', details: '40min walking meditation'},
+                {time: '09:15', activity: 'Workout', details: '90min training session'},
+                {time: '11:00', activity: 'Walk Home', details: '40min recovery walk'},
+                {time: '11:40', activity: 'Arrive Home', details: 'Begin recovery routine'},
+                {time: '12:00', activity: 'Post-Workout Meal', details: 'Protein + carbs'}
+            ],
+            'Long Run Day': [
+                {time: '07:00', activity: 'Wake Up', details: '500ml water'},
+                {time: '07:15', activity: 'Morning Light', details: '15min outdoor exposure'},
+                {time: '07:30', activity: 'Light Snack', details: 'Simple carbs'},
+                {time: '08:00', activity: 'Long Run', details: '45min steady state'},
+                {time: '09:00', activity: 'Cool Down Walk', details: '15min easy pace'},
+                {time: '09:30', activity: 'Recovery Meal', details: 'Balanced breakfast'}
+            ],
+            'Recovery Day': [
+                {time: '07:00', activity: 'Wake Up', details: '500ml water'},
+                {time: '07:15', activity: 'Morning Light', details: '15min exposure'},
+                {time: '07:30', activity: 'Mobility Work', details: '20min mobility routine'},
+                {time: '08:00', activity: 'Breakfast', details: 'Balanced breakfast'},
+                {time: '09:00', activity: 'Morning Walk', details: '30min easy pace'},
+                {time: '13:00', activity: 'Lunch Walk', details: '30min easy pace'},
+                {time: '17:00', activity: 'Evening Walk', details: '30min easy pace'}
+            ],
+            'HIIT Run Day': [
+                {time: '07:30', activity: 'Wake Up', details: '500ml water'},
+                {time: '07:45', activity: 'Morning Light', details: '15min exposure'},
+                {time: '08:00', activity: 'Light Snack', details: 'Simple carbs'},
+                {time: '08:30', activity: 'HIIT Session', details: '30min (30s hard/90s easy × 10)'},
+                {time: '09:15', activity: 'Cool Down Walk', details: '15min easy pace'},
+                {time: '09:45', activity: 'Recovery Meal', details: 'Protein + carbs'}
+            ],
+            'Rest Day': [
+                {time: '08:00', activity: 'Natural Wake', details: 'No alarm needed'},
+                {time: '08:15', activity: 'Morning Light', details: '15min exposure'},
+                {time: '08:30', activity: 'Light Movement', details: 'Gentle mobility'},
+                {time: '09:00', activity: 'Breakfast', details: 'Relaxed meal'},
+                {time: '10:00', activity: 'Leisure Walk', details: '45-60min easy pace'}
+            ]
+        };
+
+        function getScheduleForDate(date) {
+            return scheduleTypes[date.getDay()];
+        }
+
+        function formatDate(date) {
+            return date.toLocaleDateString('en-GB', { 
+                weekday: 'long', 
+                day: 'numeric', 
+                month: 'short' 
+            });
+        }
+
+        function showSchedule(date) {
+            const schedule = getScheduleForDate(date);
+            const dailySchedule = dailySchedules[schedule.type];
+            
+            document.getElementById('current-date').textContent = formatDate(date);
+            const scheduleType = document.getElementById('schedule-type');
+            scheduleType.textContent = `${schedule.type}${schedule.workout ? ` (Workout ${schedule.workout})` : ''}`;
+            scheduleType.style.backgroundColor = schedule.color;
+
+            const dailyView = document.getElementById('daily-view');
+            dailyView.innerHTML = '';
+
+            dailySchedule.forEach(item => {
+                dailyView.innerHTML += `
+                    <div class="schedule-item">
+                        <span class="time">${item.time}</span>
+                        <span class="activity">${item.activity}</span>
+                        <span class="details">${item.details}</span>
+                    </div>
+                `;
+            });
+
+            dailyView.innerHTML += `
+                <div class="daily-targets">
+                    <h3>Daily Targets:</h3>
+                    <p>• Steps: ${schedule.steps}</p>
+                    <p>• Water: 2L before 2 PM</p>
+                    <p>• Sleep: 7-9 hours</p>
+                </div>
+            `;
+        }
+
+        function showWeekView() {
+            const weekView = document.getElementById('week-view');
+            weekView.innerHTML = '';
+            
+            const today = new Date();
+            const currentDay = today.getDay();
+            
+            for (let i = 0; i < 7; i++) {
+                const date = new Date();
+                date.setDate(today.getDate() - currentDay + i);
+                const schedule = getScheduleForDate(date);
+                const isToday = i === currentDay;
+                
+                weekView.innerHTML += `
+                    <div class="week-day ${isToday ? 'today' : ''}">
+                        <div class="day-header">
+                            <h3>${formatDate(date)}</h3>
+                            <span class="day-type" style="background-color: ${schedule.color}">
+                                ${schedule.type}${schedule.workout ? ` (${schedule.workout})` : ''}
+                            </span>
+                        </div>
+                        <div>Steps: ${schedule.steps}</div>
+                        <div>Main Activity: ${schedule.type.includes('Gym') ? '09:15 Workout' : 
+                                           schedule.type.includes('Run') ? '08:00 Run' : 'Active Recovery'}</div>
+                    </div>
+                `;
+            }
+        }
+
+        function showView(view) {
+            const dailyView = document.getElementById('daily-view');
+            const weekView = document.getElementById('week-view');
+            const buttons = document.querySelectorAll('.nav-button');
+            
+            buttons.forEach(button => button.classList.remove('active'));
+            event.target.classList.add('active');
+
+            if (view === 'week') {
+                dailyView.style.display = 'none';
+                weekView.style.display = 'block';
+                document.getElementById('current-date').textContent = 'This Week';
+                document.getElementById('schedule-type').style.display = 'none';
+                showWeekView();
+            } else {
+                dailyView.style.display = 'block';
+                weekView.style.display = 'none';
+                document.getElementById('schedule-type').style.display = 'inline-block';
+                const date = new Date();
+                if (view === 'tomorrow') {
+                    date.setDate(date.getDate() + 1);
+                }
+                showSchedule(date);
+            }
+        }
+
+        // Initial load
+        showSchedule(new Date());
+    </script>
+</body>
+</html>
