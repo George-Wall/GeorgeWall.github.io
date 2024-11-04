@@ -466,12 +466,12 @@
         <div id="daily-view"></div>
         <div id="week-view" class="week-view"></div>
     </div>
-
+    
     <div class="nav-buttons">
-        <button class="nav-button active" onclick="showView('today')">Today</button>
-        <button class="nav-button" onclick="showView('tomorrow')">Tomorrow</button>
-        <button class="nav-button" onclick="showView('week')">Week</button>
-    </div>
+    <button class="nav-button active" onclick="UI.showView('today')">Today</button>
+    <button class="nav-button" onclick="UI.showView('tomorrow')">Tomorrow</button>
+    <button class="nav-button" onclick="UI.showView('week')">Week</button>
+</div>
 
 <script>
 // Configuration and Constants
@@ -1099,6 +1099,12 @@ const App = {
         document.querySelector('.add-to-home')?.remove();
     }
 };
+    
+    // Expose necessary functions to window
+window.showView = UI.showView.bind(UI);
+window.Core = Core;
+window.UI = UI;
+window.App = App;
 
 // Initialize the app
 App.initialize();
