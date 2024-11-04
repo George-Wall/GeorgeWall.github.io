@@ -267,6 +267,56 @@
         .schedule-item.streaked .streak-badge {
             transform: scale(1);
         }
+
+        .suggestion-banner {
+    background-color: var(--secondary-bg);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid var(--accent-color);
+}
+
+.suggestion-banner.critical {
+    border-color: #ff4444;
+}
+
+.suggestion-banner.adjustment {
+    border-color: #ffbb54;
+}
+
+.suggestion-banner.alternative {
+    border-color: var(--accent-color);
+}
+
+.schedule-item.missed {
+    opacity: 0.6;
+}
+
+.schedule-item.adjusted {
+    border-left: 4px solid #ffbb54;
+}
+
+.adjusted-time {
+    color: #ffbb54;
+}
+
+.adjusted-badge {
+    font-size: 0.8em;
+    background-color: #ffbb54;
+    color: var(--background-color);
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 8px;
+}
+
+.missed-badge {
+    font-size: 0.8em;
+    background-color: #ff4444;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 8px;
+}
     </style>
 </head>
 <body>
@@ -372,37 +422,164 @@
             });
         }
 
-        function showSchedule(date) {
-            const schedule = getScheduleForDate(date);
-            const dailySchedule = dailySchedules[schedule.type];
-            
-            document.getElementById('current-date').textContent = formatDate(date);
-            const scheduleType = document.getElementById('schedule-type');
-            scheduleType.textContent = `${schedule.type}${schedule.workout ? ` (Workout ${schedule.workout})` : ''}`;
-            scheduleType.style.backgroundColor = schedule.color;
+        function getCurrentTime() {
+    const now = new Date();
+    return now.toLocaleTimeString('en-GB', { 
+        hour: '2-digit', 
+        minute: '2-digit',
+        hour12: false 
+    });
+}
 
-            const dailyView = document.getElementById('daily-view');
-            dailyView.innerHTML = '';
+function timeToMinutes(timeStr) {
+    const [hours, minutes] = timeStr.split(':').map(Number);
+    return hours * 60 + minutes;
+}
 
-            dailySchedule.forEach(item => {
-                dailyView.innerHTML += `
-                    <div class="schedule-item">
-                        <span class="time">${item.time}</span>
-                        <span class="activity">${item.activity}</span>
-                        <span class="details">${item.details}</span>
-                    </div>
-                `;
-            });
+function minutesToTime(minutes) {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
+}
 
+function getTimeAdjustedSchedule(schedule, currentTime) {
+    const currentMinutes = timeToMinutes(currentTime);
+    let adjustedSchedule = [...schedule];
+    let missedActivities = [];
+    
+    // Check for missed activities
+    adjustedSchedule.forEach(item => {
+        const itemMinutes = timeToMinutes(item.time);
+        if (currentMinutes > itemMinutes + 15) { // 15 minutes grace period
+            item.missed = true;
+            missedActivities.push(item);
+        }
+    });
+
+    // If we're behind but can still make it to the gym
+    if (currentMinutes < timeToMinutes('08:30')) { // Before gym walk time
+        const delayMinutes = currentMinutes - timeToMinutes('07:00');
+        const adjustmentNeeded = Math.ceil(delayMinutes / 15) * 15; // Round up to nearest 15 min
+
+        adjustedSchedule = adjustedSchedule
+            .filter(item => !item.missed) // Remove missed items
+            .map(item => ({
+                ...item,
+                time: minutesToTime(timeToMinutes(item.time) + adjustmentNeeded),
+                adjusted: true
+            }));
+    }
+
+    return { adjustedSchedule, missedActivities };
+}
+
+function getAdaptiveSuggestion(missedActivities, currentTime) {
+    const currentMinutes = timeToMinutes(currentTime);
+
+    if (missedActivities.length > 0) {
+        if (currentMinutes < timeToMinutes('08:30')) {
+            return {
+                type: 'adjustment',
+                message: `Schedule adjusted to start at ${currentTime}. Combined morning activities for efficiency.`,
+                priority: 'Stay on track for gym by 9:15'
+            };
+        } else if (currentMinutes < timeToMinutes('09:15')) {
+            return {
+                type: 'critical',
+                message: 'Morning routine missed but can still make gym session!',
+                priority: 'Quick mobility + light meal, then head to gym'
+            };
+        } else {
+            return {
+                type: 'alternative',
+                message: 'Main morning session missed. Alternative options:',
+                priority: '1. Home workout\n2. Evening gym session\n3. Extra cardio today'
+            };
+        }
+    }
+    return null;
+}
+
+function showSchedule(date) {
+    const schedule = getScheduleForDate(date);
+    const dailySchedule = dailySchedules[schedule.type];
+    const dateStr = date.toLocaleDateString();
+    const currentTime = getCurrentTime();
+    
+    document.getElementById('current-date').textContent = formatDate(date);
+    const scheduleType = document.getElementById('schedule-type');
+    scheduleType.textContent = `${schedule.type}${schedule.workout ? ` (Workout ${schedule.workout})` : ''}`;
+    scheduleType.style.backgroundColor = schedule.color;
+
+    const dailyView = document.getElementById('daily-view');
+    dailyView.innerHTML = '';
+
+    // Only process time adjustments for today's schedule
+    if (dateStr === new Date().toLocaleDateString()) {
+        const { adjustedSchedule, missedActivities } = getTimeAdjustedSchedule(dailySchedule, currentTime);
+        const suggestion = getAdaptiveSuggestion(missedActivities, currentTime);
+
+        if (suggestion) {
             dailyView.innerHTML += `
-                <div class="daily-targets">
-                    <h3>Daily Targets:</h3>
-                    <p>• Steps: ${schedule.steps}</p>
-                    <p>• Water: 2L before 2 PM</p>
-                    <p>• Sleep: 7-9 hours</p>
+                <div class="suggestion-banner ${suggestion.type}">
+                    <h4>${suggestion.message}</h4>
+                    <p>Priority: ${suggestion.priority}</p>
                 </div>
             `;
         }
+
+        adjustedSchedule.forEach((item, index) => {
+            const taskKey = `${schedule.type}-${index}`;
+            const isCompleted = progressData.completedTasks[dateStr]?.includes(taskKey);
+            const hasStreak = progressData.streaks > 2;
+            
+            dailyView.innerHTML += `
+                <div class="schedule-item ${isCompleted ? 'completed' : ''} 
+                                         ${hasStreak ? 'streaked' : ''} 
+                                         ${item.missed ? 'missed' : ''} 
+                                         ${item.adjusted ? 'adjusted' : ''}" 
+                     onclick="toggleTask('${taskKey}', new Date('${date}'))">
+                    <div class="checkbox"></div>
+                    ${hasStreak ? `<span class="streak-badge">🔥 ${progressData.streaks} days</span>` : ''}
+                    <span class="time ${item.adjusted ? 'adjusted-time' : ''}">${item.time}</span>
+                    <span class="activity">${item.activity}</span>
+                    <span class="details">${item.details}</span>
+                    ${item.adjusted ? '<span class="adjusted-badge">Adjusted</span>' : ''}
+                    ${item.missed ? '<span class="missed-badge">Missed - Skip/Combine</span>' : ''}
+                </div>
+            `;
+        });
+    } else {
+        // Show regular schedule for non-today dates
+        dailySchedule.forEach((item, index) => {
+            const taskKey = `${schedule.type}-${index}`;
+            const isCompleted = progressData.completedTasks[dateStr]?.includes(taskKey);
+            const hasStreak = progressData.streaks > 2;
+            
+            dailyView.innerHTML += `
+                <div class="schedule-item ${isCompleted ? 'completed' : ''} ${hasStreak ? 'streaked' : ''}" 
+                     onclick="toggleTask('${taskKey}', new Date('${date}'))">
+                    <div class="checkbox"></div>
+                    ${hasStreak ? `<span class="streak-badge">🔥 ${progressData.streaks} days</span>` : ''}
+                    <span class="time">${item.time}</span>
+                    <span class="activity">${item.activity}</span>
+                    <span class="details">${item.details}</span>
+                </div>
+            `;
+        });
+    }
+
+    dailyView.innerHTML += `
+        <div class="daily-targets">
+            <h3>Daily Targets:</h3>
+            <p>• Steps: ${schedule.steps}</p>
+            <p>• Water: 2L before 2 PM</p>
+            <p>• Sleep: 7-9 hours</p>
+        </div>
+    `;
+    
+    updateProgress();
+}
 
         function showWeekView() {
             const weekView = document.getElementById('week-view');
