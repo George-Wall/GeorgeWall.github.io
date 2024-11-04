@@ -301,6 +301,113 @@
             font-weight: 500;
             font-size: 14px;
         }
+        /* Week View Styling */
+.week-view {
+    display: none;
+}
+
+.week-day {
+    background-color: var(--secondary-bg);
+    padding: 16px;
+    border-radius: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.week-day.today {
+    border: 2px solid var(--accent-color);
+}
+
+.week-progress {
+    margin-top: 12px;
+}
+
+.week-progress .progress-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #8a8a8a;
+    margin-top: 8px;
+}
+
+/* Achievement Animation */
+.achievement {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--secondary-bg);
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+}
+
+.achievement-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.achievement-icon {
+    font-size: 24px;
+}
+
+.achievement-text h4 {
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.achievement-text p {
+    font-size: 14px;
+    color: #8a8a8a;
+}
+
+/* Confetti Animation */
+.celebration {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: var(--accent-color);
+    opacity: 0.8;
+    top: -10px;
+    animation: confetti-fall 1.5s ease-out forwards;
+    animation-delay: var(--delay);
+    transform: rotate(var(--rotation));
+}
+
+@keyframes confetti-fall {
+    0% {
+        transform: translateY(0) rotate(var(--rotation));
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(calc(var(--rotation) + 360deg));
+        opacity: 0;
+    }
+}
+
+/* Pull to Refresh */
+.pull-to-refresh {
+    height: var(--pull-distance, 0px);
+    transition: height 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-color);
+    overflow: hidden;
+}
     </style>
 </head>
 <body>
@@ -803,6 +910,37 @@
             }
             document.querySelector('.add-to-home')?.remove();
         }
+    // Helper function to get schedule for date
+function getScheduleForDate(date) {
+    return scheduleTypes[date.getDay()];
+}
+
+// Show view function for navigation
+function showView(view) {
+    const dailyView = document.getElementById('daily-view');
+    const weekView = document.getElementById('week-view');
+    const buttons = document.querySelectorAll('.nav-button');
+    
+    buttons.forEach(button => button.classList.remove('active'));
+    event.target.classList.add('active');
+
+    if (view === 'week') {
+        dailyView.style.display = 'none';
+        weekView.style.display = 'block';
+        document.getElementById('current-date').textContent = 'This Week';
+        document.getElementById('schedule-type').style.display = 'none';
+        showWeekView();
+    } else {
+        dailyView.style.display = 'block';
+        weekView.style.display = 'none';
+        document.getElementById('schedule-type').style.display = 'inline-block';
+        const date = new Date();
+        if (view === 'tomorrow') {
+            date.setDate(date.getDate() + 1);
+        }
+        showSchedule(date);
+    }
+}
 
         // Start the app
         initializeApp();
