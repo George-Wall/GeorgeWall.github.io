@@ -143,6 +143,130 @@
                 margin-bottom: 5px;
             }
         }
+        
+        .schedule-item {
+            position: relative;
+            padding-left: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .schedule-item.completed {
+            background-color: rgba(139, 197, 191, 0.2);
+            transform: translateX(10px);
+        }
+
+        .checkbox {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--accent-color);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            color: var(--accent-color);
+            font-size: 16px;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .schedule-item.completed .checkbox::after {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .progress-section {
+            background-color: var(--secondary-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            background-color: #333;
+            height: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--accent-color);
+            transition: width 0.5s ease;
+        }
+
+        .celebration {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 100px;
+            pointer-events: none;
+            animation: celebrate 1s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes celebrate {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+            50% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .stat-card {
+            background-color: var(--secondary-bg);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        .streak-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: var(--accent-hover);
+            color: var(--background-color);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            transform: scale(0);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .schedule-item.streaked .streak-badge {
+            transform: scale(1);
+        }
     </style>
 </head>
 <body>
@@ -150,6 +274,27 @@
         <div class="header">
             <h1 id="current-date">Today's Schedule</h1>
             <span id="schedule-type" class="day-type">Loading...</span>
+        </div>
+
+        <div class="progress-section">
+            <h3>Today's Progress</h3>
+            <div class="progress-bar">
+                <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+            </div>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="today-completed">0</div>
+                    <div>Completed Today</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="week-completed">0</div>
+                    <div>This Week</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="streak-count">0</div>
+                    <div>Day Streak</div>
+                </div>
+            </div>
         </div>
 
         <div class="nav-buttons">
@@ -318,6 +463,117 @@
                 }
                 showSchedule(date);
             }
+        }
+
+let progressData = JSON.parse(localStorage.getItem('progressData')) || {
+            completedTasks: {},
+            streaks: 0,
+            lastCompletedDate: null
+        };
+
+        function updateProgress() {
+            const today = new Date().toLocaleDateString();
+            const todayCompleted = (progressData.completedTasks[today] || []).length;
+            const totalTasks = dailySchedules[getScheduleForDate(new Date()).type].length;
+            
+            const progress = (todayCompleted / totalTasks) * 100;
+            document.getElementById('progress-fill').style.width = `${progress}%`;
+            document.getElementById('today-completed').textContent = todayCompleted;
+
+            // Calculate week progress
+            const weekCompleted = Object.keys(progressData.completedTasks)
+                .filter(date => {
+                    const taskDate = new Date(date);
+                    const weekAgo = new Date();
+                    weekAgo.setDate(weekAgo.getDate() - 7);
+                    return taskDate >= weekAgo;
+                })
+                .reduce((acc, date) => acc + progressData.completedTasks[date].length, 0);
+            
+            document.getElementById('week-completed').textContent = weekCompleted;
+            document.getElementById('streak-count').textContent = progressData.streaks;
+        }
+
+        function toggleTask(taskKey, date) {
+            const dateStr = date.toLocaleDateString();
+            progressData.completedTasks[dateStr] = progressData.completedTasks[dateStr] || [];
+            
+            const index = progressData.completedTasks[dateStr].indexOf(taskKey);
+            if (index === -1) {
+                progressData.completedTasks[dateStr].push(taskKey);
+                celebrate();
+                
+                // Update streaks
+                const today = new Date().toLocaleDateString();
+                if (dateStr === today) {
+                    if (!progressData.lastCompletedDate || 
+                        new Date(progressData.lastCompletedDate).toLocaleDateString() === 
+                        new Date(Date.now() - 86400000).toLocaleDateString()) {
+                        progressData.streaks++;
+                    }
+                    progressData.lastCompletedDate = today;
+                }
+            } else {
+                progressData.completedTasks[dateStr].splice(index, 1);
+            }
+            
+            localStorage.setItem('progressData', JSON.stringify(progressData));
+            updateProgress();
+            showSchedule(date);
+        }
+
+        function celebrate() {
+            const celebration = document.createElement('div');
+            celebration.className = 'celebration';
+            celebration.textContent = '🎉';
+            document.body.appendChild(celebration);
+            
+            setTimeout(() => {
+                document.body.removeChild(celebration);
+            }, 1000);
+        }
+
+        // Modify showSchedule function
+        function showSchedule(date) {
+            const schedule = getScheduleForDate(date);
+            const dailySchedule = dailySchedules[schedule.type];
+            const dateStr = date.toLocaleDateString();
+            
+            document.getElementById('current-date').textContent = formatDate(date);
+            const scheduleType = document.getElementById('schedule-type');
+            scheduleType.textContent = `${schedule.type}${schedule.workout ? ` (Workout ${schedule.workout})` : ''}`;
+            scheduleType.style.backgroundColor = schedule.color;
+
+            const dailyView = document.getElementById('daily-view');
+            dailyView.innerHTML = '';
+
+            dailySchedule.forEach((item, index) => {
+                const taskKey = `${schedule.type}-${index}`;
+                const isCompleted = progressData.completedTasks[dateStr]?.includes(taskKey);
+                const hasStreak = progressData.streaks > 2;
+                
+                dailyView.innerHTML += `
+                    <div class="schedule-item ${isCompleted ? 'completed' : ''} ${hasStreak ? 'streaked' : ''}" 
+                         onclick="toggleTask('${taskKey}', new Date('${date}'))">
+                        <div class="checkbox"></div>
+                        ${hasStreak ? '<span class="streak-badge">🔥 ${progressData.streaks} days</span>' : ''}
+                        <span class="time">${item.time}</span>
+                        <span class="activity">${item.activity}</span>
+                        <span class="details">${item.details}</span>
+                    </div>
+                `;
+            });
+
+            dailyView.innerHTML += `
+                <div class="daily-targets">
+                    <h3>Daily Targets:</h3>
+                    <p>• Steps: ${schedule.steps}</p>
+                    <p>• Water: 2L before 2 PM</p>
+                    <p>• Sleep: 7-9 hours</p>
+                </div>
+            `;
+            
+            updateProgress();
         }
 
         // Initial load
