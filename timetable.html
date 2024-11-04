@@ -8,407 +8,432 @@
     <title>Workout Schedule</title>
     <link rel="manifest" href="/manifest.json">
     <link rel="apple-touch-icon" href="/icon-192x192.png">
-    <style>
-        :root {
-            --safe-area-inset-top: env(safe-area-inset-top);
-            --safe-area-inset-bottom: env(safe-area-inset-bottom);
-            --background-color: #121212;
-            --secondary-bg: #252525;
-            --text-color: white;
-            --accent-color: #8BC5BF;
-            --accent-hover: #E4BAC1;
-            --ios-bottom-safe-area: 34px;
-        }
+   <style>
+    /* CSS Variables */
+    :root {
+        --safe-area-inset-top: env(safe-area-inset-top);
+        --safe-area-inset-bottom: env(safe-area-inset-bottom);
+        --background-color: #121212;
+        --secondary-bg: #252525;
+        --text-color: white;
+        --accent-color: #8BC5BF;
+        --accent-hover: #E4BAC1;
+        --ios-bottom-safe-area: 34px;
+        --warning-color: #ff4444;
+        --upcoming-color: #4444ff;
+        --success-color: #44ff44;
+        --neutral-text: #8a8a8a;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-        }
+    /* Reset and Base Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
 
-        body {
-            background-color: var(--background-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            padding-top: calc(var(--safe-area-inset-top) + 10px);
-            padding-bottom: calc(var(--safe-area-inset-bottom) + var(--ios-bottom-safe-area));
-        }
+    body {
+        background-color: var(--background-color);
+        color: var(--text-color);
+        line-height: 1.6;
+        padding-top: calc(var(--safe-area-inset-top) + 10px);
+        padding-bottom: calc(var(--safe-area-inset-bottom) + var(--ios-bottom-safe-area));
+    }
 
-        .container {
-            max-width: 430px;
-            margin: 0 auto;
-            padding: 10px;
-        }
+    /* Layout */
+    .container {
+        max-width: 430px;
+        margin: 0 auto;
+        padding: 10px;
+    }
 
-        .header {
-            background-color: var(--secondary-bg);
-            padding: 16px;
-            border-radius: 16px;
-            margin-bottom: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-        }
+    /* Header */
+    .header {
+        background-color: var(--secondary-bg);
+        padding: 16px;
+        border-radius: 16px;
+        margin-bottom: 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
 
-        .header h1 {
-            font-size: 20px;
-            font-weight: 600;
-        }
+    .header h1 {
+        font-size: 20px;
+        font-weight: 600;
+    }
 
+    /* Navigation */
+    .nav-buttons {
+        position: fixed;
+        bottom: calc(var(--safe-area-inset-bottom));
+        left: 0;
+        right: 0;
+        display: flex;
+        gap: 8px;
+        padding: 12px 16px;
+        background-color: rgba(18, 18, 18, 0.95);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        z-index: 1000;
+    }
+
+    .nav-button {
+        background-color: var(--secondary-bg);
+        color: var(--text-color);
+        border: none;
+        padding: 12px 20px;
+        border-radius: 12px;
+        cursor: pointer;
+        flex: 1;
+        font-size: 15px;
+        font-weight: 500;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .nav-button.active {
+        background-color: var(--accent-color);
+        color: var(--background-color);
+        transform: scale(0.98);
+    }
+
+    /* Schedule Items */
+    .schedule-item {
+        background-color: var(--secondary-bg);
+        padding: 16px;
+        border-radius: 16px;
+        margin-bottom: 12px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .time {
+        font-weight: 600;
+        color: var(--accent-color);
+        min-width: 70px;
+        font-size: 15px;
+    }
+
+    .activity {
+        flex-grow: 1;
+        padding: 0 12px;
+        font-weight: 500;
+        font-size: 16px;
+    }
+
+    .details {
+        font-size: 14px;
+        color: var(--neutral-text);
+        margin-top: 4px;
+    }
+
+    /* Timing Status Styles */
+    .schedule-item.overdue {
+        border-left: 4px solid var(--warning-color);
+        opacity: 0.8;
+    }
+
+    .schedule-item.upcoming {
+        border-left: 4px solid var(--upcoming-color);
+    }
+
+    .schedule-item.completed-late {
+        border-left: 4px solid #ffa500;
+    }
+
+    .schedule-item.completed {
+        background-color: rgba(139, 197, 191, 0.1);
+        transform: scale(0.98);
+    }
+
+    .time-status {
+        position: absolute;
+        right: 16px;
+        top: 16px;
+        font-size: 12px;
+        padding: 4px 8px;
+        border-radius: 8px;
+        background-color: rgba(255,255,255,0.1);
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .time-status.overdue { color: var(--warning-color); }
+    .time-status.upcoming { color: var(--upcoming-color); }
+    .time-status.on-time { color: var(--success-color); }
+
+    /* Checkbox Styles */
+    .checkbox {
+        width: 24px;
+        height: 24px;
+        border: 2px solid var(--accent-color);
+        border-radius: 50%;
+        margin-right: 12px;
+        position: relative;
+        flex-shrink: 0;
+    }
+
+    .schedule-item.completed .checkbox::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 12px;
+        height: 12px;
+        background-color: var(--accent-color);
+        border-radius: 50%;
+    }
+
+    /* Progress Section */
+    .progress-section {
+        background-color: var(--secondary-bg);
+        padding: 16px;
+        border-radius: 16px;
+        margin-bottom: 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .progress-bar {
+        background-color: rgba(255,255,255,0.1);
+        height: 8px;
+        border-radius: 4px;
+        margin: 12px 0;
+        overflow: hidden;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background-color: var(--accent-color);
+        transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Statistics Cards */
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-top: 16px;
+    }
+
+    .stat-card {
+        background-color: rgba(255,255,255,0.05);
+        padding: 12px;
+        border-radius: 12px;
+        text-align: center;
+    }
+
+    .stat-number {
+        font-size: 24px;
+        color: var(--accent-color);
+        font-weight: 700;
+        margin-bottom: 4px;
+    }
+
+    .stat-card div:last-child {
+        font-size: 13px;
+        color: var(--neutral-text);
+    }
+
+    /* Daily Targets */
+    .daily-targets {
+        background-color: var(--accent-color);
+        color: var(--background-color);
+        padding: 16px;
+        border-radius: 16px;
+        margin-top: 20px;
+        font-weight: 500;
+    }
+
+    .daily-targets h3 {
+        margin-bottom: 8px;
+        font-size: 16px;
+    }
+
+    .daily-targets p {
+        margin: 8px 0;
+        font-size: 15px;
+    }
+
+    /* Week View */
+    .week-view { display: none; }
+
+    .week-day {
+        background-color: var(--secondary-bg);
+        padding: 16px;
+        border-radius: 16px;
+        margin-bottom: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .week-day.today {
+        border: 2px solid var(--accent-color);
+    }
+
+    .week-progress {
+        margin-top: 12px;
+    }
+
+    .week-progress .progress-stats {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+        color: var(--neutral-text);
+        margin-top: 8px;
+    }
+
+    /* Achievement Animations */
+    .achievement {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: var(--secondary-bg);
+        padding: 16px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        z-index: 1000;
+        transition: opacity 0.3s ease;
+    }
+
+    .achievement-content {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .achievement-icon {
+        font-size: 24px;
+    }
+
+    .achievement-text h4 {
+        font-size: 16px;
+        margin-bottom: 4px;
+    }
+
+    .achievement-text p {
+        font-size: 14px;
+        color: var(--neutral-text);
+    }
+
+    /* Confetti Animation */
+    .celebration {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none;
+        z-index: 1000;
+    }
+
+    .confetti {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background-color: var(--accent-color);
+        opacity: 0.8;
+        top: -10px;
+        animation: confetti-fall 1.5s ease-out forwards;
+        animation-delay: var(--delay);
+        transform: rotate(var(--rotation));
+    }
+
+    /* Add to Home Screen */
+    .add-to-home {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: var(--secondary-bg);
+        padding: 16px;
+        border-radius: 20px 20px 0 0;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+        animation: addToHome 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1001;
+    }
+
+    .add-to-home-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 430px;
+        margin: 0 auto;
+    }
+
+    .add-to-home-text {
+        flex: 1;
+        margin-right: 16px;
+    }
+
+    .add-to-home h3 {
+        font-size: 16px;
+        margin-bottom: 4px;
+    }
+
+    .add-to-home p {
+        font-size: 14px;
+        color: var(--neutral-text);
+    }
+
+    .add-to-home button {
+        background-color: var(--accent-color);
+        color: var(--background-color);
+        border: none;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-weight: 500;
+        font-size: 14px;
+    }
+
+    /* Animations */
+    @keyframes addToHome {
+        0% { transform: translateY(100%); }
+        100% { transform: translateY(0); }
+    }
+
+    @keyframes confetti-fall {
+        0% {
+            transform: translateY(0) rotate(var(--rotation));
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(100vh) rotate(calc(var(--rotation) + 360deg));
+            opacity: 0;
+        }
+    }
+
+    /* Media Queries */
+    @supports (padding: max(0px)) {
         .nav-buttons {
-            position: fixed;
-            bottom: calc(var(--safe-area-inset-bottom));
-            left: 0;
-            right: 0;
-            display: flex;
-            gap: 8px;
-            padding: 12px 16px;
-            background-color: rgba(18, 18, 18, 0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            z-index: 1000;
-        }
-
-        .nav-button {
-            background-color: var(--secondary-bg);
-            color: var(--text-color);
-            border: none;
-            padding: 12px 20px;
-            border-radius: 12px;
-            cursor: pointer;
-            flex: 1;
-            font-size: 15px;
-            font-weight: 500;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .nav-button.active {
-            background-color: var(--accent-color);
-            color: var(--background-color);
-            transform: scale(0.98);
-        }
-
-        .schedule-item {
-            background-color: var(--secondary-bg);
-            padding: 16px;
-            border-radius: 16px;
-            margin-bottom: 12px;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            position: relative;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .time {
-            font-weight: 600;
-            color: var(--accent-color);
-            min-width: 70px;
-            font-size: 15px;
-        }
-
-        .activity {
-            flex-grow: 1;
-            padding: 0 12px;
-            font-weight: 500;
-            font-size: 16px;
-        }
-
-        .details {
-            font-size: 14px;
-            color: #8a8a8a;
-            margin-top: 4px;
-        }
-
-        .day-type {
-            display: inline-block;
-            padding: 6px 12px;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 500;
-            background-color: var(--accent-color);
-            color: var(--background-color);
-        }
-
-        .progress-section {
-            background-color: var(--secondary-bg);
-            padding: 16px;
-            border-radius: 16px;
-            margin-bottom: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .progress-bar {
-            background-color: rgba(255,255,255,0.1);
-            height: 8px;
-            border-radius: 4px;
-            margin: 12px 0;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background-color: var(--accent-color);
-            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-top: 16px;
-        }
-
-        .stat-card {
-            background-color: rgba(255,255,255,0.05);
-            padding: 12px;
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 24px;
-            color: var(--accent-color);
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .stat-card div:last-child {
-            font-size: 13px;
-            color: #8a8a8a;
-        }
-
-        @supports (padding: max(0px)) {
-            .nav-buttons {
-                padding-bottom: max(12px, env(safe-area-inset-bottom));
-                bottom: 0;
-            }
-            
-            body {
-                padding-bottom: max(var(--ios-bottom-safe-area), env(safe-area-inset-bottom));
-            }
-        }
-
-        .schedule-item.completed {
-            background-color: rgba(139, 197, 191, 0.1);
-            transform: scale(0.98);
-        }
-
-        .checkbox {
-            width: 24px;
-            height: 24px;
-            border: 2px solid var(--accent-color);
-            border-radius: 50%;
-            margin-right: 12px;
-            position: relative;
-            flex-shrink: 0;
-        }
-
-        .schedule-item.completed .checkbox::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 12px;
-            height: 12px;
-            background-color: var(--accent-color);
-            border-radius: 50%;
-        }
-
-        .daily-targets {
-            background-color: var(--accent-color);
-            color: var(--background-color);
-            padding: 16px;
-            border-radius: 16px;
-            margin-top: 20px;
-            font-weight: 500;
-        }
-
-        .daily-targets h3 {
-            margin-bottom: 8px;
-            font-size: 16px;
-        }
-
-        .daily-targets p {
-            margin: 8px 0;
-            font-size: 15px;
-        }
-
-        @media (hover: hover) {
-            .schedule-item:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            }
-            
-            .nav-button:hover {
-                background-color: rgba(255,255,255,0.1);
-            }
-        }
-
-        /* Add to Home Screen animation */
-        @keyframes addToHome {
-            0% { transform: translateY(100%); }
-            100% { transform: translateY(0); }
-        }
-
-        .add-to-home {
-            position: fixed;
+            padding-bottom: max(12px, env(safe-area-inset-bottom));
             bottom: 0;
-            left: 0;
-            right: 0;
-            background-color: var(--secondary-bg);
-            padding: 16px;
-            border-radius: 20px 20px 0 0;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
-            animation: addToHome 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 1001;
         }
-
-        .add-to-home-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            max-width: 430px;
-            margin: 0 auto;
+        
+        body {
+            padding-bottom: max(var(--ios-bottom-safe-area), env(safe-area-inset-bottom));
         }
-
-        .add-to-home-text {
-            flex: 1;
-            margin-right: 16px;
-        }
-
-        .add-to-home h3 {
-            font-size: 16px;
-            margin-bottom: 4px;
-        }
-
-        .add-to-home p {
-            font-size: 14px;
-            color: #8a8a8a;
-        }
-
-        .add-to-home button {
-            background-color: var(--accent-color);
-            color: var(--background-color);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 10px;
-            font-weight: 500;
-            font-size: 14px;
-        }
-        /* Week View Styling */
-.week-view {
-    display: none;
-}
-
-.week-day {
-    background-color: var(--secondary-bg);
-    padding: 16px;
-    border-radius: 16px;
-    margin-bottom: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.week-day.today {
-    border: 2px solid var(--accent-color);
-}
-
-.week-progress {
-    margin-top: 12px;
-}
-
-.week-progress .progress-stats {
-    display: flex;
-    justify-content: space-between;
-    font-size: 13px;
-    color: #8a8a8a;
-    margin-top: 8px;
-}
-
-/* Achievement Animation */
-.achievement {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: var(--secondary-bg);
-    padding: 16px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    z-index: 1000;
-    transition: opacity 0.3s ease;
-}
-
-.achievement-content {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.achievement-icon {
-    font-size: 24px;
-}
-
-.achievement-text h4 {
-    font-size: 16px;
-    margin-bottom: 4px;
-}
-
-.achievement-text p {
-    font-size: 14px;
-    color: #8a8a8a;
-}
-
-/* Confetti Animation */
-.celebration {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    pointer-events: none;
-    z-index: 1000;
-}
-
-.confetti {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background-color: var(--accent-color);
-    opacity: 0.8;
-    top: -10px;
-    animation: confetti-fall 1.5s ease-out forwards;
-    animation-delay: var(--delay);
-    transform: rotate(var(--rotation));
-}
-
-@keyframes confetti-fall {
-    0% {
-        transform: translateY(0) rotate(var(--rotation));
-        opacity: 1;
     }
-    100% {
-        transform: translateY(100vh) rotate(calc(var(--rotation) + 360deg));
-        opacity: 0;
-    }
-}
 
-/* Pull to Refresh */
-.pull-to-refresh {
-    height: var(--pull-distance, 0px);
-    transition: height 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--accent-color);
-    overflow: hidden;
-}
-    </style>
+    @media (hover: hover) {
+        .schedule-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .nav-button:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+    }
+</style>
 </head>
 <body>
     <div class="container">
@@ -449,386 +474,594 @@
     </div>
 
 <script>
-        // Schedule data
-        const scheduleTypes = {
-            1: { type: 'Gym Day', workout: 'A', color: '#8BC5BF', steps: '10,000', icon: '💪' },
-            2: { type: 'Long Run Day', color: '#E4BAC1', steps: '10,000', icon: '🏃' },
-            3: { type: 'Gym Day', workout: 'B', color: '#8BC5BF', steps: '10,000', icon: '💪' },
-            4: { type: 'Recovery Day', color: '#ffbb54', steps: '10,000', icon: '🧘' },
-            5: { type: 'Gym Day', workout: 'A', color: '#8BC5BF', steps: '10,000', icon: '💪' },
-            6: { type: 'HIIT Run Day', color: '#E4BAC1', steps: '10,000', icon: '⚡' },
-            0: { type: 'Rest Day', color: '#808080', steps: '8,000', icon: '😴' }
+// Configuration and Constants
+const CONFIG = {
+    TIME: {
+        UPCOMING_THRESHOLD: 30, // minutes before task is considered upcoming
+        GRACE_PERIOD: 15, // minutes after scheduled time before task is considered late
+        CHECK_INTERVAL: 60000, // check time status every minute
+        SYNC_INTERVAL: 30000 // sync data every 30 seconds
+    },
+    TOUCH: {
+        TAP_THRESHOLD: 10, // pixels of movement allowed for a tap
+        SWIPE_THRESHOLD: 50, // pixels of movement needed for a swipe
+        PULL_THRESHOLD: 100, // pixels of pull needed for refresh
+        MAX_PULL_DISTANCE: 150
+    },
+    HAPTIC: {
+        LIGHT: 10,
+        MEDIUM: [15, 15],
+        HEAVY: [20, 20, 20]
+    },
+    ANIMATION: {
+        CONFETTI_COUNT: 30,
+        ACHIEVEMENT_DURATION: 3000,
+        NUMBER_STEPS: 10
+    }
+};
+
+// Schedule Data
+const scheduleTypes = {
+    1: { type: 'Gym Day', workout: 'A', color: '#8BC5BF', steps: '10,000', icon: '💪' },
+    2: { type: 'Long Run Day', color: '#E4BAC1', steps: '10,000', icon: '🏃' },
+    3: { type: 'Gym Day', workout: 'B', color: '#8BC5BF', steps: '10,000', icon: '💪' },
+    4: { type: 'Recovery Day', color: '#ffbb54', steps: '10,000', icon: '🧘' },
+    5: { type: 'Gym Day', workout: 'A', color: '#8BC5BF', steps: '10,000', icon: '💪' },
+    6: { type: 'HIIT Run Day', color: '#E4BAC1', steps: '10,000', icon: '⚡' },
+    0: { type: 'Rest Day', color: '#808080', steps: '8,000', icon: '😴' }
+};
+
+const dailySchedules = {
+    'Gym Day': [
+        {time: '06:30', activity: 'Wake Up', details: '500ml water with electrolytes', icon: '⏰'},
+        {time: '06:35', activity: 'Morning Light Walk', details: '10-15min outdoor exposure', icon: '🌅'},
+        {time: '06:50', activity: 'Cold Shower', details: '2-3min cold exposure', icon: '🚿'},
+        {time: '07:00', activity: 'Breathwork', details: '5-5-5 breathing pattern', icon: '🫁'},
+        {time: '07:15', activity: 'Mobility Work', details: 'Full body mobility routine', icon: '🤸'},
+        {time: '07:30', activity: 'Pre-Workout Meal', details: 'Light breakfast', icon: '🥣'},
+        {time: '08:30', activity: 'Walk to Gym', details: '40min walking meditation', icon: '🚶'},
+        {time: '09:15', activity: 'Workout', details: '90min training session', icon: '💪'},
+        {time: '11:00', activity: 'Walk Home', details: '40min recovery walk', icon: '🏃'},
+        {time: '11:40', activity: 'Recovery', details: 'Begin recovery routine', icon: '🧘'},
+        {time: '12:00', activity: 'Post-Workout Meal', details: 'Protein + carbs', icon: '🍳'}
+    ],
+    'Long Run Day': [
+        {time: '07:00', activity: 'Wake Up', details: '500ml water', icon: '⏰'},
+        {time: '07:15', activity: 'Morning Light', details: '15min outdoor exposure', icon: '🌅'},
+        {time: '07:30', activity: 'Light Snack', details: 'Simple carbs', icon: '🍌'},
+        {time: '08:00', activity: 'Long Run', details: '45min steady state', icon: '🏃'},
+        {time: '09:00', activity: 'Cool Down Walk', details: '15min easy pace', icon: '🚶'},
+        {time: '09:30', activity: 'Recovery Meal', details: 'Balanced breakfast', icon: '🍳'}
+    ],
+    'Recovery Day': [
+        {time: '07:00', activity: 'Wake Up', details: '500ml water', icon: '⏰'},
+        {time: '07:15', activity: 'Morning Light', details: '15min exposure', icon: '🌅'},
+        {time: '07:30', activity: 'Mobility Work', details: '20min mobility routine', icon: '🤸'},
+        {time: '08:00', activity: 'Breakfast', details: 'Balanced breakfast', icon: '🍳'},
+        {time: '09:00', activity: 'Morning Walk', details: '30min easy pace', icon: '🚶'},
+        {time: '13:00', activity: 'Lunch Walk', details: '30min easy pace', icon: '🚶'},
+        {time: '17:00', activity: 'Evening Walk', details: '30min easy pace', icon: '🚶'}
+    ],
+    'HIIT Run Day': [
+        {time: '07:30', activity: 'Wake Up', details: '500ml water', icon: '⏰'},
+        {time: '07:45', activity: 'Morning Light', details: '15min exposure', icon: '🌅'},
+        {time: '08:00', activity: 'Light Snack', details: 'Simple carbs', icon: '🍌'},
+        {time: '08:30', activity: 'HIIT Session', details: '30min (30s hard/90s easy × 10)', icon: '⚡'},
+        {time: '09:15', activity: 'Cool Down Walk', details: '15min easy pace', icon: '🚶'},
+        {time: '09:45', activity: 'Recovery Meal', details: 'Protein + carbs', icon: '🍳'}
+    ],
+    'Rest Day': [
+        {time: '08:00', activity: 'Natural Wake', details: 'No alarm needed', icon: '😴'},
+        {time: '08:15', activity: 'Morning Light', details: '15min exposure', icon: '🌅'},
+        {time: '08:30', activity: 'Light Movement', details: 'Gentle mobility', icon: '🤸'},
+        {time: '09:00', activity: 'Breakfast', details: 'Relaxed meal', icon: '🍳'},
+        {time: '10:00', activity: 'Leisure Walk', details: '45-60min easy pace', icon: '🚶'}
+    ]
+};
+
+// State Management
+let progressData = JSON.parse(localStorage.getItem('progressData')) || {
+    completedTasks: {},
+    streaks: 0,
+    lastCompletedDate: null,
+    weeklyStats: {},
+    lastSync: new Date().toISOString(),
+    taskTimings: {} // Added for tracking completion times
+};
+
+let deferredPrompt; // For "Add to Home Screen" prompt
+let touchStartY = 0; // For pull-to-refresh
+let pullDistance = 0; // For pull-to-refresh
+
+    // Utility Functions
+const Utils = {
+    // Date and Time
+    parseTime(timeStr) {
+        const [hours, minutes] = timeStr.split(':').map(Number);
+        const today = new Date();
+        return new Date(today.getFullYear(), today.getMonth(), today.getDate(), hours, minutes);
+    },
+
+    formatDate(date) {
+        const today = new Date();
+        const yesterday = new Date(today);
+        yesterday.setDate(yesterday.getDate() - 1);
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+
+        if (date.toDateString() === today.toDateString()) return 'Today';
+        if (date.toDateString() === yesterday.toDateString()) return 'Yesterday';
+        if (date.toDateString() === tomorrow.toDateString()) return 'Tomorrow';
+
+        return date.toLocaleDateString('en-GB', { 
+            weekday: 'long', 
+            day: 'numeric', 
+            month: 'short'
+        });
+    },
+
+    getTimeDifferenceInMinutes(scheduledTime) {
+        const now = new Date();
+        const taskTime = this.parseTime(scheduledTime);
+        return Math.floor((now - taskTime) / (1000 * 60));
+    },
+
+    // Schedule Helpers
+    getScheduleForDate(date) {
+        return scheduleTypes[date.getDay()];
+    },
+
+    // Data Management
+    syncProgressData() {
+        localStorage.setItem('progressData', JSON.stringify(progressData));
+    },
+
+    // Device Feedback
+    triggerHapticFeedback(type = 'medium') {
+        if (window.navigator && window.navigator.vibrate) {
+            navigator.vibrate(CONFIG.HAPTIC[type.toUpperCase()]);
+        }
+    },
+
+    // Animation Helpers
+    animateNumber(elementId, target) {
+        const element = document.getElementById(elementId);
+        const current = parseInt(element.textContent);
+        const diff = target - current;
+        const stepValue = diff / CONFIG.ANIMATION.NUMBER_STEPS;
+        let step = 0;
+
+        const animate = () => {
+            step++;
+            element.textContent = Math.round(current + (stepValue * step));
+            if (step < CONFIG.ANIMATION.NUMBER_STEPS) {
+                requestAnimationFrame(animate);
+            }
         };
 
-        const dailySchedules = {
-            'Gym Day': [
-                {time: '06:30', activity: 'Wake Up', details: '500ml water with electrolytes', icon: '⏰'},
-                {time: '06:35', activity: 'Morning Light Walk', details: '10-15min outdoor exposure', icon: '🌅'},
-                {time: '06:50', activity: 'Cold Shower', details: '2-3min cold exposure', icon: '🚿'},
-                {time: '07:00', activity: 'Breathwork', details: '5-5-5 breathing pattern', icon: '🫁'},
-                {time: '07:15', activity: 'Mobility Work', details: 'Full body mobility routine', icon: '🤸'},
-                {time: '07:30', activity: 'Pre-Workout Meal', details: 'Light breakfast', icon: '🥣'},
-                {time: '08:30', activity: 'Walk to Gym', details: '40min walking meditation', icon: '🚶'},
-                {time: '09:15', activity: 'Workout', details: '90min training session', icon: '💪'},
-                {time: '11:00', activity: 'Walk Home', details: '40min recovery walk', icon: '🏃'},
-                {time: '11:40', activity: 'Recovery', details: 'Begin recovery routine', icon: '🧘'},
-                {time: '12:00', activity: 'Post-Workout Meal', details: 'Protein + carbs', icon: '🍳'}
-            ],
-            'Long Run Day': [
-                {time: '07:00', activity: 'Wake Up', details: '500ml water', icon: '⏰'},
-                {time: '07:15', activity: 'Morning Light', details: '15min outdoor exposure', icon: '🌅'},
-                {time: '07:30', activity: 'Light Snack', details: 'Simple carbs', icon: '🍌'},
-                {time: '08:00', activity: 'Long Run', details: '45min steady state', icon: '🏃'},
-                {time: '09:00', activity: 'Cool Down Walk', details: '15min easy pace', icon: '🚶'},
-                {time: '09:30', activity: 'Recovery Meal', details: 'Balanced breakfast', icon: '🍳'}
-            ],
-            'Recovery Day': [
-                {time: '07:00', activity: 'Wake Up', details: '500ml water', icon: '⏰'},
-                {time: '07:15', activity: 'Morning Light', details: '15min exposure', icon: '🌅'},
-                {time: '07:30', activity: 'Mobility Work', details: '20min mobility routine', icon: '🤸'},
-                {time: '08:00', activity: 'Breakfast', details: 'Balanced breakfast', icon: '🍳'},
-                {time: '09:00', activity: 'Morning Walk', details: '30min easy pace', icon: '🚶'},
-                {time: '13:00', activity: 'Lunch Walk', details: '30min easy pace', icon: '🚶'},
-                {time: '17:00', activity: 'Evening Walk', details: '30min easy pace', icon: '🚶'}
-            ],
-            'HIIT Run Day': [
-                {time: '07:30', activity: 'Wake Up', details: '500ml water', icon: '⏰'},
-                {time: '07:45', activity: 'Morning Light', details: '15min exposure', icon: '🌅'},
-                {time: '08:00', activity: 'Light Snack', details: 'Simple carbs', icon: '🍌'},
-                {time: '08:30', activity: 'HIIT Session', details: '30min (30s hard/90s easy × 10)', icon: '⚡'},
-                {time: '09:15', activity: 'Cool Down Walk', details: '15min easy pace', icon: '🚶'},
-                {time: '09:45', activity: 'Recovery Meal', details: 'Protein + carbs', icon: '🍳'}
-            ],
-            'Rest Day': [
-                {time: '08:00', activity: 'Natural Wake', details: 'No alarm needed', icon: '😴'},
-                {time: '08:15', activity: 'Morning Light', details: '15min exposure', icon: '🌅'},
-                {time: '08:30', activity: 'Light Movement', details: 'Gentle mobility', icon: '🤸'},
-                {time: '09:00', activity: 'Breakfast', details: 'Relaxed meal', icon: '🍳'},
-                {time: '10:00', activity: 'Leisure Walk', details: '45-60min easy pace', icon: '🚶'}
-            ]
-        };
+        animate();
+    },
 
-        // Progress data management
-        let progressData = JSON.parse(localStorage.getItem('progressData')) || {
-            completedTasks: {},
-            streaks: 0,
-            lastCompletedDate: null,
-            weeklyStats: {},
-            lastSync: new Date().toISOString()
-        };
-
-        // Handle offline storage and sync
-        function syncProgressData() {
-            localStorage.setItem('progressData', JSON.stringify(progressData));
+    // Notification Helpers
+    async requestNotificationPermission() {
+        if ('Notification' in window && Notification.permission !== 'denied') {
+            const permission = await Notification.requestPermission();
+            return permission === 'granted';
         }
+        return false;
+    },
 
-        // Add haptic feedback support
-        function triggerHapticFeedback(type = 'medium') {
-            if (window.navigator && window.navigator.vibrate) {
-                switch(type) {
-                    case 'light':
-                        navigator.vibrate(10);
-                        break;
-                    case 'medium':
-                        navigator.vibrate([15, 15]);
-                        break;
-                    case 'heavy':
-                        navigator.vibrate([20, 20, 20]);
-                        break;
-                }
-            }
+    showNotification(title, message) {
+        if ('Notification' in window && Notification.permission === 'granted') {
+            new Notification(title, { body: message });
         }
+    },
 
-        // Format date with iOS style
-        function formatDate(date) {
-            const today = new Date();
-            const yesterday = new Date(today);
-            yesterday.setDate(yesterday.getDate() - 1);
-            const tomorrow = new Date(today);
-            tomorrow.setDate(tomorrow.getDate() + 1);
-
-            if (date.toDateString() === today.toDateString()) {
-                return 'Today';
-            } else if (date.toDateString() === yesterday.toDateString()) {
-                return 'Yesterday';
-            } else if (date.toDateString() === tomorrow.toDateString()) {
-                return 'Tomorrow';
-            }
-
-            return date.toLocaleDateString('en-GB', { 
-                weekday: 'long', 
-                day: 'numeric', 
-                month: 'short'
-            });
-        }
-
-    // Show schedule with enhanced mobile interactions
-        function showSchedule(date) {
-            const schedule = getScheduleForDate(date);
-            const dailySchedule = dailySchedules[schedule.type];
-            const dateStr = date.toLocaleDateString();
-            
-            document.getElementById('current-date').textContent = formatDate(date);
-            const scheduleType = document.getElementById('schedule-type');
-            scheduleType.textContent = `${schedule.icon} ${schedule.type}${schedule.workout ? ` (${schedule.workout})` : ''}`;
-            scheduleType.style.backgroundColor = schedule.color;
-
-            const dailyView = document.getElementById('daily-view');
-            dailyView.innerHTML = '';
-
-            dailySchedule.forEach((item, index) => {
-                const taskKey = `${schedule.type}-${index}`;
-                const isCompleted = progressData.completedTasks[dateStr]?.includes(taskKey);
-                
-                const scheduleItem = document.createElement('div');
-                scheduleItem.className = `schedule-item ${isCompleted ? 'completed' : ''}`;
-                scheduleItem.innerHTML = `
-                    <div class="checkbox"></div>
-                    <div class="time">${item.time}</div>
-                    <div class="content">
-                        <div class="activity">${item.icon} ${item.activity}</div>
-                        <div class="details">${item.details}</div>
-                    </div>
-                `;
-
-                // Add touch handling
-                let touchStartX = 0;
-                let touchStartY = 0;
-                
-                scheduleItem.addEventListener('touchstart', (e) => {
-                    touchStartX = e.touches[0].clientX;
-                    touchStartY = e.touches[0].clientY;
-                });
-
-                scheduleItem.addEventListener('touchend', (e) => {
-                    const touchEndX = e.changedTouches[0].clientX;
-                    const touchEndY = e.changedTouches[0].clientY;
-                    const deltaX = touchEndX - touchStartX;
-                    const deltaY = touchEndY - touchStartY;
-
-                    // If it's a tap (minimal movement)
-                    if (Math.abs(deltaX) < 10 && Math.abs(deltaY) < 10) {
-                        toggleTask(taskKey, date);
-                    }
-                    // Swipe right to complete
-                    else if (deltaX > 50 && Math.abs(deltaY) < 30) {
-                        if (!isCompleted) {
-                            toggleTask(taskKey, date);
-                        }
-                    }
-                });
-
-                dailyView.appendChild(scheduleItem);
-            });
-
-            // Add daily targets with enhanced styling
-            const targets = document.createElement('div');
-            targets.className = 'daily-targets';
-            targets.innerHTML = `
-                <h3>Daily Targets</h3>
-                <p>🦶 Steps: ${schedule.steps}</p>
-                <p>💧 Water: 2L before 2 PM</p>
-                <p>😴 Sleep: 7-9 hours</p>
-            `;
-            dailyView.appendChild(targets);
-
-            updateProgress();
-        }
-
-        // Toggle task with animations and haptic feedback
-        function toggleTask(taskKey, date) {
-            const dateStr = date.toLocaleDateString();
-            progressData.completedTasks[dateStr] = progressData.completedTasks[dateStr] || [];
-            
-            const index = progressData.completedTasks[dateStr].indexOf(taskKey);
-            if (index === -1) {
-                progressData.completedTasks[dateStr].push(taskKey);
-                triggerHapticFeedback('medium');
-                celebrate();
-                
-                // Update streaks with enhanced logic
-                const today = new Date().toLocaleDateString();
-                if (dateStr === today) {
-                    const yesterdayDate = new Date();
-                    yesterdayDate.setDate(yesterdayDate.getDate() - 1);
-                    const yesterdayStr = yesterdayDate.toLocaleDateString();
-                    
-                    if (!progressData.lastCompletedDate || 
-                        progressData.lastCompletedDate === yesterdayStr) {
-                        progressData.streaks++;
-                        triggerHapticFeedback('heavy');
-                    }
-                    progressData.lastCompletedDate = today;
-                }
-            } else {
-                progressData.completedTasks[dateStr].splice(index, 1);
-                triggerHapticFeedback('light');
-            }
-            
-            syncProgressData();
-            updateProgress();
-            showSchedule(date);
-        }
-            // Update progress with enhanced animations
-        function updateProgress() {
-            const today = new Date().toLocaleDateString();
-            const todayCompleted = (progressData.completedTasks[today] || []).length;
-            const totalTasks = dailySchedules[getScheduleForDate(new Date()).type].length;
-            
-            const progress = (todayCompleted / totalTasks) * 100;
-            const progressFill = document.getElementById('progress-fill');
-            
-            // Animate progress bar
-            progressFill.style.transition = 'width 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
-            progressFill.style.width = `${progress}%`;
-            
-            // Update stats with animation
-            animateNumber('today-completed', todayCompleted);
-
-            // Calculate week progress
-            const weekCompleted = Object.keys(progressData.completedTasks)
-                .filter(date => {
-                    const taskDate = new Date(date);
-                    const weekAgo = new Date();
-                    weekAgo.setDate(weekAgo.getDate() - 7);
-                    return taskDate >= weekAgo;
-                })
-                .reduce((acc, date) => acc + progressData.completedTasks[date].length, 0);
-            
-            animateNumber('week-completed', weekCompleted);
-            animateNumber('streak-count', progressData.streaks);
-
-            // Check for achievements
-            checkAchievements(todayCompleted, totalTasks);
-        }
-
-        // Animate number changes
-        function animateNumber(elementId, target) {
-            const element = document.getElementById(elementId);
-            const current = parseInt(element.textContent);
-            const diff = target - current;
-            const steps = 10;
-            const stepValue = diff / steps;
-            let step = 0;
-
-            const animate = () => {
-                step++;
-                const value = Math.round(current + (stepValue * step));
-                element.textContent = value;
-                
-                if (step < steps) {
-                    requestAnimationFrame(animate);
-                }
-            };
-
-            animate();
-        }
-
-        // Show week view with enhanced mobile layout
-        function showWeekView() {
-            const weekView = document.getElementById('week-view');
-            weekView.innerHTML = '';
-            
-            const today = new Date();
-            const currentDay = today.getDay();
-            
-            // Create week overview
-            for (let i = 0; i < 7; i++) {
-                const date = new Date();
-                date.setDate(today.getDate() - currentDay + i);
-                const schedule = getScheduleForDate(date);
-                const isToday = i === currentDay;
-                const dateStr = date.toLocaleDateString();
-                const completedCount = (progressData.completedTasks[dateStr] || []).length;
-                const totalTasks = dailySchedules[schedule.type].length;
-                const progress = (completedCount / totalTasks) * 100;
-                
-                weekView.innerHTML += `
-                    <div class="week-day ${isToday ? 'today' : ''}" onclick="showSchedule(new Date('${date}'))">
-                        <div class="day-header">
-                            <h3>${formatDate(date)}</h3>
-                            <span class="day-type" style="background-color: ${schedule.color}">
-                                ${schedule.icon} ${schedule.type}${schedule.workout ? ` ${schedule.workout}` : ''}
-                            </span>
-                        </div>
-                        <div class="week-progress">
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: ${progress}%"></div>
-                            </div>
-                            <div class="progress-stats">
-                                <span>${completedCount}/${totalTasks} completed</span>
-                                <span>${schedule.steps} steps</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }
-        }
-
-        // Achievement system
-        function checkAchievements(completed, total) {
-            if (completed === total) {
-                showAchievement('Perfect Day! 🎯');
-            }
-            if (progressData.streaks === 7) {
-                showAchievement('Week Warrior! 🔥');
-            }
-            // Add more achievements as needed
-        }
-
-        function showAchievement(message) {
-            const achievement = document.createElement('div');
-            achievement.className = 'achievement';
-            achievement.innerHTML = `
-                <div class="achievement-content">
-                    <div class="achievement-icon">🏆</div>
-                    <div class="achievement-text">
-                        <h4>Achievement Unlocked!</h4>
-                        <p>${message}</p>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(achievement);
-            
-            triggerHapticFeedback('heavy');
-            
-            setTimeout(() => {
-                achievement.style.opacity = '0';
-                setTimeout(() => {
-                    document.body.removeChild(achievement);
-                }, 300);
-            }, 3000);
-        }
-
-        // Show celebration animation
-        function celebrate() {
-            const celebration = document.createElement('div');
-            celebration.className = 'celebration';
-            document.body.appendChild(celebration);
-            
-            // Create confetti effect
-            for (let i = 0; i < 30; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.setProperty('--delay', `${Math.random() * 500}ms`);
-                confetti.style.setProperty('--rotation', `${Math.random() * 360}deg`);
-                confetti.style.left = `${Math.random() * 100}%`;
-                celebration.appendChild(confetti);
-            }
-            
-            setTimeout(() => {
-                celebration.style.opacity = '0';
-                setTimeout(() => {
-                    document.body.removeChild(celebration);
-                }, 500);
-            }, 1500);
-        }
-
-        // Add pull-to-refresh functionality
-        let touchStartY = 0;
-        let pullDistance = 0;
-        const maxPullDistance = 150;
+    // DOM Helpers
+    createElement(tagName, className, innerHTML = '') {
+        const element = document.createElement(tagName);
+        if (className) element.className = className;
+        if (innerHTML) element.innerHTML = innerHTML;
+        return element;
+    }
+};
+    // Core Functions
+const Core = {
+    // Time Status Management
+    getTimeStatus(scheduledTime, isCompleted, completionTime = null) {
+        const minutesDiff = Utils.getTimeDifferenceInMinutes(scheduledTime);
         
+        if (isCompleted) {
+            if (completionTime && (completionTime - Utils.parseTime(scheduledTime)) > 
+                CONFIG.TIME.GRACE_PERIOD * 60 * 1000) {
+                return {
+                    type: 'completed-late',
+                    text: '⏰ Completed late',
+                    icon: '⏰'
+                };
+            }
+            return null;
+        }
+        
+        if (minutesDiff > CONFIG.TIME.GRACE_PERIOD) {
+            const hours = Math.floor(minutesDiff / 60);
+            const mins = minutesDiff % 60;
+            return {
+                type: 'overdue',
+                text: `${hours ? hours + 'h ' : ''}${mins}m overdue`,
+                icon: '⚠️'
+            };
+        }
+        
+        if (minutesDiff > -CONFIG.TIME.UPCOMING_THRESHOLD) {
+            return {
+                type: 'upcoming',
+                text: 'Coming up',
+                icon: '⏳'
+            };
+        }
+        
+        return null;
+    },
+
+    // Schedule Display
+    showSchedule(date) {
+        const schedule = Utils.getScheduleForDate(date);
+        const dailySchedule = dailySchedules[schedule.type];
+        const dateStr = date.toLocaleDateString();
+        const isToday = new Date().toLocaleDateString() === dateStr;
+        
+        // Update header
+        document.getElementById('current-date').textContent = Utils.formatDate(date);
+        const scheduleType = document.getElementById('schedule-type');
+        scheduleType.textContent = `${schedule.icon} ${schedule.type}${schedule.workout ? ` (${schedule.workout})` : ''}`;
+        scheduleType.style.backgroundColor = schedule.color;
+
+        // Clear and prepare daily view
+        const dailyView = document.getElementById('daily-view');
+        dailyView.innerHTML = '';
+
+        // Create schedule items
+        dailySchedule.forEach((item, index) => {
+            const taskKey = `${schedule.type}-${index}`;
+            const isCompleted = progressData.completedTasks[dateStr]?.includes(taskKey);
+            const completionTime = progressData.taskTimings[`${dateStr}-${taskKey}`];
+            const timeStatus = isToday ? this.getTimeStatus(item.time, isCompleted, completionTime) : null;
+            
+            const scheduleItem = this.createScheduleItem(item, isCompleted, timeStatus);
+            this.attachTouchHandlers(scheduleItem, taskKey, date, item.time);
+            dailyView.appendChild(scheduleItem);
+        });
+
+        // Add daily targets
+        dailyView.appendChild(this.createDailyTargets(schedule));
+        this.updateProgress();
+    },
+
+    createScheduleItem(item, isCompleted, timeStatus) {
+        const scheduleItem = Utils.createElement('div', 
+            `schedule-item ${isCompleted ? 'completed' : ''} ${timeStatus?.type || ''}`);
+        
+        let statusHtml = timeStatus ? 
+            `<div class="time-status ${timeStatus.type}">${timeStatus.icon} ${timeStatus.text}</div>` : '';
+        
+        scheduleItem.innerHTML = `
+            <div class="checkbox"></div>
+            <div class="time">${item.time}</div>
+            <div class="content">
+                <div class="activity">${item.icon} ${item.activity}</div>
+                <div class="details">${item.details}</div>
+            </div>
+            ${statusHtml}
+        `;
+        
+        return scheduleItem;
+    },
+
+    createDailyTargets(schedule) {
+        return Utils.createElement('div', 'daily-targets', `
+            <h3>Daily Targets</h3>
+            <p>🦶 Steps: ${schedule.steps}</p>
+            <p>💧 Water: 2L before 2 PM</p>
+            <p>😴 Sleep: 7-9 hours</p>
+        `);
+    },
+
+    // Task Management
+    toggleTask(taskKey, date, scheduledTime) {
+        const dateStr = date.toLocaleDateString();
+        progressData.completedTasks[dateStr] = progressData.completedTasks[dateStr] || [];
+        
+        const index = progressData.completedTasks[dateStr].indexOf(taskKey);
+        if (index === -1) {
+            this.completeTask(taskKey, date, dateStr, scheduledTime);
+        } else {
+            this.uncompleteTask(taskKey, dateStr, index);
+        }
+        
+        Utils.syncProgressData();
+        this.updateProgress();
+        this.showSchedule(date);
+    },
+
+    completeTask(taskKey, date, dateStr, scheduledTime) {
+        const completionTime = new Date();
+        progressData.completedTasks[dateStr].push(taskKey);
+        progressData.taskTimings[`${dateStr}-${taskKey}`] = completionTime.getTime();
+        
+        const minutesLate = Utils.getTimeDifferenceInMinutes(scheduledTime);
+        if (minutesLate > CONFIG.TIME.GRACE_PERIOD) {
+            Utils.triggerHapticFeedback('medium');
+            Utils.showNotification('Task completed late', 
+                'Try to complete tasks within 15 minutes of scheduled time');
+        } else {
+            Utils.triggerHapticFeedback('medium');
+            UI.celebrate();
+        }
+        
+        this.updateStreaks(dateStr);
+    },
+
+    uncompleteTask(taskKey, dateStr, index) {
+        progressData.completedTasks[dateStr].splice(index, 1);
+        delete progressData.taskTimings[`${dateStr}-${taskKey}`];
+        Utils.triggerHapticFeedback('light');
+    },
+
+    updateStreaks(dateStr) {
+        const today = new Date().toLocaleDateString();
+        if (dateStr === today) {
+            const yesterdayDate = new Date();
+            yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+            const yesterdayStr = yesterdayDate.toLocaleDateString();
+            
+            if (!progressData.lastCompletedDate || 
+                progressData.lastCompletedDate === yesterdayStr) {
+                progressData.streaks++;
+                Utils.triggerHapticFeedback('heavy');
+                if (progressData.streaks % 7 === 0) {
+                    UI.showAchievement('Week Warrior! 🔥');
+                }
+            }
+            progressData.lastCompletedDate = today;
+        }
+    },
+
+    // Progress Management
+    updateProgress() {
+        const today = new Date().toLocaleDateString();
+        const todayCompleted = (progressData.completedTasks[today] || []).length;
+        const totalTasks = dailySchedules[Utils.getScheduleForDate(new Date()).type].length;
+        
+        // Update progress bar
+        const progress = (todayCompleted / totalTasks) * 100;
+        const progressFill = document.getElementById('progress-fill');
+        progressFill.style.width = `${progress}%`;
+        
+        // Update statistics
+        Utils.animateNumber('today-completed', todayCompleted);
+        this.updateWeeklyProgress();
+        
+        // Check achievements
+        if (todayCompleted === totalTasks) {
+            UI.showAchievement('Perfect Day! 🎯');
+        }
+    },
+
+    updateWeeklyProgress() {
+        const weekCompleted = Object.keys(progressData.completedTasks)
+            .filter(date => {
+                const taskDate = new Date(date);
+                const weekAgo = new Date();
+                weekAgo.setDate(weekAgo.getDate() - 7);
+                return taskDate >= weekAgo;
+            })
+            .reduce((acc, date) => acc + progressData.completedTasks[date].length, 0);
+        
+        Utils.animateNumber('week-completed', weekCompleted);
+        Utils.animateNumber('streak-count', progressData.streaks);
+    },
+
+    // Touch Handlers
+    attachTouchHandlers(element, taskKey, date, scheduledTime) {
+        let touchStartX = 0;
+        let touchStartY = 0;
+        
+        element.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+        });
+
+        element.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].clientX;
+            const touchEndY = e.changedTouches[0].clientY;
+            const deltaX = touchEndX - touchStartX;
+            const deltaY = touchEndY - touchStartY;
+
+            if (Math.abs(deltaX) < CONFIG.TOUCH.TAP_THRESHOLD && 
+                Math.abs(deltaY) < CONFIG.TOUCH.TAP_THRESHOLD) {
+                this.toggleTask(taskKey, date, scheduledTime);
+            } else if (deltaX > CONFIG.TOUCH.SWIPE_THRESHOLD && 
+                Math.abs(deltaY) < CONFIG.TOUCH.TAP_THRESHOLD) {
+                const isCompleted = progressData.completedTasks[date.toLocaleDateString()]?.includes(taskKey);
+                if (!isCompleted) {
+                    this.toggleTask(taskKey, date, scheduledTime);
+                }
+            }
+        });
+    }
+};
+    // UI Functions
+const UI = {
+    // View Management
+    showView(view) {
+        const dailyView = document.getElementById('daily-view');
+        const weekView = document.getElementById('week-view');
+        const buttons = document.querySelectorAll('.nav-button');
+        
+        buttons.forEach(button => button.classList.remove('active'));
+        event.target.classList.add('active');
+
+        if (view === 'week') {
+            this.switchToWeekView(dailyView, weekView);
+        } else {
+            this.switchToDayView(dailyView, weekView, view);
+        }
+    },
+
+    switchToWeekView(dailyView, weekView) {
+        dailyView.style.display = 'none';
+        weekView.style.display = 'block';
+        document.getElementById('current-date').textContent = 'This Week';
+        document.getElementById('schedule-type').style.display = 'none';
+        this.showWeekView();
+    },
+
+    switchToDayView(dailyView, weekView, view) {
+        dailyView.style.display = 'block';
+        weekView.style.display = 'none';
+        document.getElementById('schedule-type').style.display = 'inline-block';
+        const date = new Date();
+        if (view === 'tomorrow') {
+            date.setDate(date.getDate() + 1);
+        }
+        Core.showSchedule(date);
+    },
+
+    showWeekView() {
+        const weekView = document.getElementById('week-view');
+        weekView.innerHTML = '';
+        
+        const today = new Date();
+        const currentDay = today.getDay();
+        
+        for (let i = 0; i < 7; i++) {
+            const date = new Date();
+            date.setDate(today.getDate() - currentDay + i);
+            this.addWeekViewDay(weekView, date, i === currentDay);
+        }
+    },
+
+    addWeekViewDay(weekView, date, isToday) {
+        const schedule = Utils.getScheduleForDate(date);
+        const dateStr = date.toLocaleDateString();
+        const completedCount = (progressData.completedTasks[dateStr] || []).length;
+        const totalTasks = dailySchedules[schedule.type].length;
+        const progress = (completedCount / totalTasks) * 100;
+        
+        weekView.appendChild(Utils.createElement('div', 
+            `week-day ${isToday ? 'today' : ''}`, `
+            <div class="day-header">
+                <h3>${Utils.formatDate(date)}</h3>
+                <span class="day-type" style="background-color: ${schedule.color}">
+                    ${schedule.icon} ${schedule.type}${schedule.workout ? ` ${schedule.workout}` : ''}
+                </span>
+            </div>
+            <div class="week-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: ${progress}%"></div>
+                </div>
+                <div class="progress-stats">
+                    <span>${completedCount}/${totalTasks} completed</span>
+                    <span>${schedule.steps} steps</span>
+                </div>
+            </div>
+        `)).onclick = () => Core.showSchedule(date);
+    },
+
+    // Visual Feedback
+    showAchievement(message) {
+        const achievement = Utils.createElement('div', 'achievement', `
+            <div class="achievement-content">
+                <div class="achievement-icon">🏆</div>
+                <div class="achievement-text">
+                    <h4>Achievement Unlocked!</h4>
+                    <p>${message}</p>
+                </div>
+            </div>
+        `);
+        
+        document.body.appendChild(achievement);
+        Utils.triggerHapticFeedback('heavy');
+        
+        setTimeout(() => {
+            achievement.style.opacity = '0';
+            setTimeout(() => {
+                document.body.removeChild(achievement);
+            }, 300);
+        }, CONFIG.ANIMATION.ACHIEVEMENT_DURATION);
+    },
+
+    celebrate() {
+        const celebration = Utils.createElement('div', 'celebration');
+        document.body.appendChild(celebration);
+        
+        for (let i = 0; i < CONFIG.ANIMATION.CONFETTI_COUNT; i++) {
+            const confetti = Utils.createElement('div', 'confetti');
+            confetti.style.setProperty('--delay', `${Math.random() * 500}ms`);
+            confetti.style.setProperty('--rotation', `${Math.random() * 360}deg`);
+            confetti.style.left = `${Math.random() * 100}%`;
+            celebration.appendChild(confetti);
+        }
+        
+        setTimeout(() => {
+            celebration.style.opacity = '0';
+            setTimeout(() => document.body.removeChild(celebration), 500);
+        }, 1500);
+    },
+
+    // Add to Home Screen
+    showAddToHome() {
+        if (document.querySelector('.add-to-home')) return;
+        
+        const prompt = Utils.createElement('div', 'add-to-home', `
+            <div class="add-to-home-content">
+                <div class="add-to-home-text">
+                    <h3>Add to Home Screen</h3>
+                    <p>Track your workouts more easily</p>
+                </div>
+                <button onclick="App.addToHomeScreen()">Add</button>
+            </div>
+        `);
+        document.body.appendChild(prompt);
+    }
+};
+
+// App Controller
+const App = {
+    async initialize() {
+        // Check if running as PWA
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            document.body.classList.add('standalone');
+        }
+
+        // Set up service worker
+        if ('serviceWorker' in navigator) {
+            await navigator.serviceWorker.register('/service-worker.js');
+        }
+
+        // Set up notifications
+        await Utils.requestNotificationPermission();
+
+        // Set up periodic checks and syncs
+        setInterval(() => Core.checkTimeStatus(), CONFIG.TIME.CHECK_INTERVAL);
+        setInterval(() => Utils.syncProgressData(), CONFIG.TIME.SYNC_INTERVAL);
+
+        // Set up pull-to-refresh
+        this.setupPullToRefresh();
+
+        // Set up install prompt
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            UI.showAddToHome();
+        });
+
+        // Initialize view
+        Core.showSchedule(new Date());
+    },
+
+    setupPullToRefresh() {
         document.addEventListener('touchstart', (e) => {
             if (document.scrollTop === 0) {
                 touchStartY = e.touches[0].clientY;
@@ -838,112 +1071,37 @@
         document.addEventListener('touchmove', (e) => {
             if (touchStartY > 0 && document.scrollTop === 0) {
                 pullDistance = e.touches[0].clientY - touchStartY;
-                if (pullDistance > 0 && pullDistance <= maxPullDistance) {
+                if (pullDistance > 0 && pullDistance <= CONFIG.TOUCH.MAX_PULL_DISTANCE) {
                     document.body.style.setProperty('--pull-distance', `${pullDistance}px`);
                 }
             }
         });
 
         document.addEventListener('touchend', () => {
-            if (pullDistance >= 100) {
-                // Refresh data
-                showSchedule(new Date());
-                triggerHapticFeedback('medium');
+            if (pullDistance >= CONFIG.TOUCH.PULL_THRESHOLD) {
+                Core.showSchedule(new Date());
+                Utils.triggerHapticFeedback('medium');
             }
             touchStartY = 0;
             pullDistance = 0;
             document.body.style.removeProperty('--pull-distance');
         });
+    },
 
-        // Initialize the app
-        function initializeApp() {
-            // Check if running as PWA
-            if (window.matchMedia('(display-mode: standalone)').matches) {
-                document.body.classList.add('standalone');
+    async addToHomeScreen() {
+        if (deferredPrompt) {
+            const { outcome } = await deferredPrompt.prompt();
+            if (outcome === 'accepted') {
+                console.log('Added to home screen');
             }
-
-            // Set up offline support
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('/service-worker.js');
-            }
-
-            // Initialize view
-            showSchedule(new Date());
-
-            // Set up periodic sync
-            setInterval(syncProgressData, 30000);
+            deferredPrompt = null;
         }
-
-        // Add home screen prompt for iOS
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            showAddToHome();
-        });
-
-        function showAddToHome() {
-            if (document.querySelector('.add-to-home')) return;
-            
-            const prompt = document.createElement('div');
-            prompt.className = 'add-to-home';
-            prompt.innerHTML = `
-                <div class="add-to-home-content">
-                    <div class="add-to-home-text">
-                        <h3>Add to Home Screen</h3>
-                        <p>Track your workouts more easily</p>
-                    </div>
-                    <button onclick="addToHomeScreen()">Add</button>
-                </div>
-            `;
-            document.body.appendChild(prompt);
-        }
-
-        async function addToHomeScreen() {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const result = await deferredPrompt.userChoice;
-                if (result.outcome === 'accepted') {
-                    console.log('Added to home screen');
-                }
-                deferredPrompt = null;
-            }
-            document.querySelector('.add-to-home')?.remove();
-        }
-    // Helper function to get schedule for date
-function getScheduleForDate(date) {
-    return scheduleTypes[date.getDay()];
-}
-
-// Show view function for navigation
-function showView(view) {
-    const dailyView = document.getElementById('daily-view');
-    const weekView = document.getElementById('week-view');
-    const buttons = document.querySelectorAll('.nav-button');
-    
-    buttons.forEach(button => button.classList.remove('active'));
-    event.target.classList.add('active');
-
-    if (view === 'week') {
-        dailyView.style.display = 'none';
-        weekView.style.display = 'block';
-        document.getElementById('current-date').textContent = 'This Week';
-        document.getElementById('schedule-type').style.display = 'none';
-        showWeekView();
-    } else {
-        dailyView.style.display = 'block';
-        weekView.style.display = 'none';
-        document.getElementById('schedule-type').style.display = 'inline-block';
-        const date = new Date();
-        if (view === 'tomorrow') {
-            date.setDate(date.getDate() + 1);
-        }
-        showSchedule(date);
+        document.querySelector('.add-to-home')?.remove();
     }
-}
+};
 
-        // Start the app
-        initializeApp();
-    </script>
+// Initialize the app
+App.initialize();
+</script>
 </body>
 </html>
