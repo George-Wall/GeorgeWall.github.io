@@ -467,10 +467,10 @@
         <div id="week-view" class="week-view"></div>
     </div>
     
-    <div class="nav-buttons">
-    <button class="nav-button active" onclick="UI.showView('today')">Today</button>
-    <button class="nav-button" onclick="UI.showView('tomorrow')">Tomorrow</button>
-    <button class="nav-button" onclick="UI.showView('week')">Week</button>
+<div class="nav-buttons">
+    <button class="nav-button active" onclick="showView('today')">Today</button>
+    <button class="nav-button" onclick="showView('tomorrow')">Tomorrow</button>
+    <button class="nav-button" onclick="showView('week')">Week</button>
 </div>
 
 <script>
@@ -1100,14 +1100,16 @@ const App = {
     }
 };
     
-    // Expose necessary functions to window
+// Expose necessary functions to window
 window.showView = UI.showView.bind(UI);
 window.Core = Core;
 window.UI = UI;
 window.App = App;
+window.checkTimeStatus = Core.checkTimeStatus.bind(Core);
 
 // Initialize the app
 App.initialize();
+Core.showSchedule(new Date());
 </script>
 </body>
 </html>
