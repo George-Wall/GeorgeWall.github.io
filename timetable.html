@@ -581,174 +581,149 @@ function showSchedule(date) {
     updateProgress();
 }
 
-        function showWeekView() {
-            const weekView = document.getElementById('week-view');
-            weekView.innerHTML = '';
-            
-            const today = new Date();
-            const currentDay = today.getDay();
-            
-            for (let i = 0; i < 7; i++) {
-                const date = new Date();
-                date.setDate(today.getDate() - currentDay + i);
-                const schedule = getScheduleForDate(date);
-                const isToday = i === currentDay;
-                
-                weekView.innerHTML += `
-                    <div class="week-day ${isToday ? 'today' : ''}">
-                        <div class="day-header">
-                            <h3>${formatDate(date)}</h3>
-                            <span class="day-type" style="background-color: ${schedule.color}">
-                                ${schedule.type}${schedule.workout ? ` (${schedule.workout})` : ''}
-                            </span>
-                        </div>
-                        <div>Steps: ${schedule.steps}</div>
-                        <div>Main Activity: ${schedule.type.includes('Gym') ? '09:15 Workout' : 
-                                           schedule.type.includes('Run') ? '08:00 Run' : 'Active Recovery'}</div>
-                    </div>
-                `;
-            }
+function startTimeCheck() {
+    // Update immediately
+    showSchedule(new Date());
+    
+    // Then check every minute
+    setInterval(() => {
+        if (document.getElementById('daily-view').style.display !== 'none') {
+            showSchedule(new Date());
         }
+    }, 60000); // Update every minute
+}
 
-        function showView(view) {
-            const dailyView = document.getElementById('daily-view');
-            const weekView = document.getElementById('week-view');
-            const buttons = document.querySelectorAll('.nav-button');
-            
-            buttons.forEach(button => button.classList.remove('active'));
-            event.target.classList.add('active');
+function showWeekView() {
+    const weekView = document.getElementById('week-view');
+    weekView.innerHTML = '';
+    
+    const today = new Date();
+    const currentDay = today.getDay();
+    
+    for (let i = 0; i < 7; i++) {
+        const date = new Date();
+        date.setDate(today.getDate() - currentDay + i);
+        const schedule = getScheduleForDate(date);
+        const isToday = i === currentDay;
+        
+        weekView.innerHTML += `
+            <div class="week-day ${isToday ? 'today' : ''}">
+                <div class="day-header">
+                    <h3>${formatDate(date)}</h3>
+                    <span class="day-type" style="background-color: ${schedule.color}">
+                        ${schedule.type}${schedule.workout ? ` (${schedule.workout})` : ''}
+                    </span>
+                </div>
+                <div>Steps: ${schedule.steps}</div>
+                <div>Main Activity: ${schedule.type.includes('Gym') ? '09:15 Workout' : 
+                                   schedule.type.includes('Run') ? '08:00 Run' : 'Active Recovery'}</div>
+            </div>
+        `;
+    }
+}
 
-            if (view === 'week') {
-                dailyView.style.display = 'none';
-                weekView.style.display = 'block';
-                document.getElementById('current-date').textContent = 'This Week';
-                document.getElementById('schedule-type').style.display = 'none';
-                showWeekView();
-            } else {
-                dailyView.style.display = 'block';
-                weekView.style.display = 'none';
-                document.getElementById('schedule-type').style.display = 'inline-block';
-                const date = new Date();
-                if (view === 'tomorrow') {
-                    date.setDate(date.getDate() + 1);
-                }
-                showSchedule(date);
-            }
+function showView(view) {
+    const dailyView = document.getElementById('daily-view');
+    const weekView = document.getElementById('week-view');
+    const buttons = document.querySelectorAll('.nav-button');
+    
+    buttons.forEach(button => button.classList.remove('active'));
+    event.target.classList.add('active');
+
+    if (view === 'week') {
+        dailyView.style.display = 'none';
+        weekView.style.display = 'block';
+        document.getElementById('current-date').textContent = 'This Week';
+        document.getElementById('schedule-type').style.display = 'none';
+        showWeekView();
+    } else {
+        dailyView.style.display = 'block';
+        weekView.style.display = 'none';
+        document.getElementById('schedule-type').style.display = 'inline-block';
+        const date = new Date();
+        if (view === 'tomorrow') {
+            date.setDate(date.getDate() + 1);
         }
+        showSchedule(date);
+    }
+}
 
 let progressData = JSON.parse(localStorage.getItem('progressData')) || {
-            completedTasks: {},
-            streaks: 0,
-            lastCompletedDate: null
-        };
+    completedTasks: {},
+    streaks: 0,
+    lastCompletedDate: null
+};
 
-        function updateProgress() {
-            const today = new Date().toLocaleDateString();
-            const todayCompleted = (progressData.completedTasks[today] || []).length;
-            const totalTasks = dailySchedules[getScheduleForDate(new Date()).type].length;
-            
-            const progress = (todayCompleted / totalTasks) * 100;
-            document.getElementById('progress-fill').style.width = `${progress}%`;
-            document.getElementById('today-completed').textContent = todayCompleted;
+function updateProgress() {
+    const today = new Date().toLocaleDateString();
+    const todayCompleted = (progressData.completedTasks[today] || []).length;
+    const totalTasks = dailySchedules[getScheduleForDate(new Date()).type].length;
+    
+    const progress = (todayCompleted / totalTasks) * 100;
+    document.getElementById('progress-fill').style.width = `${progress}%`;
+    document.getElementById('today-completed').textContent = todayCompleted;
 
-            // Calculate week progress
-            const weekCompleted = Object.keys(progressData.completedTasks)
-                .filter(date => {
-                    const taskDate = new Date(date);
-                    const weekAgo = new Date();
-                    weekAgo.setDate(weekAgo.getDate() - 7);
-                    return taskDate >= weekAgo;
-                })
-                .reduce((acc, date) => acc + progressData.completedTasks[date].length, 0);
-            
-            document.getElementById('week-completed').textContent = weekCompleted;
-            document.getElementById('streak-count').textContent = progressData.streaks;
-        }
+    const weekCompleted = Object.keys(progressData.completedTasks)
+        .filter(date => {
+            const taskDate = new Date(date);
+            const weekAgo = new Date();
+            weekAgo.setDate(weekAgo.getDate() - 7);
+            return taskDate >= weekAgo;
+        })
+        .reduce((acc, date) => acc + progressData.completedTasks[date].length, 0);
+    
+    document.getElementById('week-completed').textContent = weekCompleted;
+    document.getElementById('streak-count').textContent = progressData.streaks;
+}
 
-        function toggleTask(taskKey, date) {
-            const dateStr = date.toLocaleDateString();
-            progressData.completedTasks[dateStr] = progressData.completedTasks[dateStr] || [];
-            
-            const index = progressData.completedTasks[dateStr].indexOf(taskKey);
-            if (index === -1) {
-                progressData.completedTasks[dateStr].push(taskKey);
-                celebrate();
-                
-                // Update streaks
-                const today = new Date().toLocaleDateString();
-                if (dateStr === today) {
-                    if (!progressData.lastCompletedDate || 
-                        new Date(progressData.lastCompletedDate).toLocaleDateString() === 
-                        new Date(Date.now() - 86400000).toLocaleDateString()) {
-                        progressData.streaks++;
-                    }
-                    progressData.lastCompletedDate = today;
-                }
-            } else {
-                progressData.completedTasks[dateStr].splice(index, 1);
+function toggleTask(taskKey, date) {
+    const dateStr = date.toLocaleDateString();
+    progressData.completedTasks[dateStr] = progressData.completedTasks[dateStr] || [];
+    
+    const index = progressData.completedTasks[dateStr].indexOf(taskKey);
+    if (index === -1) {
+        progressData.completedTasks[dateStr].push(taskKey);
+        celebrate();
+        
+        const today = new Date().toLocaleDateString();
+        if (dateStr === today) {
+            if (!progressData.lastCompletedDate || 
+                new Date(progressData.lastCompletedDate).toLocaleDateString() === 
+                new Date(Date.now() - 86400000).toLocaleDateString()) {
+                progressData.streaks++;
             }
-            
-            localStorage.setItem('progressData', JSON.stringify(progressData));
-            updateProgress();
-            showSchedule(date);
+            progressData.lastCompletedDate = today;
         }
+    } else {
+        progressData.completedTasks[dateStr].splice(index, 1);
+    }
+    
+    localStorage.setItem('progressData', JSON.stringify(progressData));
+    updateProgress();
+    showSchedule(date);
+}
 
-        function celebrate() {
-            const celebration = document.createElement('div');
-            celebration.className = 'celebration';
-            celebration.textContent = '🎉';
-            document.body.appendChild(celebration);
-            
-            setTimeout(() => {
-                document.body.removeChild(celebration);
-            }, 1000);
-        }
+function celebrate() {
+    const celebration = document.createElement('div');
+    celebration.className = 'celebration';
+    celebration.textContent = '🎉';
+    document.body.appendChild(celebration);
+    
+    setTimeout(() => {
+        document.body.removeChild(celebration);
+    }, 1000);
+}
 
-        // Modify showSchedule function
-        function showSchedule(date) {
-            const schedule = getScheduleForDate(date);
-            const dailySchedule = dailySchedules[schedule.type];
-            const dateStr = date.toLocaleDateString();
-            
-            document.getElementById('current-date').textContent = formatDate(date);
-            const scheduleType = document.getElementById('schedule-type');
-            scheduleType.textContent = `${schedule.type}${schedule.workout ? ` (Workout ${schedule.workout})` : ''}`;
-            scheduleType.style.backgroundColor = schedule.color;
-
-            const dailyView = document.getElementById('daily-view');
-            dailyView.innerHTML = '';
-
-            dailySchedule.forEach((item, index) => {
-                const taskKey = `${schedule.type}-${index}`;
-                const isCompleted = progressData.completedTasks[dateStr]?.includes(taskKey);
-                const hasStreak = progressData.streaks > 2;
-                
-                dailyView.innerHTML += `
-                    <div class="schedule-item ${isCompleted ? 'completed' : ''} ${hasStreak ? 'streaked' : ''}" 
-                         onclick="toggleTask('${taskKey}', new Date('${date}'))">
-                        <div class="checkbox"></div>
-                        ${hasStreak ? '<span class="streak-badge">🔥 ${progressData.streaks} days</span>' : ''}
-                        <span class="time">${item.time}</span>
-                        <span class="activity">${item.activity}</span>
-                        <span class="details">${item.details}</span>
-                    </div>
-                `;
-            });
-
-            dailyView.innerHTML += `
-                <div class="daily-targets">
-                    <h3>Daily Targets:</h3>
-                    <p>• Steps: ${schedule.steps}</p>
-                    <p>• Water: 2L before 2 PM</p>
-                    <p>• Sleep: 7-9 hours</p>
-                </div>
-            `;
-            
-            updateProgress();
-        }
-
-        // Initial load
-        showSchedule(new Date());
-    </script>
-</body>
-</html>
+// Initialize with time checking
+document.addEventListener('DOMContentLoaded', () => {
+    startTimeCheck();
+    
+    // Add vibration feedback for mobile
+    if ('vibrate' in navigator) {
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.schedule-item')) {
+                navigator.vibrate(50);
+            }
+        });
+    }
+});
