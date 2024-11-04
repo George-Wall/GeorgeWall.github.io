@@ -922,6 +922,118 @@ const Core = {
         Utils.animateNumber('streak-count', progressData.streaks);
     },
 
+    
+    handleTaskStatus(taskKey, date, status) {
+        const dateStr = date.toLocaleDateString();
+        const taskIndex = parseInt(taskKey.split('-')[1]);
+        const schedule = Utils.getScheduleForDate(date);
+        const task = dailySchedules[schedule.type][taskIndex];
+
+        // Initialize task status if not exists
+        progressData.taskStatuses = progressData.taskStatuses || {};
+        progressData.taskStatuses[dateStr] = progressData.taskStatuses[dateStr] || {};
+
+        switch(status) {
+            case 'completed':
+                this.markTaskCompleted(taskKey, date, dateStr);
+                break;
+            
+            case 'woke-late':
+                const delayedTime = this.calculateNewWakeTime(date);
+                this.adjustSchedule(date, delayedTime);
+                this.markTaskSkipped(taskKey, dateStr, 'Woke up late');
+                UI.showNotification('Schedule adjusted', 'Your schedule has been adjusted for today');
+                break;
+            
+            case 'no-time':
+                this.markTaskSkipped(taskKey, dateStr, 'Not enough time');
+                this.suggestAlternative(task);
+                break;
+            
+            case 'not-well':
+                this.markTaskSkipped(taskKey, dateStr, 'Not feeling well');
+                this.adjustIntensity(date);
+                break;
+            
+            case 'other':
+                this.markTaskSkipped(taskKey, dateStr, 'Other reason');
+                break;
+        }
+
+        Utils.syncProgressData();
+        this.updateProgress();
+        this.showSchedule(date);
+    },
+
+    markTaskSkipped(taskKey, dateStr, reason) {
+        progressData.taskStatuses[dateStr][taskKey] = {
+            status: 'skipped',
+            reason: reason,
+            timestamp: new Date().toISOString()
+        };
+    },
+
+    markTaskCompleted(taskKey, date, dateStr) {
+        progressData.taskStatuses[dateStr][taskKey] = {
+            status: 'completed',
+            timestamp: new Date().toISOString()
+        };
+        progressData.completedTasks[dateStr] = progressData.completedTasks[dateStr] || [];
+        if (!progressData.completedTasks[dateStr].includes(taskKey)) {
+            progressData.completedTasks[dateStr].push(taskKey);
+        }
+    },
+
+    calculateNewWakeTime(date) {
+        const now = new Date();
+        const wakeTime = Utils.parseTime('06:30');
+        const delayMinutes = Math.floor((now - wakeTime) / (1000 * 60));
+        return delayMinutes;
+    },
+
+    adjustSchedule(date, delayMinutes) {
+        const dateStr = date.toLocaleDateString();
+        const schedule = Utils.getScheduleForDate(date);
+        
+        progressData.adjustedSchedules = progressData.adjustedSchedules || {};
+        progressData.adjustedSchedules[dateStr] = dailySchedules[schedule.type].map(task => {
+            const taskTime = Utils.parseTime(task.time);
+            taskTime.setMinutes(taskTime.getMinutes() + delayMinutes);
+            return {
+                ...task,
+                time: taskTime.toTimeString().slice(0, 5)
+            };
+        });
+    },
+
+    suggestAlternative(task) {
+        const alternatives = {
+            'Workout': [
+                { activity: 'Quick HIIT', details: '15min bodyweight circuit', icon: '💪' },
+                { activity: 'Express Workout', details: '20min key exercises', icon: '⚡' }
+            ],
+            'Morning Light Walk': [
+                { activity: 'Indoor Light Therapy', details: '10min near window', icon: '💡' },
+                { activity: 'Quick Garden Walk', details: '5min outdoor exposure', icon: '🌅' }
+            ]
+            // Add more alternatives for other activities
+        };
+
+        if (alternatives[task.activity]) {
+            const suggestion = alternatives[task.activity][0]; // Get first alternative
+            UI.showAchievement(`Alternative: ${suggestion.icon} ${suggestion.activity}\n${suggestion.details}`);
+        }
+    },
+
+    adjustIntensity(date) {
+        const dateStr = date.toLocaleDateString();
+        progressData.intensityAdjustments = progressData.intensityAdjustments || {};
+        progressData.intensityAdjustments[dateStr] = 'reduced';
+        
+        UI.showNotification('Intensity Adjusted', 
+            'Today\'s workout intensity has been reduced. Focus on recovery.');
+    },
+
     // Touch Handlers
     attachTouchHandlers(element, taskKey, date, scheduledTime) {
         let touchStartX = 0;
@@ -1028,6 +1140,59 @@ const UI = {
             </div>
         `)).onclick = () => Core.showSchedule(date);
     },
+
+        showTaskModal(task, date, taskKey) {
+        const modal = Utils.createElement('div', 'task-modal', `
+            <div class="modal-header">
+                <h3>${task.icon} ${task.activity}</h3>
+                <p>Scheduled for ${task.time}</p>
+            </div>
+            <div class="modal-options">
+                <button class="modal-option complete" onclick="UI.handleTaskCompletion('completed', '${taskKey}', '${date}')">
+                    ✓ I did this but forgot to mark it
+                </button>
+                <button class="modal-option skip" onclick="UI.showSkipReasons('${taskKey}', '${date}')">
+                    ⨯ I couldn't do this task
+                </button>
+                <div class="skip-reason">
+                    <button class="modal-option" onclick="UI.handleTaskCompletion('woke-late', '${taskKey}', '${date}')">
+                        😴 Woke up late
+                    </button>
+                    <button class="modal-option" onclick="UI.handleTaskCompletion('no-time', '${taskKey}', '${date}')">
+                        ⏰ Not enough time
+                    </button>
+                    <button class="modal-option" onclick="UI.handleTaskCompletion('not-well', '${taskKey}', '${date}')">
+                        🤒 Not feeling well
+                    </button>
+                    <button class="modal-option" onclick="UI.handleTaskCompletion('other', '${taskKey}', '${date}')">
+                        ❓ Other reason
+                    </button>
+                </div>
+            </div>
+        `);
+
+        document.body.appendChild(modal);
+        requestAnimationFrame(() => modal.classList.add('show'));
+    },
+
+    showSkipReasons(taskKey, date) {
+        const skipReason = document.querySelector('.skip-reason');
+        skipReason.classList.add('show');
+    },
+
+    closeTaskModal() {
+        const modal = document.querySelector('.task-modal');
+        if (modal) {
+            modal.classList.remove('show');
+            setTimeout(() => modal.remove(), 300);
+        }
+    },
+
+    handleTaskCompletion(status, taskKey, date) {
+        Core.handleTaskStatus(taskKey, new Date(date), status);
+        this.closeTaskModal();
+    }
+},
 
     // Visual Feedback
     showAchievement(message) {
