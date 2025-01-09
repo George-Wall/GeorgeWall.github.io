@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Classified Access - 1940</title>
+    <style>
+        body {
+            background-color: #2b2b2b;
+            color: #00ff00;
+            font-family: "Courier New", monospace;
+            margin: 0;
+            padding: 20px;
+            background-image: 
+                linear-gradient(rgba(0, 255, 0, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 0, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .login-container {
+            width: 400px;
+            border: 2px solid #00ff00;
+            padding: 40px;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+            background-color: rgba(0, 0, 0, 0.7);
+            position: relative;
+        }
+        h1 {
+            text-align: center;
+            color: #00ff00;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 40px;
+            text-shadow: 0 0 5px #00ff00;
+        }
+        .code-input {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .digit {
+            width: 40px;
+            height: 50px;
+            background-color: transparent;
+            border: 2px solid #00ff00;
+            color: #00ff00;
+            font-family: "Courier New", monospace;
+            font-size: 24px;
+            text-align: center;
+            margin: 0 5px;
+            outline: none;
+        }
+        .digit:focus {
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+        .message {
+            text-align: center;
+            margin-top: 20px;
+            min-height: 20px;
+            color: #ff0000;
+        }
+        .classified-stamp {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            transform: rotate(15deg);
+            color: #ff0000;
+            border: 2px solid #ff0000;
+            padding: 10px;
+            font-weight: bold;
+            font-size: 1.2em;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+        .note {
+            font-style: italic;
+            color: #cccccc;
+            margin-top: 30px;
+            font-size: 0.9em;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="classified-stamp">TOP SECRET</div>
+        <h1>Access Required</h1>
+        <div class="code-input">
+            <input type="text" class="digit" maxlength="1" pattern="[0-9]" inputmode="numeric">
+            <input type="text" class="digit" maxlength="1" pattern="[0-9]" inputmode="numeric">
+            <input type="text" class="digit" maxlength="1" pattern="[0-9]" inputmode="numeric">
+            <input type="text" class="digit" maxlength="1" pattern="[0-9]" inputmode="numeric">
+        </div>
+        <div class="message"></div>
+        <div class="note">Enter your 4-digit clearance code to access classified transmissions.</div>
+    </div>
+
+    <script>
+        const correctCode = "1388";
+        const digits = document.querySelectorAll('.digit');
+        const message = document.querySelector('.message');
+
+        // Auto-focus next input
+        digits.forEach((digit, index) => {
+            digit.addEventListener('input', (e) => {
+                if (e.target.value.length === 1) {
+                    if (index < digits.length - 1) {
+                        digits[index + 1].focus();
+                    } else {
+                        checkCode();
+                    }
+                }
+            });
+
+            // Handle backspace
+            digit.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                    digits[index - 1].focus();
+                }
+            });
+        });
+
+        function checkCode() {
+            const enteredCode = Array.from(digits).map(digit => digit.value).join('');
+            
+            if (enteredCode === correctCode) {
+                message.style.color = '#00ff00';
+                message.textContent = 'Access granted. Decrypting files...';
+                setTimeout(() => {
+                    window.location.href = 'https://georgewall.co.uk/casefile.html';
+                }, 1500);
+            } else {
+                message.style.color = '#ff0000';
+                message.textContent = 'Invalid code. Access denied.';
+                digits.forEach(digit => {
+                    digit.value = '';
+                });
+                digits[0].focus();
+            }
+        }
+
+        // Focus first input on load
+        digits[0].focus();
+    </script>
+</body>
+</html>
