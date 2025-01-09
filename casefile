@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Classified Radio Transmissions - 1940</title>
+    <style>
+        body {
+            background-color: #2b2b2b;
+            color: #00ff00;
+            font-family: "Courier New", monospace;
+            margin: 0;
+            padding: 20px;
+            background-image: 
+                linear-gradient(rgba(0, 255, 0, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 0, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            border: 2px solid #00ff00;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #00ff00;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 40px;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        .transmission {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 1px solid #00ff00;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .transmission-header {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #00ff00;
+            padding-bottom: 10px;
+        }
+
+        .classified-stamp {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            transform: rotate(15deg);
+            color: #ff0000;
+            border: 2px solid #ff0000;
+            padding: 10px;
+            font-weight: bold;
+            font-size: 1.2em;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+
+        audio {
+            width: 100%;
+            margin: 15px 0;
+            filter: sepia(100%) saturate(400%) grayscale(0) contrast(200%) invert(12%);
+        }
+
+        .note {
+            font-style: italic;
+            color: #cccccc;
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+
+        .signature {
+            margin-top: 10px;
+            text-align: right;
+            font-style: italic;
+            color: #888888;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="classified-stamp">TOP SECRET</div>
+        <h1>Intercepted Radio Transmissions</h1>
+
+        <div class="transmission">
+            <div class="transmission-header">
+                April 18, 1940 - Transmission heard at 0345 hours
+            </div>
+            <audio controls loop>
+                <source src="british_transmission.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <div class="note">
+                Note: Clear German archaeological activity observed in all locations. Continue monitoring frequencies for more information.
+            </div>
+            <div class="signature">- Agent Thompson</div>
+        </div>
+
+        <div class="transmission">
+            <div class="transmission-header">
+                HUNGARIAN MILITARY INTELLIGENCE<br>
+                1940 Április 18 - 0500 óra
+            </div>
+            <audio controls loop>
+                <source src="hungarian_transmission.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </div>
+</body>
+</html>
