@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Operation CLASSIFIED</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles3.css">
 </head>
 <body class="hub">
   <div class="terminal-container">
@@ -91,23 +91,4 @@ This message will self-destruct in... just kidding. Get to work.
       if (i < briefingText.length) {
         briefingEl.textContent += briefingText.charAt(i);
         i++;
-        setTimeout(typeWriter, 20);
-      }
-    }
-
-    // Start typing after page loads
-    window.onload = () => {
-      setTimeout(typeWriter, 1000);
-      MissionControl.updateHub();
-    };
-
-    function launchMission(url) {
-      // Glitch effect before transition
-      document.body.classList.add('transition-glitch');
-      setTimeout(() => {
-        window.location.href = url;
-      }, 500);
-    }
-  </script>
-</body>
-</html>
+        setTimeout(ty
