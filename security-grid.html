@@ -26,82 +26,56 @@
       </ul>
     </div>
 
-    <div class="grid-container" id="grid-container"></div>
+// JavaScript Queens Solver (works in browser)
+class QueensSolver {
+  constructor(size = 8) {
+    this.size = size;
+    this.board = Array(size).fill(null).map(() => Array(size).fill(0));
+  }
 
-    <div class="game-controls">
-      <button class="verify-btn" onclick="verifyGrid()">VERIFY SOLUTION</button>
-      <button class="reset-btn" onclick="resetGrid()">RESET GRID</button>
-    </div>
-
-    <div class="result-display" id="result"></div>
-  </div>
-
-  <script src="mission-control.js"></script>
-  <script>
-    class SecurityGrid {
-      constructor(size = 6) {
-        this.size = size;
-        this.regions = this.generateRegions();
-        this.solution = [];
-        this.generateSolution();
-        this.cameras = new Set();
+  // Backtracking solver
+  solve(col = 0) {
+    if (col >= this.size) return true; // All queens placed
+    
+    for (let row = 0; row < this.size; row++) {
+      if (this.isSafe(row, col)) {
+        this.board[row][col] = 1; // Place queen
+        
+        if (this.solve(col + 1)) return true;
+        
+        this.board[row][col] = 0; // Backtrack
       }
+    }
+    
+    return false;
+  }
 
-      generateRegions() {
-        // Create 6 irregular regions
-        const regions = Array(36).fill(0);
-        const regionSizes = Array(6).fill(0);
-        const maxRegionSize = 6;
+  isSafe(row, col) {
+    // Check row to the left
+    for (let c = 0; c < col; c++) {
+      if (this.board[row][c]) return false;
+    }
+    
+    // Check upper diagonal
+    for (let r = row, c = col; r >= 0 && c >= 0; r--, c--) {
+      if (this.board[r][c]) return false;
+    }
+    
+    // Check lower diagonal
+    for (let r = row, c = col; r < this.size && c >= 0; r++, c--) {
+      if (this.board[r][c]) return false;
+    }
+    
+    return true;
+  }
 
-        // Start each region from a random seed
-        const seeds = [];
-        while (seeds.length < 6) {
-          const seed = Math.floor(Math.random() * 36);
-          if (!seeds.includes(seed)) seeds.push(seed);
-        }
+  getSolution() {
+    this.solve();
+    return this.board;
+  }
+}
 
-        // Flood fill from each seed
-        seeds.forEach((seed, regionId) => {
-          const queue = [seed];
-          
-          while (queue.length > 0 && regionSizes[regionId] < maxRegionSize) {
-            const current = queue.shift();
-            
-            if (regions[current] !== 0) continue;
-            
-            regions[current] = regionId + 1;
-            regionSizes[regionId]++;
-
-            // Add unassigned neighbors
-            const neighbors = this.getNeighbors(current);
-            queue.push(...neighbors.filter(n => regions[n] === 0 && !queue.includes(n)));
-          }
-        });
-
-        return regions;
-      }
-
-      getNeighbors(index) {
-        const row = Math.floor(index / this.size);
-        const col = index % this.size;
-        const neighbors = [];
-
-        if (row > 0) neighbors.push(index - this.size);
-        if (row < this.size - 1) neighbors.push(index + this.size);
-        if (col > 0) neighbors.push(index - 1);
-        if (col < this.size - 1) neighbors.push(index + 1);
-
-        return neighbors;
-      }
-
-      generateSolution() {
-        // Backtracking to find valid camera placement
-        const placed = [];
-        const usedRows = new Set();
-        const usedCols = new Set();
-        const usedRegions = new Set();
-
-        const backtrack = (regionId) => {
-          if (regionId >= this.size) return true;
-
-          const regionCells = this.regions
+// Usage in browser
+const solver = new QueensSolver(8);
+const solution = solver.getSolution();
+console.log(solution);
