@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Something - The Gift Awaits</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:wght@300;400&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #0a0a0a;
+            color: #e8e8e8;
+            font-family: 'Cormorant Garamond', serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        .background-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(139, 0, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(75, 0, 130, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .ornate-border {
+            border: 2px solid #8b7355;
+            border-image: linear-gradient(45deg, #8b7355, #d4af76, #8b7355) 1;
+            padding: 60px 40px;
+            background: rgba(10, 10, 10, 0.9);
+            box-shadow: 
+                0 0 50px rgba(139, 115, 85, 0.2),
+                inset 0 0 50px rgba(0, 0, 0, 0.8);
+            position: relative;
+        }
+        
+        .ornate-border::before,
+        .ornate-border::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid #d4af76;
+        }
+        
+        .ornate-border::before {
+            top: -2px;
+            left: -2px;
+            border-right: none;
+            border-bottom: none;
+        }
+        
+        .ornate-border::after {
+            bottom: -2px;
+            right: -2px;
+            border-left: none;
+            border-top: none;
+        }
+        
+        .corner-top-right,
+        .corner-bottom-left {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid #d4af76;
+        }
+        
+        .corner-top-right {
+            top: -2px;
+            right: -2px;
+            border-left: none;
+            border-bottom: none;
+        }
+        
+        .corner-bottom-left {
+            bottom: -2px;
+            left: -2px;
+            border-right: none;
+            border-top: none;
+        }
+        
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 3.5rem;
+            text-align: center;
+            margin-bottom: 20px;
+            letter-spacing: 8px;
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(212, 175, 118, 0.5);
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #d4af76;
+            letter-spacing: 4px;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+        
+        .divider {
+            width: 200px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #d4af76, transparent);
+            margin: 30px auto;
+        }
+        
+        .puzzle-content {
+            display: none;
+        }
+        
+        .puzzle-content.active {
+            display: block;
+            animation: fadeIn 0.8s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .riddle-text {
+            text-align: center;
+            font-size: 1.4rem;
+            line-height: 2;
+            margin: 30px 0;
+            color: #e8e8e8;
+            font-style: italic;
+        }
+        
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .item-card {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #3a3a3a;
+            background: rgba(20, 20, 20, 0.6);
+            transition: all 0.3s ease;
+        }
+        
+        .item-card:hover {
+            border-color: #d4af76;
+            box-shadow: 0 0 20px rgba(212, 175, 118, 0.2);
+        }
+        
+        .item-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 10px rgba(212, 175, 118, 0.3));
+        }
+        
+        .item-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            color: #d4af76;
+        }
+        
+        .code-input-section {
+            text-align: center;
+            margin: 40px 0;
+        }
+        
+        .code-label {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            color: #d4af76;
+        }
+        
+        .code-inputs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .code-digit {
+            width: 60px;
+            height: 60px;
+            font-size: 1.8rem;
+            text-align: center;
+            background: #1a1a1a;
+            border: 2px solid #3a3a3a;
+            color: #d4af76;
+            font-family: 'Cinzel', serif;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+        
+        .code-digit:focus {
+            outline: none;
+            border-color: #d4af76;
+            box-shadow: 0 0 20px rgba(212, 175, 118, 0.3);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #8b7355, #d4af76);
+            border: none;
+            color: #0a0a0a;
+            padding: 15px 60px;
+            font-size: 1.2rem;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 3px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(212, 175, 118, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(212, 175, 118, 0.5);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        .error-message {
+            color: #8b0000;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .error-message.show {
+            opacity: 1;
+        }
+        
+        .final-message {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .final-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            letter-spacing: 4px;
+            margin-bottom: 30px;
+            color: #d4af76;
+        }
+        
+        .gift-card-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #8b0000, #dc143c);
+            color: #ffffff;
+            padding: 20px 50px;
+            font-size: 1.3rem;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 3px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(220, 20, 60, 0.4);
+            margin-top: 20px;
+        }
+        
+        .gift-card-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 30px rgba(220, 20, 60, 0.6);
+        }
+        
+        .bookshelf-hint {
+            background: rgba(139, 0, 0, 0.1);
+            border-left: 3px solid #8b0000;
+            padding: 20px;
+            margin: 30px 0;
+            font-size: 1.2rem;
+            line-height: 1.8;
+        }
+        
+        .final-riddle {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            text-align: center;
+            margin: 30px 0;
+            color: #e8e8e8;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+                letter-spacing: 4px;
+            }
+            
+            .items-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .ornate-border {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-pattern"></div>
+    
+    <div class="container">
+        <div class="ornate-border">
+            <div class="corner-top-right"></div>
+            <div class="corner-bottom-left"></div>
+            
+            <h1>A SPECIAL SOMETHING</h1>
+            <div class="subtitle">THE GIFT AWAITS</div>
+            
+            <!-- PUZZLE 1: Three Items -->
+            <div id="puzzle1" class="puzzle-content active">
+                <div class="divider"></div>
+                
+                <div class="riddle-text">
+                    Three guardians watch in silence,<br>
+                    Each holds a secret number beneath.<br>
+                    Find them in your realm of dwelling,<br>
+                    And reveal the code they keep.
+                </div>
+                
+                <div class="items-grid">
+                    <div class="item-card">
+                        <div class="item-icon">💀</div>
+                        <div class="item-name">THE SKULL</div>
+                    </div>
+                    <div class="item-card">
+                        <div class="item-icon">👻</div>
+                        <div class="item-name">THE GHOST</div>
+                    </div>
+                    <div class="item-card">
+                        <div class="item-icon">🧪</div>
+                        <div class="item-name">THE POISON JAR</div>
+                    </div>
+                </div>
+                
+                <div class="code-input-section">
+                    <div class="code-label">ENTER THE CODE</div>
+                    <div class="code-inputs">
+                        <input type="text" maxlength="1" class="code-digit" id="digit1-1" />
+                        <input type="text" maxlength="1" class="code-digit" id="digit1-2" />
+                        <input type="text" maxlength="1" class="code-digit" id="digit1-3" />
+                    </div>
+                    <button class="submit-btn" onclick="checkCode1()">UNLOCK</button>
+                    <div class="error-message" id="error1">The spirits reject your offering...</div>
+                </div>
+            </div>
+            
+            <!-- PUZZLE 2: Bookshelf -->
+            <div id="puzzle2" class="puzzle-content">
+                <div class="divider"></div>
+                
+                <div class="riddle-text">
+                    The first seal is broken.<br>
+                    But mysteries remain...
+                </div>
+                
+                <div class="bookshelf-hint">
+                    <strong>A WHISPER FROM THE SHADOWS:</strong><br><br>
+                    Where stories rest in ordered rows,<br>
+                    And knowledge sleeps on wooden shelves,<br>
+                    There lies a tome that's not quite true—<br>
+                    A hollow vessel, hiding truths.<br><br>
+                    Seek the book that isn't real,<br>
+                    And within its false pages,<br>
+                    The next key shall be revealed.
+                </div>
+                
+                <div class="code-input-section">
+                    <div class="code-label">ENTER THE HIDDEN CODE</div>
+                    <div class="code-inputs">
+                        <input type="text" maxlength="1" class="code-digit" id="digit2-1" />
+                        <input type="text" maxlength="1" class="code-digit" id="digit2-2" />
+                        <input type="text" maxlength="1" class="code-digit" id="digit2-3" />
+                        <input type="text" maxlength="1" class="code-digit" id="digit2-4" />
+                        <input type="text" maxlength="1" class="code-digit" id="digit2-5" />
+                        <input type="text" maxlength="1" class="code-digit" id="digit2-6" />
+                        <input type="text" maxlength="1" class="code-digit" id="digit2-7" />
+                        <input type="text" maxlength="1" class="code-digit" id="digit2-8" />
+                        <input type="text" maxlength="1" class="code-digit" id="digit2-9" />
+                    </div>
+                    <button class="submit-btn" onclick="checkCode2()">UNLOCK</button>
+                    <div class="error-message" id="error2">The book remains closed to you...</div>
+                </div>
+            </div>
+            
+            <!-- FINAL: Gift Card Reveal -->
+            <div id="puzzle3" class="puzzle-content">
+                <div class="divider"></div>
+                
+                <div class="final-riddle">
+                    The seals are broken.<br>
+                    The path is clear.<br>
+                    Your reward awaits in the realm of darkness and beauty.
+                </div>
+                
+                <div class="final-message">
+                    <div class="final-title">YOUR GIFT IS REVEALED</div>
+                    <p style="font-size: 1.2rem; margin: 20px 0; line-height: 1.8;">
+                        A treasure awaits you<br>
+                        in the kingdom of Disturbia.<br><br>
+                        Embrace the darkness. Wear your shadows proudly.
+                    </p>
+                    <a href="https://www.disturbia.co.uk/_t/c/v3/AADOjlpF6w3AcSMrLeIrNIa_H-4vC_h4s0jnD6q_dBqUeFA2zEXBqgwNDwIFzmeA5URVGb1AVNZ_TcofyxPMnQ4Q-0uiaAGI_E3JDdwYZFU7H-WHSb5s_t3MiZtCcS7qMNdc47chkFKiPAD8EbGJM2eLZ2cNDUM0WoQRX-LFaA8eFQo6ugZpviFEmxHx0tfuEeI9N_5B5p30Y64rNzaYno4kC7GElBSIWxQEl968sp3tSiedF5o_s3vsFq2LxCLjvL5Y07sh8MHFUXoVWDS3sgqgf4MK560ltZxNOT8MUwzR1kFUxypadY3wvtOpFj2FnYYjlnGh1fFM23pe5lVGdSd4e6D9MuiBJvZKRjRQZEHj7OZ-" class="gift-card-btn" target="_blank">REVEAL YOUR REWARD</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Auto-focus next input
+        document.querySelectorAll('.code-digit').forEach((input, index, inputs) => {
+            input.addEventListener('input', (e) => {
+                if (e.target.value.length === 1 && index < inputs.length - 1) {
+                    const nextInput = inputs[index + 1];
+                    if (nextInput.id.startsWith(e.target.id.substring(0, 6))) {
+                        nextInput.focus();
+                    }
+                }
+            });
+            
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && e.target.value === '' && index > 0) {
+                    const prevInput = inputs[index - 1];
+                    if (prevInput.id.startsWith(e.target.id.substring(0, 6))) {
+                        prevInput.focus();
+                    }
+                }
+            });
+        });
+        
+        function checkCode1() {
+            const digit1 = document.getElementById('digit1-1').value;
+            const digit2 = document.getElementById('digit1-2').value;
+            const digit3 = document.getElementById('digit1-3').value;
+            const code = digit1 + digit2 + digit3;
+            
+            if (code === '672') {
+                document.getElementById('puzzle1').classList.remove('active');
+                document.getElementById('puzzle2').classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                const error = document.getElementById('error1');
+                error.classList.add('show');
+                setTimeout(() => error.classList.remove('show'), 3000);
+            }
+        }
+        
+        function checkCode2() {
+            const digit1 = document.getElementById('digit2-1').value;
+            const digit2 = document.getElementById('digit2-2').value;
+            const digit3 = document.getElementById('digit2-3').value;
+            const digit4 = document.getElementById('digit2-4').value;
+            const digit5 = document.getElementById('digit2-5').value;
+            const digit6 = document.getElementById('digit2-6').value;
+            const digit7 = document.getElementById('digit2-7').value;
+            const digit8 = document.getElementById('digit2-8').value;
+            const digit9 = document.getElementById('digit2-9').value;
+            const code = (digit1 + digit2 + digit3 + digit4 + digit5 + digit6 + digit7 + digit8 + digit9).toUpperCase();
+            
+            if (code === 'DISTURBIA') {
+                document.getElementById('puzzle2').classList.remove('active');
+                document.getElementById('puzzle3').classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                const error = document.getElementById('error2');
+                error.classList.add('show');
+                setTimeout(() => error.classList.remove('show'), 3000);
+            }
+        }
+    </script>
+</body>
+</html>
