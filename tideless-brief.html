@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tideless — Game Brief</title>
+    <style>
+        @font-face {
+            font-family: 'Cool Club';
+            src: url('fonts/CoolClub.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #fff;
+            color: #333;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+        
+        .header {
+            background: #4a5c6e;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-family: 'Cool Club', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 5em;
+            font-weight: 300;
+            letter-spacing: 0.15em;
+            color: #fff;
+            margin: 0;
+        }
+        
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+        
+        .main {
+            min-width: 0;
+        }
+        
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .intro {
+            margin-bottom: 30px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .intro .pitch {
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 15px;
+        }
+        
+        .intro .meta {
+            font-size: 0.9em;
+            color: #888;
+        }
+        
+        .intro .meta strong {
+            color: #333;
+        }
+        
+        h2 {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            margin-top: 30px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        h2:first-of-type {
+            margin-top: 0;
+        }
+        
+        h3 {
+            font-size: 1em;
+            font-weight: 600;
+            color: #555;
+            margin-top: 20px;
+            margin-bottom: 8px;
+        }
+        
+        p {
+            margin-bottom: 12px;
+            color: #444;
+        }
+        
+        .sidebar-card {
+            background: #f8f8f8;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .sidebar-card .card-header {
+            background: #4a5c6e;
+            color: #fff;
+            padding: 10px 15px;
+            font-size: 0.85em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .sidebar-card .card-content {
+            padding: 15px;
+        }
+        
+        .sidebar-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            cursor: pointer;
+        }
+        
+        .sidebar-card p {
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+        
+        .sidebar-card p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .references-grid {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px;
+            background: #fff;
+        }
+        
+        .ref-game {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .ref-game img {
+            width: 100%;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        
+        .ref-game .name {
+            font-size: 0.7em;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .ref-x {
+            font-size: 1.2em;
+            color: #999;
+            font-weight: 300;
+        }
+        
+        .image-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .image-item {
+            background: #f5f5f5;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .image-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            background: #fff;
+            cursor: pointer;
+        }
+        
+        .image-item .caption {
+            padding: 10px;
+            font-size: 0.8em;
+            color: #666;
+        }
+        
+        .image-full {
+            margin: 20px 0;
+            background: #f5f5f5;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .image-full img {
+            width: 100%;
+            height: auto;
+            cursor: pointer;
+        }
+        
+        .image-full .caption {
+            padding: 10px;
+            font-size: 0.8em;
+            color: #666;
+        }
+        
+        .character-list {
+            margin: 15px 0;
+        }
+        
+        .character {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .character:last-child {
+            border-bottom: none;
+        }
+        
+        .character strong {
+            color: #333;
+        }
+        
+        .character .role {
+            color: #4a5c6e;
+            font-size: 0.9em;
+        }
+        
+        .character p {
+            margin-top: 5px;
+            margin-bottom: 0;
+            font-size: 0.95em;
+        }
+        
+        .location-list {
+            margin: 15px 0;
+        }
+        
+        .location {
+            display: flex;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 0.95em;
+        }
+        
+        .location:last-child {
+            border-bottom: none;
+        }
+        
+        .location-name {
+            width: 120px;
+            font-weight: 600;
+            color: #333;
+            flex-shrink: 0;
+        }
+        
+        .location-desc {
+            color: #666;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-size: 0.85em;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 800px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                order: -1;
+            }
+
+            .image-grid {
+                grid-template-columns: 1fr;
+            }
+
+            div[style*="grid-template-columns: repeat(3, 1fr)"] {
+                grid-template-columns: 1fr !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>TIDELESS</h1>
+    </div>
+
+    <div class="layout">
+        <div class="main">
+            
+            <div class="intro">
+                <p class="pitch">Narrative life-sim set in a declining British seaside town. You have 14 days to earn enough money to pay off a debt. Work odd jobs, get to know the locals, decide who you spend your limited time with.</p>
+                <p class="meta"><strong>Genre:</strong> Narrative life-sim / survival-lite &nbsp;|&nbsp; <strong>Playtime:</strong> 3-5 hours &nbsp;|&nbsp; <strong>Engine:</strong> Unreal Engine 5</p>
+            </div>
+
+            <h2>The Concept</h2>
+            <p>"Tideless" refers to both the town and its people. The tide barely comes in anymore. The people don't leave. Everyone is stuck here for their own reasons: debt, family obligations, or just inertia.</p>
+            <p>You're here because of your brother's debt. He left, you're holding the bag. 14 days to pay it off or you're not leaving either.</p>
+            <p>You have to find work to earn enough to eat and chip away at the debt. The people you meet have their own stories, but you won't have time to know all of them properly. You pick who to invest in.</p>
+
+            <h2>Tone</h2>
+            <p>The town looks tired. Grey weather, closed shops, paint peeling off Victorian facades. The visual direction leans into this.</p>
+            <p>The contrast comes from the people. When you spend time with someone, the scenes shift warmer. Pub interiors, kitchen conversations, amber light through foggy windows. The game's colour palette reflects whether you're alone or with someone.</p>
+
+            <h2>Characters</h2>
+            <p>Five NPCs. Three work NPCs, one neighbour, one hidden character found through exploration. Relationship progression means you can realistically get close to one per playthrough.</p>
+            
+            <div class="character-list">
+                <div class="character">
+                    <strong>Newsagent Owner</strong> <span class="role">Newsagent</span>
+                    <p>Has run the shop for decades. Stayed while everyone else left.</p>
+                </div>
+                <div class="character">
+                    <strong>Chippy Owner</strong> <span class="role">Chip Shop</span>
+                    <p>Came here temporarily years ago. Still here.</p>
+                </div>
+                <div class="character">
+                    <strong>Butcher</strong> <span class="role">Butcher Shop</span>
+                    <p>Old school, physical work. Remembers the town when it was busy.</p>
+                </div>
+                <div class="character">
+                    <strong>The Neighbour</strong> <span class="role">Flat next door, same age as player</span>
+                    <p>Your main confidant. Available on specific nights. Acts as a mirror for what the player could become.</p>
+                </div>
+            </div>
+
+            <h3>The Neighbour - Concept Art</h3>
+            <div class="image-grid">
+                <div class="image-item">
+                    <img src="Images/Neighbour_FullBody_Concept.png" alt="Neighbour full body concept" onclick="window.open(this.src, '_blank')">
+                    <div class="caption">Full body character design</div>
+                </div>
+                <div class="image-item">
+                    <img src="Images/Neighbour_Expressions_Concept.png" alt="Neighbour expressions concept" onclick="window.open(this.src, '_blank')">
+                    <div class="caption">Expression sheet</div>
+                </div>
+            </div>
+
+            <h2>The Town</h2>
+            <p>Northwestern coast, modern day. Inspired by Southport and Morecambe, with layout influenced by a mashup of Arnside and Birkdale. No name settled yet.</p>
+
+            <div class="image-full">
+                <img src="Images/Seaside%20Town%20Ref%20Sheet.jpg" alt="Seaside town moodboard" onclick="window.open(this.src, '_blank')">
+                <div class="caption">Visual reference sheet for the seaside town atmosphere and architecture.</div>
+            </div>
+
+            <div class="image-full">
+                <img src="Images/Seaside%20Town%20Final%20Sketch%20w%20notes.jpg" alt="Town layout sketch with notes" onclick="window.open(this.src, '_blank')">
+                <div class="caption">Working layout. Key locations marked. Some paths blocked at start, open up as game progresses. Note at bottom: "Keep colors/atmosphere grey and sad, add patches of life (warm lights) where people live."</div>
+            </div>
+
+            <div class="image-full">
+                <img src="Images/Seaside%20Town%20Final%202nd%20view.jpg" alt="Town layout alternative view" onclick="window.open(this.src, '_blank')">
+                <div class="caption">Alternative perspective of the town layout showing spatial relationships.</div>
+            </div>
+
+            <div class="image-full">
+                <img src="Images/TownLayout.png" alt="Town layout sketch with notes" onclick="window.open(this.src, '_blank')">
+                <div class="caption">Town layout sketch with notes.</div>
+            </div>
+
+            <div class="location-list">
+                <div class="location">
+                    <div class="location-name">Home (Flat)</div>
+                    <div class="location-desc">Player's base. Where neighbour visits happen.</div>
+                </div>
+                <div class="location">
+                    <div class="location-name">Newsagent</div>
+                    <div class="location-desc">Patel's shop. Work location.</div>
+                </div>
+                <div class="location">
+                    <div class="location-name">Chippy</div>
+                    <div class="location-desc">Work location.</div>
+                </div>
+                <div class="location">
+                    <div class="location-name">Butcher</div>
+                    <div class="location-desc">Work location.</div>
+                </div>
+                <div class="location">
+                    <div class="location-name">Pub</div>
+                    <div class="location-desc">Social hub. Evening events happen here.</div>
+                </div>
+                <div class="location">
+                    <div class="location-name">Café</div>
+                    <div class="location-desc">Daytime option. Cheaper meals.</div>
+                </div>
+                <div class="location">
+                    <div class="location-name">Office</div>
+                    <div class="location-desc">Extra money, no social time.</div>
+                </div>
+                <div class="location">
+                    <div class="location-name">Promenade</div>
+                    <div class="location-desc">Seafront. Empty most of the time.</div>
+                </div>
+            </div>
+
+            <h2>Visual Direction</h2>
+            <p>Primary reference is The Long Dark. Painterly textures with visible brushwork applied to 3D environments. Heavy atmospheric fog. Simplified shapes that read well as silhouettes. Colour grading shifts with context.</p>
+            <p>We're applying that approach to British coastal architecture and weather. The palette is different: desaturated teals and greys for exteriors, amber and warm yellow for interiors and social scenes.</p>
+            
+            <h3>Style Reference: The Long Dark</h3>
+            <div class="image-grid">
+                <div class="image-item">
+                    <img src="Images/Visual%20Style%20Images/StormChanges.jpg" alt="The Long Dark atmosphere" onclick="window.open(this.src, '_blank')">
+                    <div class="caption">Atmospheric fog, colour shifts by time of day</div>
+                </div>
+                <div class="image-item">
+                    <img src="Images/Visual%20Style%20Images/PaintStrokes.jpg" alt="The Long Dark textures" onclick="window.open(this.src, '_blank')">
+                    <div class="caption">Painterly textures, visible brushstrokes</div>
+                </div>
+                <div class="image-item">
+                    <img src="Images/Visual%20Style%20Images/05-TLD_TFTFT_RailwayStation-comp.jpg" alt="The Long Dark interior" onclick="window.open(this.src, '_blank')">
+                    <div class="caption">Warm interior light against cold exterior tones</div>
+                </div>
+            </div>
+
+            <h3>Subject Matter: British Coastal</h3>
+            <div class="image-grid">
+                <div class="image-item">
+                    <img src="Images/Teignmouth_Poster.png" alt="Teignmouth poster" onclick="window.open(this.src, '_blank')">
+                    <div class="caption">Stylised seaside, muted teal-grey</div>
+                </div>
+                <div class="image-item">
+                    <img src="Images/Grimsby_Poster.png" alt="Grimsby poster" onclick="window.open(this.src, '_blank')">
+                    <div class="caption">Harbour, industrial elements, overcast</div>
+                </div>
+                <div class="image-item">
+                    <img src="Images/Decline_CAFE.png" alt="Shuttered high street" onclick="window.open(this.src, '_blank')">
+                    <div class="caption">Real texture reference: faded signs, shutters, worn surfaces</div>
+                </div>
+            </div>
+
+            <h3>Warmth Target</h3>
+            <div class="image-grid">
+                <div class="image-item">
+                    <img src="Images/Glenridding_Graham.png" alt="Glenridding - Amber interior light" onclick="window.open(this.src, '_blank')">
+                    <div class="caption">Amber light from interiors against grey exteriors</div>
+                </div>
+                <div class="image-item">
+                    <img src="Images/Crossing_Graham.png" alt="Crossing - Warm windows" onclick="window.open(this.src, '_blank')">
+                    <div class="caption">Warm interior light from windows, wet pavement reflections</div>
+                </div>
+            </div>
+            <div class="image-full">
+                <img src="Images/DogWalk_Graham.jpg" alt="Dog walk - Cold morning atmosphere" onclick="window.open(this.src, '_blank')">
+                <div class="caption">Cold crisp morning atmosphere with excellent colour palette. Love the treatment of houses, back gardens, and bins in this area. Target mood for early morning exploration.</div>
+            </div>
+
+        </div>
+
+        <div class="sidebar">
+            
+            <div class="sidebar-card">
+                <div class="card-header">References</div>
+                <div class="card-content" style="padding: 0;">
+                    <img src="Images/Refs.png" alt="Road 96 & Night in the Woods & Nobody: The Turnaround" style="width: 100%; height: auto; display: block;" onclick="window.open(this.src, '_blank')">
+                </div>
+            </div>
+
+            <div class="sidebar-card">
+                <div class="card-header">Setup</div>
+                <div class="card-content">
+                    <p>Your brother's debt. He left. You have 14 days to pay it off.</p>
+                    <p>Work odd jobs during the day. Evenings you can socialise, grind for extra money, or explore.</p>
+                    <p>Day 7: First payment.<br>Day 14: Final payment.</p>
+                </div>
+            </div>
+
+            <div class="sidebar-card">
+                <div class="card-header">Daily Loop</div>
+                <div class="card-content" style="padding: 0;">
+                    <svg viewBox="0 0 280 320" style="width: 100%; height: auto;">
+                        <rect width="280" height="320" fill="#f8f8f8"/>
+                        
+                        <rect x="90" y="20" width="100" height="50" rx="6" fill="#7eb8c9"/>
+                        <text x="140" y="40" text-anchor="middle" fill="#fff" font-size="9" font-weight="600">MORNING</text>
+                        <text x="140" y="55" text-anchor="middle" fill="#fff" font-size="8">Explore, Pick Job</text>
+                        
+                        <path d="M140 70 L140 90" stroke="#999" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+                        
+                        <rect x="90" y="95" width="100" height="50" rx="6" fill="#6a9fb5"/>
+                        <text x="140" y="115" text-anchor="middle" fill="#fff" font-size="9" font-weight="600">AFTERNOON</text>
+                        <text x="140" y="130" text-anchor="middle" fill="#fff" font-size="8">Work (Minigame)</text>
+                        
+                        <path d="M140 145 L140 165" stroke="#999" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+                        
+                        <rect x="90" y="170" width="100" height="50" rx="6" fill="#d4a574"/>
+                        <text x="140" y="190" text-anchor="middle" fill="#fff" font-size="9" font-weight="600">EVENING</text>
+                        <text x="140" y="205" text-anchor="middle" fill="#fff" font-size="8">Socialise / Grind</text>
+                        
+                        <path d="M140 220 L140 240" stroke="#999" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+                        
+                        <rect x="90" y="245" width="100" height="50" rx="6" fill="#4a5c6e"/>
+                        <text x="140" y="265" text-anchor="middle" fill="#fff" font-size="9" font-weight="600">NIGHT</text>
+                        <text x="140" y="280" text-anchor="middle" fill="#fff" font-size="8">Flat, Neighbour, Sleep</text>
+                        
+                        <path d="M190 270 C230 270, 250 150, 250 45 C250 30, 240 20, 220 20 L190 20" stroke="#999" stroke-width="2" fill="none" stroke-dasharray="4,3"/>
+                        <text x="255" y="150" fill="#999" font-size="7" transform="rotate(90, 255, 150)">Next Day</text>
+                        
+                        <defs>
+                            <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                                <path d="M0,0 L0,6 L9,3 z" fill="#999"/>
+                            </marker>
+                        </defs>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="sidebar-card">
+                <div class="card-header">Core Constraint</div>
+                <div class="card-content">
+                    <p>14 days. Need about 10 relationship points to get "close" to someone. You can realistically max out one relationship per playthrough, maybe get friendly with a second.</p>
+                    <p>Different playthroughs mean different NPCs, different stories.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div style="max-width: 1100px; margin: 0 auto; padding: 0 40px 40px 40px;">
+        <h2 style="margin-top: 50px; border-top: 2px solid #e0e0e0; padding-top: 30px;">Additional Visual Style References</h2>
+        <p style="margin-bottom: 25px; color: #666;">Environmental details, lighting, and atmosphere references from similar narrative-focused games.</p>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px;">
+            <div class="image-item">
+                <img src="Images/Visual%20Style%20Images/Screenshot%202026-01-30%20134449.png" alt="Kitchen counter detail" onclick="window.open(this.src, '_blank')">
+                <div class="caption">Kitchen prop detail and lighting</div>
+            </div>
+            <div class="image-item">
+                <img src="Images/Visual%20Style%20Images/Screenshot%202026-01-30%20134626.png" alt="Cozy interior" onclick="window.open(this.src, '_blank')">
+                <div class="caption">Warm interior atmosphere with depth</div>
+            </div>
+            <div class="image-item">
+                <img src="Images/Visual%20Style%20Images/Screenshot%202026-01-30%20134740.png" alt="Tabletop scene" onclick="window.open(this.src, '_blank')">
+                <div class="caption">Intimate tabletop composition</div>
+            </div>
+            <div class="image-item">
+                <img src="Images/Visual%20Style%20Images/Screenshot%202026-01-30%20134851.png" alt="Desk details" onclick="window.open(this.src, '_blank')">
+                <div class="caption">Environmental storytelling through props</div>
+            </div>
+            <div class="image-item">
+                <img src="Images/Visual%20Style%20Images/Screenshot%202026-01-30%20134948.png" alt="Motel exterior" onclick="window.open(this.src, '_blank')">
+                <div class="caption">Misty exterior atmosphere</div>
+            </div>
+            <div class="image-item">
+                <img src="Images/Visual%20Style%20Images/Screenshot%202026-01-31%20181552.png" alt="Big Bear Diner" onclick="window.open(this.src, '_blank')">
+                <div class="caption">Golden hour lighting on architecture</div>
+            </div>
+            <div class="image-item">
+                <img src="Images/Visual%20Style%20Images/Screenshot%202026-01-31%20181719.png" alt="Campfire scene" onclick="window.open(this.src, '_blank')">
+                <div class="caption">Dramatic warm/cool contrast at night</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Tideless — Internal Reference Document — January 2026
+    </footer>
+
+</body>
+</html>
